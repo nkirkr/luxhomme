@@ -1,0 +1,19 @@
+{
+  "plugins": {
+    "functions": {
+      "enabled": true
+    },
+    "figma": {
+      "enabled": true
+    },
+    "parallel": {
+      "enabled": true
+    },
+    "context7-plugin": {
+      "enabled": true
+    },
+    "compound-engineering": {
+      "enabled": true
+    }
+  }
+}

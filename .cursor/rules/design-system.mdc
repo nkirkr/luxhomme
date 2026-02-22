@@ -1,0 +1,69 @@
+---
+description: Design system mapping rules for Figma-to-code workflow
+globs: ["src/components/**/*.tsx", "src/styles/**/*.css"]
+alwaysApply: false
+---
+
+# Design System Rules
+
+## Figma Token → Tailwind Mapping
+
+When implementing designs from Figma, map design tokens as follows:
+
+### Colors
+- Map Figma color tokens to CSS variables defined in `src/styles/globals.css`
+- Primary colors → `bg-primary`, `text-primary`, `border-primary`
+- Secondary colors → `bg-secondary`, `text-secondary`
+- Background → `bg-background`, `bg-card`, `bg-muted`
+- Text → `text-foreground`, `text-muted-foreground`
+- Borders → `border`, `border-input`
+- If the Figma design uses custom colors not in the theme, add them as CSS variables in globals.css under `:root` and `.dark`
+
+### Typography
+- Map Figma text styles to Tailwind classes
+- Use `font-sans` (Inter) for body text and `font-mono` (JetBrains Mono) for code
+- Headings: `text-4xl font-bold tracking-tight` (h1), `text-3xl font-bold` (h2), `text-2xl font-semibold` (h3)
+- Body: `text-base` (16px), `text-sm` (14px), `text-xs` (12px)
+- Leading: `leading-tight` (1.25), `leading-normal` (1.5), `leading-relaxed` (1.625)
+
+### Spacing
+- 4px grid system: `p-1` (4px), `p-2` (8px), `p-3` (12px), `p-4` (16px), `p-6` (24px), `p-8` (32px)
+- Section spacing: `py-12` (48px) to `py-20` (80px)
+- Component gaps: `gap-4` (16px), `gap-6` (24px), `gap-8` (32px)
+
+### Border Radius
+- Map Figma radius to `--radius` variable: `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`
+- Default component radius is `rounded-lg` (var(--radius))
+
+### Shadows
+- Subtle: `shadow-sm`
+- Default: `shadow`
+- Elevated: `shadow-md`
+- High: `shadow-lg`
+
+## Component Mapping (shadcn/ui)
+
+When Figma has UI components, prefer shadcn/ui equivalents:
+- Buttons → `@/components/ui/button`
+- Input fields → `@/components/ui/input`
+- Dropdowns → `@/components/ui/select` or `@/components/ui/dropdown-menu`
+- Modals → `@/components/ui/dialog`
+- Cards → `@/components/ui/card`
+- Tabs → `@/components/ui/tabs`
+- Navigation → `@/components/ui/navigation-menu`
+- Mobile menu → `@/components/ui/sheet`
+- Toast/alerts → `sonner`
+
+## Custom Components
+
+When Figma UI kit has components not covered by shadcn/ui:
+1. Create in `src/components/custom/`
+2. Follow shadcn/ui conventions: use CVA for variants, cn() for className merging
+3. Use Tailwind CSS variables for theming (not hardcoded colors)
+4. Include both light and dark mode styles
+5. Make responsive by default (mobile-first)
+
+## Responsive Breakpoints
+- Mobile: default (< 640px)
+- Tablet: `sm:` (640px), `md:` (768px)
+- Desktop: `lg:` (1024px), `xl:` (1280px), `2xl:` (1536px)

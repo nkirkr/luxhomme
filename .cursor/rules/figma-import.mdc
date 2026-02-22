@@ -1,0 +1,80 @@
+---
+description: Conventions for importing and implementing Figma designs
+globs: ["src/components/**/*.tsx"]
+alwaysApply: false
+---
+
+# Figma Import Conventions
+
+## Workflow
+
+1. **Receive Figma URL** → Use `implement-design` skill or Figma MCP to inspect the design
+2. **Identify components** → Map to existing shadcn/ui components where possible
+3. **Create custom components** → For unique UI elements, create in `src/components/custom/`
+4. **Apply animations** → Use `@/components/animations/animated` wrapper for scroll reveals
+
+## File Organization
+
+```
+src/components/
+├── ui/          # shadcn/ui primitives (do not edit manually)
+├── custom/      # Custom components from Figma UI kit
+│   ├── hero-section.tsx
+│   ├── feature-card.tsx
+│   ├── pricing-table.tsx
+│   ├── testimonial.tsx
+│   └── cta-banner.tsx
+├── layout/      # Header, footer, nav (shared across pages)
+└── animations/  # Animation wrappers
+```
+
+## Naming Conventions
+
+- Files: `kebab-case.tsx` (e.g., `hero-section.tsx`)
+- Components: `PascalCase` (e.g., `HeroSection`)
+- Props interfaces: `ComponentNameProps` (e.g., `HeroSectionProps`)
+
+## Component Template
+
+When creating a new component from Figma:
+
+```tsx
+import { cn } from '@/lib/utils'
+
+interface ComponentNameProps {
+  className?: string
+  // ... props from Figma design
+}
+
+export function ComponentName({ className, ...props }: ComponentNameProps) {
+  return (
+    <div className={cn('base-styles', className)}>
+      {/* Implementation */}
+    </div>
+  )
+}
+```
+
+## Responsive Rules
+
+- Every component MUST work on mobile (320px) through desktop (1440px+)
+- Use `flex-col` on mobile, `flex-row` on desktop (md: or lg: breakpoint)
+- Images: always include `sizes` prop with responsive breakpoints
+- Typography: scale down on mobile (text-2xl → text-lg, etc.)
+- Padding: use smaller values on mobile (px-4 → px-6 on lg:)
+
+## Dark Mode
+
+- Every component MUST support dark mode
+- Use semantic color classes (bg-background, text-foreground) not hardcoded colors
+- Test both light and dark variants
+- If Figma provides dark mode designs, match exactly
+- If not, rely on CSS variable system (automatic via .dark class)
+
+## When Using Custom Figma UI Kit
+
+- First check if shadcn/ui has an equivalent component
+- If yes, use shadcn/ui and customize with className
+- If no, create new component in `src/components/custom/`
+- Custom components should accept `className` prop for composition
+- Use CVA (class-variance-authority) for variant-based styling

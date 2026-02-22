@@ -1,0 +1,18 @@
+{
+  "common": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "blog": "Blog",
+    "products": "Products",
+    "cart": "Cart",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out"
+  },
+  "home": {
+    "title": "Build something amazing",
+    "subtitle": "Modern, modular, production-ready web application template.",
+    "cta": "Explore Features"
+  }
+}

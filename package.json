@@ -1,0 +1,39 @@
+{
+  "name": "bazasite",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "next-themes": "^0.4.6",
+    "motion": "^12.6.3",
+    "gsap": "^3.13.0",
+    "@gsap/react": "^2.1.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.0.2",
+    "lucide-react": "^0.474.0",
+    "zod": "^3.24.2",
+    "react-hook-form": "^7.54.2",
+    "@hookform/resolvers": "^4.1.3",
+    "schema-dts": "^1.1.5",
+    "better-auth": "^1.2.7",
+    "next-intl": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "typescript": "^5.7.3",
+    "tailwindcss": "^4.0.9",
+    "@tailwindcss/postcss": "^4.0.9"
+  }
+}
