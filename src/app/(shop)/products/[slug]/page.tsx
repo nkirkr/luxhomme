@@ -4,6 +4,7 @@ import { getShop } from '@/lib/shop'
 import { ProductJsonLd } from '@/components/seo/json-ld'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 import { absoluteUrl } from '@/lib/utils'
+import { generateCanonicalUrl } from '@/lib/seo'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -18,6 +19,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: product.name,
     description: product.description,
+    alternates: {
+      canonical: generateCanonicalUrl(`/products/${slug}`),
+    },
+    openGraph: {
+      title: product.name,
+      description: product.description,
+      url: generateCanonicalUrl(`/products/${slug}`),
+      ...(product.images[0] && { images: [product.images[0].url] }),
+    },
   }
 }
 
@@ -40,18 +50,22 @@ export default async function ProductPage({ params }: Props) {
         availability={product.inStock ? 'InStock' : 'OutOfStock'}
       />
       <div className="mx-auto max-w-6xl px-4 py-20">
-        <Breadcrumbs items={[
-          { label: 'Home', href: '/' },
-          { label: 'Products', href: '/products' },
-          { label: product.name },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Home', href: '/' },
+            { label: 'Products', href: '/products' },
+            { label: product.name },
+          ]}
+        />
         <div className="mt-8 grid gap-12 lg:grid-cols-2">
-          <div className="aspect-square rounded-lg bg-muted" />
+          <div className="bg-muted aspect-square rounded-lg" />
           <div>
             <h1 className="text-3xl font-bold">{product.name}</h1>
-            <p className="mt-4 text-2xl font-semibold">{product.currency} {product.price}</p>
-            <p className="mt-6 text-muted-foreground">{product.description}</p>
-            <button className="mt-8 w-full rounded-md bg-primary py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 sm:w-auto sm:px-12">
+            <p className="mt-4 text-2xl font-semibold">
+              {product.currency} {product.price}
+            </p>
+            <p className="text-muted-foreground mt-6">{product.description}</p>
+            <button className="bg-primary text-primary-foreground hover:bg-primary/90 mt-8 w-full rounded-md py-3 text-sm font-medium sm:w-auto sm:px-12">
               Add to Cart
             </button>
           </div>

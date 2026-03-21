@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getCMS } from '@/lib/cms'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
+import { generateCanonicalUrl } from '@/lib/seo'
 
 interface Props {
   params: Promise<{ slug: string[] }>
@@ -17,8 +18,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: page.title,
+    alternates: {
+      canonical: generateCanonicalUrl(`/${fullSlug}`),
+    },
     openGraph: {
       title: page.title,
+      url: generateCanonicalUrl(`/${fullSlug}`),
       ...(page.featuredImage ? { images: [page.featuredImage.url] } : {}),
     },
   }
@@ -34,12 +39,7 @@ export default async function DynamicCMSPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-20">
-      <Breadcrumbs
-        items={[
-          { label: 'Home', href: '/' },
-          { label: page.title },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: page.title }]} />
       <h1 className="mt-8 text-4xl font-bold tracking-tight">{page.title}</h1>
       <div
         className="prose prose-neutral dark:prose-invert mt-8 max-w-none"

@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayment } from '@/lib/payment'
+import { createLogger } from '@/lib/logger'
+
+const log = createLogger('payment:webhook')
 
 export async function POST(request: NextRequest) {
   if (process.env.NEXT_PUBLIC_FEATURE_PAYMENT !== 'true') {
@@ -8,8 +11,8 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.text()
-    const signature = request.headers.get('stripe-signature') ||
-      request.headers.get('x-webhook-signature') || ''
+    const signature =
+      request.headers.get('stripe-signature') || request.headers.get('x-webhook-signature') || ''
 
     const payment = await getPayment()
     const event = await payment.verifyWebhook({ body, signature })
@@ -26,10 +29,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ received: true })
   } catch (error) {
-    console.error('Webhook error:', error)
-    return NextResponse.json(
-      { error: 'Webhook processing failed' },
-      { status: 400 }
-    )
+    log.error({ err: error }, 'Webhook processing failed')
+    return NextResponse.json({ error: 'Webhook processing failed' }, { status: 400 })
   }
 }

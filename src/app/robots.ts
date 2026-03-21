@@ -8,10 +8,18 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/dashboard/', '/admin/', '/checkout/'],
+        disallow: ['/api/', '/dashboard/', '/admin/', '/checkout/', '/profile/', '/settings/'],
+      },
+      {
+        userAgent: 'GPTBot',
+        allow: '/',
       },
       {
         userAgent: 'ChatGPT-User',
+        allow: '/',
+      },
+      {
+        userAgent: 'ClaudeBot',
         allow: '/',
       },
       {
@@ -19,18 +27,20 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
       {
-        userAgent: 'GPTBot',
-        disallow: '/',
-      },
-      {
         userAgent: 'Google-Extended',
         disallow: '/',
       },
       {
-        userAgent: 'ClaudeBot',
-        disallow: '/',
+        userAgent: 'Yandex',
+        allow: '/',
+        disallow: ['/api/', '/dashboard/', '/admin/', '/checkout/', '/profile/', '/settings/'],
       },
     ],
     sitemap: `${BASE_URL}/sitemap.xml`,
+    host: BASE_URL,
   }
 }
+
+// Clean-param and Host directives for Yandex are added via host field above.
+// For advanced Clean-param rules (e.g. "Clean-param: sort&page&view /products/"),
+// create a static public/robots.txt or use middleware to append additional directives.

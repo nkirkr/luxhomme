@@ -6,6 +6,7 @@ import { ArticleJsonLd } from '@/components/seo/json-ld'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 import { Animated } from '@/components/animations/animated'
 import { formatDate, absoluteUrl } from '@/lib/utils'
+import { generateCanonicalUrl } from '@/lib/seo'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -21,12 +22,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: { canonical: generateCanonicalUrl(`/blog/${slug}`) },
     openGraph: {
       type: 'article',
       title: post.title,
       description: post.excerpt,
-      url: `/blog/${slug}`,
+      url: generateCanonicalUrl(`/blog/${slug}`),
       publishedTime: post.date,
       ...(post.featuredImage ? { images: [post.featuredImage.url] } : {}),
     },
@@ -67,12 +68,15 @@ export default async function BlogPostPage({ params }: Props) {
 
         <Animated>
           <header className="mt-8">
-            <time className="text-sm text-muted-foreground">{formatDate(post.date)}</time>
+            <time className="text-muted-foreground text-sm">{formatDate(post.date)}</time>
             <h1 className="mt-2 text-4xl font-bold tracking-tight">{post.title}</h1>
             {post.categories.length > 0 && (
               <div className="mt-4 flex gap-2">
                 {post.categories.map((cat) => (
-                  <span key={cat.id} className="rounded-full bg-muted px-3 py-1 text-xs font-medium">
+                  <span
+                    key={cat.id}
+                    className="bg-muted rounded-full px-3 py-1 text-xs font-medium"
+                  >
                     {cat.name}
                   </span>
                 ))}

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { getCMS } from '@/lib/cms'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
 
@@ -22,17 +23,50 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
+    {
+      url: `${BASE_URL}/search`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    },
   ]
 
   const dynamicRoutes: MetadataRoute.Sitemap = []
 
-  if (process.env.NEXT_PUBLIC_FEATURE_BLOG === 'true') {
+  const cmsEnabled =
+    process.env.NEXT_PUBLIC_FEATURE_BLOG === 'true' || process.env.CMS_PROVIDER !== 'none'
+
+  if (cmsEnabled) {
     staticRoutes.push({
       url: `${BASE_URL}/blog`,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.9,
     })
+
+    try {
+      const cms = await getCMS()
+
+      const { posts } = await cms.getPosts({ limit: 1000 })
+      for (const post of posts) {
+        dynamicRoutes.push({
+          url: `${BASE_URL}/blog/${post.slug}`,
+          lastModified: new Date(post.date),
+          changeFrequency: 'weekly',
+          priority: 0.7,
+        })
+      }
+
+      const pages = await cms.getPages()
+      for (const page of pages) {
+        dynamicRoutes.push({
+          url: `${BASE_URL}/${page.slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'monthly',
+          priority: 0.6,
+        })
+      }
+    } catch {}
   }
 
   if (process.env.NEXT_PUBLIC_FEATURE_SHOP === 'true') {
@@ -42,6 +76,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 0.9,
     })
+
+    // TODO: fetch product slugs from your shop adapter/database
+    // Example:
+    // const products = await getProducts({ limit: 5000 })
+    // for (const product of products) {
+    //   dynamicRoutes.push({
+    //     url: `${BASE_URL}/products/${product.slug}`,
+    //     lastModified: new Date(product.updatedAt),
+    //     changeFrequency: 'weekly',
+    //     priority: 0.7,
+    //   })
+    // }
   }
 
   return [...staticRoutes, ...dynamicRoutes]

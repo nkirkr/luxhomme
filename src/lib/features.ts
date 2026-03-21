@@ -6,6 +6,8 @@ export const features = {
   chat: process.env.NEXT_PUBLIC_FEATURE_CHAT === 'true',
   payment: process.env.NEXT_PUBLIC_FEATURE_PAYMENT === 'true',
   i18n: process.env.NEXT_PUBLIC_FEATURE_I18N === 'true',
+  analytics: process.env.NEXT_PUBLIC_FEATURE_ANALYTICS === 'true',
+  sentry: process.env.NEXT_PUBLIC_FEATURE_SENTRY === 'true',
 } as const
 
 export type Feature = keyof typeof features
@@ -18,9 +20,6 @@ export function getEnabledFeatures(): Feature[] {
   return (Object.keys(features) as Feature[]).filter((f) => features[f])
 }
 
-export const cmsProvider = (process.env.CMS_PROVIDER || 'none') as
-  | 'none'
-  | 'wordpress'
-  | 'payload'
+export const cmsProvider = (process.env.CMS_PROVIDER || 'none') as 'none' | 'wordpress' | 'payload'
 
 export const hasCMS = cmsProvider !== 'none'

@@ -24,9 +24,16 @@ export async function getPayment(): Promise<PaymentAdapter> {
   if (_payment) return _payment
 
   switch (PAYMENT_PROVIDER) {
-    // Future: import stripe or yookassa adapters
-    // case 'stripe': { ... }
-    // case 'yookassa': { ... }
+    case 'stripe': {
+      const { stripeAdapter } = await import('./stripe')
+      _payment = stripeAdapter
+      break
+    }
+    case 'yookassa': {
+      const { yookassaAdapter } = await import('./yookassa')
+      _payment = yookassaAdapter
+      break
+    }
     default:
       _payment = mockAdapter
   }

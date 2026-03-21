@@ -2,10 +2,12 @@ import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import { fontSans, fontMono } from '@/lib/fonts'
 import { AppProviders } from '@/components/providers/app-providers'
+import { generateAlternateUrls } from '@/lib/seo'
 import '@/styles/globals.css'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'My Site'
+const i18nEnabled = process.env.NEXT_PUBLIC_FEATURE_I18N === 'true'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -14,6 +16,10 @@ export const metadata: Metadata = {
     template: `%s | ${siteName}`,
   },
   description: 'Modern web application built with Next.js',
+  alternates: {
+    canonical: siteUrl,
+    ...(i18nEnabled && { languages: generateAlternateUrls('/') }),
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -56,9 +62,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
-      >
+      <body className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}>
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

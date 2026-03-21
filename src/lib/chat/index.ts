@@ -3,8 +3,7 @@ export type { ChatAdapter, ChatMessage } from './types'
 
 type ChatProvider = 'none' | 'intercom' | 'tawkto' | 'custom'
 
-const CHAT_PROVIDER: ChatProvider =
-  (process.env.CHAT_PROVIDER as ChatProvider) ?? 'none'
+const CHAT_PROVIDER: ChatProvider = (process.env.CHAT_PROVIDER as ChatProvider) ?? 'none'
 
 const mockAdapter: ChatAdapter = {
   async sendMessage() {
@@ -24,10 +23,21 @@ export async function getChat(): Promise<ChatAdapter> {
   if (_chat) return _chat
 
   switch (CHAT_PROVIDER) {
-    // Future: import chat adapters
+    case 'tawkto': {
+      const { tawktoAdapter } = await import('./tawkto')
+      _chat = tawktoAdapter
+      break
+    }
+    case 'intercom': {
+      const { intercomAdapter } = await import('./intercom')
+      _chat = intercomAdapter
+      break
+    }
     default:
       _chat = mockAdapter
   }
 
   return _chat
 }
+
+export { CHAT_PROVIDER }
