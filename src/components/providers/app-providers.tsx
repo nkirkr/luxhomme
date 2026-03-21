@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react'
 import { ThemeProvider } from './theme-provider'
-import { AOSProvider } from './aos-provider'
+
 import { AnalyticsProvider } from './analytics-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Toaster } from '@/components/ui/sonner'
@@ -17,7 +17,7 @@ export function AppProviders({ children }: AppProvidersProps) {
   return (
     <ThemeProvider>
       <TooltipProvider>
-        <AOSProvider>{children}</AOSProvider>
+        {children}
         <Toaster />
         <CookieConsent />
         <AnalyticsProvider />

@@ -163,3 +163,60 @@ import type { Contact, NewContact, Order, NewOrder } from '@/lib/db/schema'
 
 - `Contact` — select type (all fields)
 - `NewContact` — insert type (required fields only)
+
+## Extension Examples
+
+Below are examples of how to extend the base schema for a real project.
+
+### Order Line Items Table
+
+Instead of storing items as JSONB, you may want a normalized `orderItems` table:
+
+```typescript
+export const orderItems = pgTable('order_items', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  orderId: uuid('order_id')
+    .notNull()
+    .references(() => orders.id, { onDelete: 'cascade' }),
+  productId: text('product_id').notNull(),
+  variantId: text('variant_id'),
+  name: text('name').notNull(),
+  quantity: integer('quantity').notNull(),
+  price: integer('price').notNull(), // in minor units (cents/kopecks)
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+})
+```
+
+### Performance Indexes
+
+Add indexes for common query patterns:
+
+```typescript
+import { index } from 'drizzle-orm/pg-core'
+
+// On orders table
+export const ordersUserIdIdx = index('orders_user_id_idx').on(orders.userId)
+export const ordersEmailIdx = index('orders_email_idx').on(orders.email)
+export const ordersStatusIdx = index('orders_status_idx').on(orders.status)
+
+// On contacts table
+export const contactsStatusIdx = index('contacts_status_idx').on(contacts.status)
+```
+
+### Shipping Addresses Table
+
+```typescript
+export const shippingAddresses = pgTable('shipping_addresses', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: text('user_id'),
+  name: text('name').notNull(),
+  street: text('street').notNull(),
+  city: text('city').notNull(),
+  region: text('region'),
+  postalCode: text('postal_code').notNull(),
+  country: text('country').notNull().default('RU'),
+  phone: text('phone'),
+  isDefault: boolean('is_default').default(false),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+})
+```

@@ -2,19 +2,21 @@
 
 ## Overview
 
-The project includes a multi-layer animation stack:
+The project includes a multi-layer animation stack. **Motion is the default** and the only library loaded in production. All other libraries are **opt-in** — their components/hooks are ready to use but not imported until you need them.
 
-| Layer           | Library           | Purpose                                                            |
-| --------------- | ----------------- | ------------------------------------------------------------------ |
-| Core engine     | **Motion v12**    | Declarative React animations, page transitions, micro-interactions |
-| Timeline engine | **GSAP v3.13**    | Imperative timelines, ScrollTrigger, text splitting                |
-| Scroll utility  | **AOS**           | Data-attribute scroll animations, zero JS required per element     |
-| Auto animations | **AutoAnimate**   | Zero-config list/DOM-change animations                             |
-| JSON animations | **Lottie**        | After Effects / LottieFiles JSON playback                          |
-| Copy-paste UI   | **Magic UI**      | Animated SaaS/marketing components (CLI)                           |
-| Copy-paste UI   | **Aceternity UI** | Hero sections, visual effects (shadcn registry)                    |
+| Layer           | Library           | Status       | Purpose                                                            |
+| --------------- | ----------------- | ------------ | ------------------------------------------------------------------ |
+| Core engine     | **Motion v12**    | **Default**  | Declarative React animations, page transitions, micro-interactions |
+| Timeline engine | **GSAP v3.13**    | Opt-in       | Imperative timelines, ScrollTrigger, text splitting                |
+| Scroll utility  | **AOS**           | Opt-in       | Data-attribute scroll animations, zero JS required per element     |
+| Auto animations | **AutoAnimate**   | Opt-in       | Zero-config list/DOM-change animations                             |
+| JSON animations | **Lottie**        | Opt-in       | After Effects / LottieFiles JSON playback                          |
+| Copy-paste UI   | **Magic UI**      | Opt-in (CLI) | Animated SaaS/marketing components (CLI)                           |
+| Copy-paste UI   | **Aceternity UI** | Opt-in (CLI) | Hero sections, visual effects (shadcn registry)                    |
 
 All animation components respect `prefers-reduced-motion`.
+
+> **Bundle note:** Opt-in libraries (GSAP, AOS, Lottie, AutoAnimate) are tree-shaken out of the bundle until you import their components. Only Motion ships in the default bundle.
 
 ---
 
@@ -116,9 +118,18 @@ Props:
 
 ---
 
-## AOS (Animate on Scroll)
+## AOS (Animate on Scroll) — Opt-in
 
-Global provider initialized in `src/components/providers/aos-provider.tsx`, wired through `AppProviders`. No per-component imports needed -- just add `data-aos` attributes to any element.
+AOS is **not loaded by default**. To enable it, add the `AOSProvider` to your `AppProviders` in `src/components/providers/app-providers.tsx`:
+
+```tsx
+import { AOSProvider } from './aos-provider'
+
+// Wrap children with AOSProvider
+;<AOSProvider>{children}</AOSProvider>
+```
+
+Once enabled, no per-component imports needed -- just add `data-aos` attributes to any element.
 
 ### Usage
 

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getCMS } from '@/lib/cms'
+import { getShop } from '@/lib/shop'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
 
@@ -77,17 +78,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     })
 
-    // TODO: fetch product slugs from your shop adapter/database
-    // Example:
-    // const products = await getProducts({ limit: 5000 })
-    // for (const product of products) {
-    //   dynamicRoutes.push({
-    //     url: `${BASE_URL}/products/${product.slug}`,
-    //     lastModified: new Date(product.updatedAt),
-    //     changeFrequency: 'weekly',
-    //     priority: 0.7,
-    //   })
-    // }
+    try {
+      const shop = await getShop()
+      const { products } = await shop.getProducts({ limit: 5000 })
+      for (const product of products) {
+        dynamicRoutes.push({
+          url: `${BASE_URL}/products/${product.slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.7,
+        })
+      }
+    } catch {}
   }
 
   return [...staticRoutes, ...dynamicRoutes]

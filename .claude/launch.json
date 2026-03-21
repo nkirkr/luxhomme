@@ -2,28 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "Next.js Dev Server",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "name": "dev",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["./node_modules/next/dist/bin/next", "dev"],
       "port": 3000
-    },
-    {
-      "name": "Drizzle Studio",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "db:studio"],
-      "port": 4983
-    },
-    {
-      "name": "Vitest Watch",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "test:watch"],
-      "port": 51204
-    },
-    {
-      "name": "Playwright UI",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "test:e2e:ui"],
-      "port": 0
     }
   ]
 }

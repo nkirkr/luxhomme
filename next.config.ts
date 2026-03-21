@@ -1,6 +1,24 @@
 import type { NextConfig } from 'next'
 import { withSentryConfig } from '@sentry/nextjs'
-import './src/lib/env.js'
+import './src/lib/env.ts'
+
+// Content-Security-Policy in report-only mode.
+// This collects violation data without blocking anything — safe for a template.
+// TODO: To enforce CSP, change the header key to 'Content-Security-Policy'
+// TODO: Add a report-uri or report-to endpoint to collect violations
+//       e.g. report-uri https://your-domain.report-uri.com/r/d/csp/reportOnly
+const cspHeader = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://mc.yandex.ru https://embed.tawk.to",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data:",
+  "connect-src 'self' https://www.google-analytics.com https://mc.yandex.ru wss:",
+  "frame-src 'self' https://embed.tawk.to",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ')
 
 const securityHeaders = [
   { key: 'X-DNS-Prefetch-Control', value: 'on' },
@@ -9,6 +27,7 @@ const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  { key: 'Content-Security-Policy-Report-Only', value: cspHeader },
 ]
 
 const nextConfig: NextConfig = {

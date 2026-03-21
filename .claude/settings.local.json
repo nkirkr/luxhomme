@@ -1,5 +1,13 @@
 {
   "permissions": {
-    "allow": ["Bash(grep -E \"\\\\.ts$\")"]
+    "allow": [
+      "Bash(grep -E \"\\\\.ts$\")",
+      "Bash(ls \"D:/Проекты/baza-site/src/app/\\(shop\\)/layout.tsx\")",
+      "Bash(npx vitest:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where node:*)",
+      "Bash(where npm:*)",
+      "mcp__mcp-registry__search_mcp_registry"
+    ]
   }
 }

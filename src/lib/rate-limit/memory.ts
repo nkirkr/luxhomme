@@ -1,13 +1,10 @@
+import type { RateLimitAdapter, RateLimitConfig, RateLimitResult } from './types'
+
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
 
-interface RateLimitConfig {
-  interval: number
-  limit: number
-}
-
-export function rateLimit(config: RateLimitConfig = { interval: 60_000, limit: 10 }) {
+export function createMemoryRateLimiter(config: RateLimitConfig): RateLimitAdapter {
   return {
-    check(key: string): { success: boolean; remaining: number } {
+    check(key: string): RateLimitResult {
       const now = Date.now()
       const entry = rateLimitMap.get(key)
 
@@ -25,6 +22,3 @@ export function rateLimit(config: RateLimitConfig = { interval: 60_000, limit: 1
     },
   }
 }
-
-export const authLimiter = rateLimit({ interval: 60_000, limit: 5 })
-export const apiLimiter = rateLimit({ interval: 60_000, limit: 30 })
