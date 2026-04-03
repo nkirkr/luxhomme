@@ -6,14 +6,6 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? ''
 const YM_ID = process.env.NEXT_PUBLIC_YM_ID ?? ''
 const analyticsEnabled = process.env.NEXT_PUBLIC_FEATURE_ANALYTICS === 'true'
 
-declare global {
-  interface Window {
-    dataLayer: unknown[]
-    gtag: (...args: unknown[]) => void
-    ym: (...args: unknown[]) => void
-  }
-}
-
 export function AnalyticsProvider() {
   if (!analyticsEnabled) return null
 

@@ -65,7 +65,7 @@ export default function HomePage() {
               },
               { title: 'CMS Integration', desc: 'Connect WordPress or Payload CMS in one click.' },
               { title: 'Authentication', desc: 'User accounts with Better Auth — self-hosted.' },
-              { title: 'Animations', desc: 'Motion + GSAP for stunning page transitions.' },
+              { title: 'Animations', desc: 'Smooth page transitions with Motion.' },
               {
                 title: 'Modular Architecture',
                 desc: 'Enable only what you need with feature flags.',

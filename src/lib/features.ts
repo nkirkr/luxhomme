@@ -7,7 +7,6 @@ export const features = {
   payment: process.env.NEXT_PUBLIC_FEATURE_PAYMENT === 'true',
   i18n: process.env.NEXT_PUBLIC_FEATURE_I18N === 'true',
   analytics: process.env.NEXT_PUBLIC_FEATURE_ANALYTICS === 'true',
-  sentry: process.env.NEXT_PUBLIC_FEATURE_SENTRY === 'true',
 } as const
 
 export type Feature = keyof typeof features

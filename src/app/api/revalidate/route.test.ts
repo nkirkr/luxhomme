@@ -44,7 +44,7 @@ describe('POST /api/revalidate', () => {
     expect(response.status).toBe(200)
     expect(data.revalidated).toBe(true)
     expect(data.tag).toBe('posts')
-    expect(revalidateTag).toHaveBeenCalledWith('posts')
+    expect(revalidateTag).toHaveBeenCalledWith('posts', 'default')
   })
 
   it('defaults tag to "all"', async () => {
@@ -60,6 +60,6 @@ describe('POST /api/revalidate', () => {
     const data = await response.json()
 
     expect(data.tag).toBe('all')
-    expect(revalidateTag).toHaveBeenCalledWith('all')
+    expect(revalidateTag).toHaveBeenCalledWith('all', 'default')
   })
 })

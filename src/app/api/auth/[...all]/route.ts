@@ -9,7 +9,7 @@ export const GET = handler.GET
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for') ?? 'anonymous'
-  const { success } = authLimiter.check(`auth:${ip}`)
+  const { success } = await authLimiter.check(`auth:${ip}`)
   if (!success) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
   }

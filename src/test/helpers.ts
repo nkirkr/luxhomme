@@ -27,7 +27,8 @@ export function createMockRequest(
     }
   }
 
-  const request = new NextRequest(fullUrl, init)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const request = new NextRequest(fullUrl, init as any)
 
   if (ip) {
     Object.defineProperty(request, 'ip', { value: ip, writable: false })

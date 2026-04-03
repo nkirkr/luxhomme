@@ -1,5 +1,4 @@
 import type { NextConfig } from 'next'
-import { withSentryConfig } from '@sentry/nextjs'
 import './src/lib/env.ts'
 
 // Content-Security-Policy in report-only mode.
@@ -66,16 +65,4 @@ const nextConfig: NextConfig = {
   turbopack: {},
 }
 
-const sentryEnabled =
-  process.env.NEXT_PUBLIC_FEATURE_SENTRY === 'true' && !!process.env.NEXT_PUBLIC_SENTRY_DSN
-
-export default sentryEnabled
-  ? withSentryConfig(nextConfig, {
-      org: process.env.SENTRY_ORG,
-      project: process.env.SENTRY_PROJECT,
-      silent: !process.env.CI,
-      widenClientFileUpload: true,
-      disableLogger: true,
-      automaticVercelMonitors: true,
-    })
-  : nextConfig
+export default nextConfig

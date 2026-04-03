@@ -4,7 +4,7 @@ import { apiLimiter } from '@/lib/rate-limit'
 
 export async function GET(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for') ?? 'anonymous'
-  const { success } = apiLimiter.check(`search:${ip}`)
+  const { success } = await apiLimiter.check(`search:${ip}`)
   if (!success) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
   }

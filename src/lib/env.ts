@@ -9,7 +9,6 @@ const booleanFlag = z
 const serverSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
 
-  DATABASE_URL: z.string().url().optional(),
   REDIS_URL: z.string().url().optional(),
 
   BETTER_AUTH_SECRET: z.string().min(1).optional(),
@@ -38,8 +37,6 @@ const serverSchema = z.object({
   EMAIL_FROM: z.string().email().optional(),
 
   REVALIDATION_SECRET: z.string().optional(),
-
-  SENTRY_AUTH_TOKEN: z.string().optional(),
 })
 
 const clientSchema = z.object({
@@ -54,11 +51,9 @@ const clientSchema = z.object({
   NEXT_PUBLIC_FEATURE_PAYMENT: booleanFlag,
   NEXT_PUBLIC_FEATURE_I18N: booleanFlag,
   NEXT_PUBLIC_FEATURE_ANALYTICS: booleanFlag,
-  NEXT_PUBLIC_FEATURE_SENTRY: booleanFlag,
 
   NEXT_PUBLIC_GA_ID: z.string().optional(),
   NEXT_PUBLIC_YM_ID: z.string().optional(),
-  NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional().or(z.literal('')),
 
   NEXT_PUBLIC_DEFAULT_LOCALE: z.string().default('en'),
   NEXT_PUBLIC_LOCALES: z.string().default('en,ru'),

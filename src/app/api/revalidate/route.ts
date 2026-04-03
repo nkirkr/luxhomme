@@ -11,12 +11,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const tag = body.tag ?? 'all'
 
-    revalidateTag(tag)
+    await revalidateTag(tag, 'default')
     return NextResponse.json({ revalidated: true, tag })
   } catch {
-    return NextResponse.json(
-      { message: 'Error revalidating' },
-      { status: 500 }
-    )
+    return NextResponse.json({ message: 'Error revalidating' }, { status: 500 })
   }
 }

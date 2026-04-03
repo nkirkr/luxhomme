@@ -58,7 +58,6 @@ describe('features', () => {
       NEXT_PUBLIC_FEATURE_CHAT: 'false',
       NEXT_PUBLIC_FEATURE_PAYMENT: 'false',
       NEXT_PUBLIC_FEATURE_ANALYTICS: 'false',
-      NEXT_PUBLIC_FEATURE_SENTRY: 'false',
     })
 
     const { getEnabledFeatures } = await import('./features')
