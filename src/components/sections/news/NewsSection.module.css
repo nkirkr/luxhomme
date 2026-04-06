@@ -1,0 +1,306 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.topDivider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-stroke);
+  margin-bottom: 0;
+}
+
+.grid {
+  display: flex;
+  gap: 20rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Left column */
+.colLeft {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.communityBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 24rem;
+  height: 30rem;
+  padding: 6rem 20rem;
+  border: 0.4px solid var(--color-stroke);
+  border-radius: 100rem;
+}
+
+.communityLogo {
+  height: 18.044rem;
+  width: 141.679rem;
+  display: block;
+  object-fit: contain;
+}
+
+.communityText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-black);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.taglineBlock {
+  border-top: 0.4px solid var(--color-stroke);
+  border-bottom: 0.4px solid var(--color-stroke);
+  display: flex;
+  gap: 67rem;
+  align-items: center;
+  padding: 20rem 0;
+  width: 100%;
+}
+
+.taglineHeading {
+  position: relative;
+  width: 224rem;
+  height: 132rem;
+  flex-shrink: 0;
+}
+
+.taglineH1 {
+  position: absolute;
+  top: 0;
+  left: 2.56rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 60rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.taglineScript {
+  position: absolute;
+  top: 50.51rem;
+  left: 0;
+  font-family: var(--font-gogol);
+  font-weight: var(--weight-regular);
+  font-size: 70rem;
+  line-height: 0.8;
+  color: var(--color-care);
+  width: 212rem;
+  margin: 0;
+}
+
+.taglineDesc {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  min-width: 0;
+}
+
+.taglineDesc p {
+  margin: 0;
+}
+
+/* News cards */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20rem;
+  border-radius: 6rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cardLarge {
+  width: 100%;
+  height: 558rem;
+}
+
+.cardBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  border-radius: 6rem;
+}
+
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(102, 102, 102, 0) 36.634%, rgba(0, 0, 0, 0.7) 100%);
+  border-radius: 6rem;
+  pointer-events: none;
+}
+
+.cardTag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 20rem;
+  border: 1px solid var(--color-white);
+  border-radius: 13rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  white-space: nowrap;
+}
+
+.cardFooter {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  color: #efeeeb;
+  width: 100%;
+}
+
+.cardTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 24rem;
+  line-height: 1;
+  width: 296.342rem;
+  margin: 0;
+}
+
+.cardText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  width: 322rem;
+  margin: 0;
+}
+
+/* Right column */
+.colRight {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  height: 840rem;
+  min-width: 0;
+}
+
+.cardTop {
+  height: 410rem;
+  width: 100%;
+}
+
+.cardRow {
+  display: flex;
+  gap: 20rem;
+  align-items: center;
+  flex: 1 0 0;
+  min-height: 0;
+}
+
+.cardSmall {
+  flex: 1 0 0;
+  height: 100%;
+  min-width: 0;
+}
+
+.cardFooterSmall {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  color: #efeeeb;
+  width: 100%;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .grid {
+    flex-direction: column;
+  }
+
+  .colRight {
+    height: auto;
+  }
+
+  .colLeft {
+    gap: 20rem;
+  }
+
+  .taglineBlock {
+    flex-direction: column;
+    gap: 10rem;
+    align-items: flex-start;
+  }
+
+  .taglineHeading {
+    width: 100%;
+    height: auto;
+    position: static;
+  }
+
+  .taglineH1 {
+    position: static;
+    font-size: 34rem;
+  }
+
+  .taglineScript {
+    position: static;
+    font-size: 70rem;
+  }
+
+  .cardTitle {
+    width: 100%;
+    font-size: 20rem;
+  }
+
+  .cardText {
+    width: 100%;
+    font-size: 12rem;
+  }
+
+  .cardFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8rem;
+  }
+
+  .cardRow {
+    flex-direction: row;
+  }
+
+  .cardLarge {
+    height: 400rem;
+  }
+
+  .cardTop {
+    height: 260rem;
+  }
+}

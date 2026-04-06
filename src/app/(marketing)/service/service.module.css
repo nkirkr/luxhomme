@@ -1,0 +1,658 @@
+/* ═══════════════════════════════════════════════════════════
+   Page: Сервис и гарантия (/service)
+   ═══════════════════════════════════════════════════════════ */
+
+.page {
+  background: var(--color-site-bg);
+  min-height: 100vh;
+}
+
+.headerWrap {
+  padding: 20rem 80rem 0;
+}
+
+.content {
+  width: 1280rem;
+  margin: 0 auto;
+  padding-top: 60rem;
+  padding-bottom: 80rem;
+}
+
+/* ─── Section title with dividers ─── */
+.sectionTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  margin-bottom: 40rem;
+}
+
+.heading {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 60rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: var(--color-stroke);
+}
+
+/* ─── Instruction header (question + guide toggle) ─── */
+.instrHeader {
+  display: flex;
+  align-items: center;
+  gap: 40rem;
+  margin-bottom: 30rem;
+}
+
+.instrQuestion {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 18rem;
+  line-height: 1;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.instrGuide {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 16rem;
+  line-height: 1.04;
+  color: var(--color-grey);
+  margin: 0;
+}
+
+/* ─── Steps list ─── */
+.stepsList {
+  display: flex;
+  flex-direction: column;
+  gap: 30rem;
+  margin-bottom: 40rem;
+}
+
+.step {
+  display: flex;
+  gap: 20rem;
+  align-items: flex-start;
+}
+
+.stepNum {
+  width: 40rem;
+  height: 40rem;
+  border-radius: 50%;
+  border: 1px solid var(--color-stroke);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 20rem;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.stepContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.stepBold {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-cook);
+  margin: 0 0 9rem;
+}
+
+.stepText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.stepText a {
+  font-weight: 700;
+  text-decoration: underline;
+  color: var(--color-text);
+}
+
+.stepBoldBlack {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0 0 12rem;
+}
+
+.stepHighlight {
+  color: var(--color-cook);
+}
+
+/* Step sub-columns (e.g. for Вариант А/Б) */
+.stepSubColumns {
+  display: flex;
+  gap: 120rem;
+  padding-left: 60rem;
+  margin-top: 20rem;
+}
+
+.stepSubCol {
+  display: flex;
+  gap: 80rem;
+  align-items: flex-start;
+}
+
+.stepSubBadge {
+  padding: 12rem 20rem;
+  border: 1px solid var(--color-stroke);
+  border-radius: 50rem;
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.stepSubBadgeSmall {
+  font-family: var(--font-helvetica);
+  font-weight: 400;
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-grey);
+  margin-top: 12rem;
+}
+
+.stepSubText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  width: 297rem;
+}
+
+/* Step contact row (Служба заботы, ГЛ, почта) */
+.stepContacts {
+  display: flex;
+  gap: 80rem;
+  padding-left: 60rem;
+  margin-top: 20rem;
+}
+
+.stepContact {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+}
+
+.stepContactLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.stepContactValue {
+  font-family: var(--font-helvetica);
+  font-weight: 400;
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-grey);
+  margin: 0;
+}
+
+/* ─── Contact cards row ─── */
+.contactCards {
+  display: flex;
+  gap: 20rem;
+  margin-bottom: 40rem;
+}
+
+.contactCard {
+  border: 1px solid var(--color-stroke);
+  border-radius: 6rem;
+  padding: 20rem;
+}
+
+.contactCardPhone {
+  composes: contactCard;
+  width: 436rem;
+  height: 94rem;
+  display: flex;
+  align-items: center;
+  gap: 40rem;
+}
+
+.contactCardInfo {
+  composes: contactCard;
+  width: 379rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.contactLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-grey);
+  margin: 0;
+}
+
+.contactValue {
+  font-family: var(--font-helvetica);
+  font-weight: 400;
+  font-size: 20rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.contactRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contactSmallValue {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* ─── Two-column warranty / return sections ─── */
+.twoColumns {
+  display: flex;
+  gap: 40rem;
+  margin-bottom: 40rem;
+}
+
+.column {
+  width: 620rem;
+  flex-shrink: 0;
+}
+
+.colTitle {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 18rem;
+  line-height: 1;
+  color: var(--color-text);
+  margin: 0 0 40rem;
+}
+
+.colBlock {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40rem;
+}
+
+.colBlockLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-grey);
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.colBlockContent {
+  width: 326rem;
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+}
+
+.colBlockContentNarrow {
+  composes: colBlockContent;
+  width: 305rem;
+}
+
+.olItem {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0;
+  padding-left: 21rem;
+  position: relative;
+  list-style: none;
+}
+
+.olItem::before {
+  position: absolute;
+  left: 0;
+  font-weight: 400;
+}
+
+.olItem strong {
+  font-weight: 700;
+}
+
+.colBlockBold {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* Sub-list with smaller gap */
+.olListSmall {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.olList {
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ─── Return step 4 badges row ─── */
+.returnBadgesRow {
+  display: flex;
+  gap: 120rem;
+  padding-left: 60rem;
+  margin-top: 20rem;
+}
+
+.returnBadgeCol {
+  display: flex;
+  gap: 80rem;
+  align-items: center;
+}
+
+/* ─── Form section ─── */
+.formSection {
+  margin-top: 0;
+}
+
+.formWrap {
+  width: 620rem;
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  padding-top: 20rem;
+}
+
+.formLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-grey);
+  margin: 0;
+}
+
+.formLabel span {
+  color: red;
+}
+
+.formInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-stroke);
+  padding-bottom: 4rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  outline: none;
+}
+
+.formSelect {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-stroke);
+  padding-bottom: 4rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.formSelect img {
+  width: 18rem;
+  height: 18rem;
+}
+
+.formSelectHint {
+  font-family: var(--font-helvetica);
+  font-weight: 400;
+  font-size: 8rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 4rem 0 0;
+}
+
+.formCheckbox {
+  display: flex;
+  gap: 12rem;
+  align-items: flex-start;
+  margin-top: 20rem;
+}
+
+.checkboxBox {
+  width: 16rem;
+  height: 16rem;
+  border: 1px solid var(--color-grey);
+  border-radius: 4rem;
+  flex-shrink: 0;
+  margin-top: 2rem;
+  cursor: pointer;
+  appearance: none;
+  background: transparent;
+}
+
+.checkboxText {
+  font-family: var(--font-helvetica);
+  font-weight: 400;
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  opacity: 0.5;
+  margin: 0;
+}
+
+.formActions {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.btnSubmit {
+  width: 100%;
+  padding: 20rem 8rem;
+  border-radius: 4rem;
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 14rem;
+  line-height: 1.2;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.reportLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 12rem;
+}
+
+.reportLinkText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-grey);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-grey);
+  padding-bottom: 2rem;
+}
+
+.reportIcon {
+  width: 20rem;
+  height: 20rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Mobile
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .headerWrap {
+    padding: 20rem 20rem 0;
+  }
+
+  .content {
+    width: 100%;
+    padding: 30rem 20rem 60rem;
+  }
+
+  .heading {
+    font-size: 34rem;
+  }
+
+  .instrHeader {
+    flex-direction: column;
+    gap: 10rem;
+    align-items: flex-start;
+  }
+
+  .instrQuestion {
+    font-size: 16rem;
+  }
+
+  .instrGuide {
+    font-size: 14rem;
+  }
+
+  .step {
+    flex-direction: column;
+    gap: 12rem;
+  }
+
+  .stepSubColumns {
+    flex-direction: column;
+    gap: 20rem;
+    padding-left: 0;
+  }
+
+  .stepSubCol {
+    flex-direction: column;
+    gap: 12rem;
+  }
+
+  .stepSubText {
+    width: 100%;
+  }
+
+  .stepContacts {
+    flex-direction: column;
+    gap: 20rem;
+    padding-left: 0;
+  }
+
+  .contactCards {
+    flex-direction: column;
+  }
+
+  .contactCardPhone {
+    width: 100%;
+    flex-direction: column;
+    gap: 16rem;
+    height: auto;
+    align-items: flex-start;
+  }
+
+  .contactCardInfo {
+    width: 100%;
+  }
+
+  .twoColumns {
+    flex-direction: column;
+    gap: 40rem;
+  }
+
+  .column {
+    width: 100%;
+  }
+
+  .colBlock {
+    flex-direction: column;
+    gap: 16rem;
+  }
+
+  .colBlockContent,
+  .colBlockContentNarrow {
+    width: 100%;
+  }
+
+  .returnBadgesRow {
+    flex-direction: column;
+    gap: 20rem;
+    padding-left: 0;
+  }
+
+  .returnBadgeCol {
+    flex-direction: column;
+    gap: 12rem;
+    align-items: flex-start;
+  }
+
+  .formWrap {
+    width: 100%;
+  }
+}

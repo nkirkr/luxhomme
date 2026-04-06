@@ -1,23 +1,48 @@
 import type { Metadata } from 'next'
+import { DashboardShell } from '../DashboardShell'
+import styles from '../dashboard.module.css'
 
-export const metadata: Metadata = { title: 'Profile' }
+export const metadata: Metadata = {
+  title: 'Данные | Luxhommè',
+}
+
+const USER_DATA = {
+  name: 'Иван Иванов',
+  email: 'primer@gmai.com',
+  phone: '+7 (999) 999-99-99',
+  address: 'ул. Профсоюзная, Москва, Россия, 117393',
+}
 
 export default function ProfilePage() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Profile</h1>
-      <p className="mt-2 text-muted-foreground">Manage your profile information.</p>
-      <div className="mt-8 max-w-lg space-y-6 rounded-lg border bg-card p-6">
-        <div>
-          <label className="block text-sm font-medium">Name</label>
-          <input type="text" className="mt-2 w-full rounded-md border bg-background px-4 py-2.5 text-sm" placeholder="Your name" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Email</label>
-          <input type="email" className="mt-2 w-full rounded-md border bg-background px-4 py-2.5 text-sm" placeholder="your@email.com" disabled />
-        </div>
-        <button className="rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90">Save</button>
+    <DashboardShell>
+      <div className={styles.dataHeader}>
+        <h2 className={styles.dataTitle}>Данные</h2>
+        <button className={styles.btnEdit}>
+          Редактировать
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/icons/arrow-up-right.svg" alt="" />
+        </button>
       </div>
-    </div>
+
+      <div className={styles.dataFields}>
+        <div className={styles.dataField}>
+          <p className={styles.dataFieldLabel}>Фамилия Имя</p>
+          <p className={styles.dataFieldValue}>{USER_DATA.name}</p>
+        </div>
+        <div className={styles.dataField}>
+          <p className={styles.dataFieldLabel}>Почта</p>
+          <p className={styles.dataFieldValue}>{USER_DATA.email}</p>
+        </div>
+        <div className={styles.dataField}>
+          <p className={styles.dataFieldLabel}>Телефон</p>
+          <p className={styles.dataFieldValue}>{USER_DATA.phone}</p>
+        </div>
+        <div className={styles.dataFieldFull}>
+          <p className={styles.dataFieldLabel}>Ваш адрес</p>
+          <p className={styles.dataFieldValue}>{USER_DATA.address}</p>
+        </div>
+      </div>
+    </DashboardShell>
   )
 }

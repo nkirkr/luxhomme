@@ -8,7 +8,7 @@
 
 - **Framework**: Next.js 16 (App Router, Turbopack, React Compiler, React 19)
 - **Language**: TypeScript 5.x (strict mode)
-- **Styling**: Tailwind CSS 4 + shadcn/ui (42 components pre-installed)
+- **Styling**: CSS Modules для кастомного кода + Tailwind CSS 4 только для shadcn/ui компонентов
 - **Auth**: Better Auth v1.2+ (self-hosted, email/password + OAuth)
 - **CMS**: Adapter pattern — WordPress (WPGraphQL) / Payload CMS / none
 - **Payment**: Adapter pattern — Stripe / YooKassa / none
@@ -96,6 +96,37 @@ Swap backends by changing env vars, not code.
 - **Components**: shadcn/ui in `src/components/ui/`, custom in `src/components/`
 - **Validation**: Zod schemas in `src/lib/validations/`
 - **Pre-commit**: Husky runs ESLint + Prettier on staged files automatically
+
+## Styling Rules — IMPORTANT
+
+**Гибридный подход: CSS Modules + Tailwind только для shadcn/ui.**
+
+### Кастомный код (страницы, компоненты) → CSS Modules
+
+- Каждый компонент имеет рядом файл `ComponentName.module.css`
+- Стили пишутся через CSS-переменные из `globals.css`: `var(--color-cook)`, `var(--text-h1)` и т.д.
+- НЕЛЬЗЯ использовать Tailwind-классы в кастомных компонентах (не в `src/components/ui/`)
+- НЕЛЬЗЯ хардкодить цвета, размеры шрифтов — только через CSS-переменные
+
+### shadcn/ui (`src/components/ui/`) → Tailwind остаётся
+
+- Компоненты из `src/components/ui/` используют Tailwind — не трогать
+- При использовании shadcn-компонентов в кастомном коде — обёртки стилизуются через CSS Modules
+
+### Дизайн токены
+
+Все токены определены в `src/styles/globals.css`:
+
+- Цвета: `--color-cook`, `--color-clean`, `--color-care`, `--color-site-bg`, `--color-stroke` и др.
+- Шрифты: `--font-helvetica`, `--font-gogol`
+- Размеры текста: `--text-h1`, `--text-h2`, `--text-h3`, `--text-ls`, `--text-m`, `--text-s` и др.
+- Радиусы: `--radius-tag`, `--radius-card`, `--radius-pill`, `--radius-club`
+- Градиенты: `--gradient-pink`, `--gradient-blue`, `--gradient-hero`, `--gradient-card`
+
+### Ассеты (Figma)
+
+- Изображения: `public/images/` (hero-bg.jpg, product-card.png, news-home-\*.jpg и др.)
+- Иконки/SVG: `public/icons/` (logo.svg, arrow-up-right.svg, profile.svg, basket.svg и др.)
 
 ## Module Dependencies
 

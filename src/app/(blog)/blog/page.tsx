@@ -1,68 +1,180 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
-import { getCMS } from '@/lib/cms'
-import { Breadcrumbs } from '@/components/seo/breadcrumbs'
-import { Animated } from '@/components/animations/animated'
-import { formatDate } from '@/lib/utils'
-import { generateCanonicalUrl } from '@/lib/seo'
+import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
+import styles from './blog.module.css'
 
 export const metadata: Metadata = {
-  title: 'Blog',
-  description: 'Latest articles and news.',
-  alternates: {
-    canonical: generateCanonicalUrl('/blog'),
-  },
+  title: 'Академия | Luxhommè',
+  description: 'Статьи, новости и полезные материалы от Luxhommè.',
 }
 
-export default async function BlogPage() {
-  const cms = await getCMS()
-  const { posts } = await cms.getPosts({ limit: 20 })
+interface BlogPost {
+  id: string
+  slug: string
+  title: string
+  description: string
+  image: string
+  tag?: string
+}
+
+const FEATURED: BlogPost = {
+  id: 'featured',
+  slug: 'new-products',
+  title: 'Новые продукты\nLuxhommè',
+  description:
+    'В планах: аэрогриль, усовершенствованная виброплатформа и рожковая кофемашина — для настоящего эспрессо',
+  image: '/images/blog-banner.jpg',
+  tag: 'Новая статья',
+}
+
+const POSTS: BlogPost[] = [
+  {
+    id: '1',
+    slug: 'philosophy-of-comfort',
+    title: 'Философия уюта',
+    description: 'Как Luxhomme помогает заботиться о себе',
+    image: '/images/blog-card-big.jpg',
+  },
+  {
+    id: '2',
+    slug: 'products-luxhomme-1',
+    title: 'Продукты\nLuxhommè',
+    description: 'Как Luxhommè вдохновляет на заботу о себе',
+    image: '/images/blog-card-small.jpg',
+  },
+  {
+    id: '3',
+    slug: 'products-luxhomme-2',
+    title: 'Продукты\nLuxhommè',
+    description: 'Как Luxhommè вдохновляет на заботу о себе',
+    image: '/images/blog-card-small.jpg',
+  },
+  {
+    id: '4',
+    slug: 'philosophy-of-comfort-2',
+    title: 'Философия уюта',
+    description: 'Как Luxhomme помогает заботиться о себе',
+    image: '/images/blog-card-big.jpg',
+  },
+  {
+    id: '5',
+    slug: 'products-luxhomme-3',
+    title: 'Продукты\nLuxhommè',
+    description: 'Как Luxhommè вдохновляет на заботу о себе',
+    image: '/images/blog-card-small.jpg',
+  },
+  {
+    id: '6',
+    slug: 'products-luxhomme-4',
+    title: 'Продукты\nLuxhommè',
+    description: 'Как Luxhommè вдохновляет на заботу о себе',
+    image: '/images/blog-card-small.jpg',
+  },
+]
+
+function SmallCard({ post }: { post: BlogPost }) {
+  return (
+    <Link href={`/blog/${post.slug}`} className={styles.cardSmall}>
+      <div className={styles.cardSmallImage}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={post.image} alt={post.title.replace('\n', ' ')} />
+      </div>
+      <div className={styles.cardSmallBody}>
+        <p className={styles.cardSmallTitle}>
+          {post.title.split('\n').map((line, i) => (
+            <span key={i}>
+              {i > 0 && <br />}
+              {line}
+            </span>
+          ))}
+        </p>
+        <p className={styles.cardSmallDesc}>{post.description}</p>
+      </div>
+    </Link>
+  )
+}
+
+function LargeCard({ post }: { post: BlogPost }) {
+  return (
+    <Link href={`/blog/${post.slug}`} className={styles.cardLarge}>
+      <div className={styles.cardLargeBg} aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={post.image} alt="" />
+        <div className={styles.cardLargeOverlay} />
+      </div>
+      <div className={styles.cardLargeContent}>
+        <p className={styles.cardLargeTitle}>{post.title}</p>
+        <p className={styles.cardLargeDesc}>
+          {post.description.split('\n').map((line, i) => (
+            <span key={i}>
+              {i > 0 && <br />}
+              {line}
+            </span>
+          ))}
+        </p>
+      </div>
+    </Link>
+  )
+}
+
+function CardRow({ large, smalls }: { large: BlogPost; smalls: BlogPost[] }) {
+  return (
+    <div className={styles.cardRow}>
+      <LargeCard post={large} />
+      <div className={styles.cardsSmall}>
+        {smalls.map((post) => (
+          <SmallCard key={post.id} post={post} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default function BlogPage() {
+  const rows: { large: BlogPost; smalls: BlogPost[] }[] = []
+  for (let i = 0; i < POSTS.length; i += 3) {
+    const large = POSTS[i]
+    const smalls = POSTS.slice(i + 1, i + 3)
+    rows.push({ large, smalls })
+  }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-20">
-      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]} />
-      <Animated>
-        <h1 className="mt-8 text-4xl font-bold tracking-tight">Blog</h1>
-        <p className="text-muted-foreground mt-4 text-lg">Latest articles and updates.</p>
-      </Animated>
+    <div className={styles.page}>
+      <div className={styles.headerWrap}>
+        <SiteHeader solid />
+      </div>
 
-      {posts.length === 0 ? (
-        <p className="text-muted-foreground mt-12 text-center">
-          No posts yet. Connect a CMS and start writing.
-        </p>
-      ) : (
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <Animated key={post.id}>
-              <Link href={`/blog/${post.slug}`} className="group block">
-                <article className="bg-card overflow-hidden rounded-lg border transition-shadow hover:shadow-md">
-                  {post.featuredImage && (
-                    <div className="relative aspect-video overflow-hidden">
-                      <Image
-                        src={post.featuredImage.url}
-                        alt={post.featuredImage.alt}
-                        fill
-                        className="object-cover transition-transform group-hover:scale-105"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                    </div>
-                  )}
-                  <div className="p-5">
-                    <time className="text-muted-foreground text-xs">{formatDate(post.date)}</time>
-                    <h2 className="group-hover:text-primary mt-2 font-semibold">{post.title}</h2>
-                    {post.excerpt && (
-                      <p className="text-muted-foreground mt-2 line-clamp-2 text-sm">
-                        {post.excerpt}
-                      </p>
-                    )}
-                  </div>
-                </article>
-              </Link>
-            </Animated>
-          ))}
+      <div className={styles.content}>
+        {/* Featured hero banner */}
+        <div className={styles.heroBanner}>
+          <div className={styles.heroBannerBg} aria-hidden="true">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={FEATURED.image} alt="" />
+            <div className={styles.heroBannerOverlay} />
+          </div>
+
+          <div className={styles.heroBannerContent}>
+            <span className={styles.heroBadge}>{FEATURED.tag}</span>
+          </div>
+
+          <div className={styles.heroBottom}>
+            <h1 className={styles.heroTitle}>
+              {FEATURED.title.split('\n').map((line, i) => (
+                <span key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </span>
+              ))}
+            </h1>
+            <p className={styles.heroDescription}>{FEATURED.description}</p>
+          </div>
         </div>
-      )}
+
+        {/* Card rows */}
+        {rows.map((row, i) => (
+          <CardRow key={i} large={row.large} smalls={row.smalls} />
+        ))}
+      </div>
     </div>
   )
 }

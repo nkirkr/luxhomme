@@ -1,16 +1,43 @@
 import type { Metadata } from 'next'
-import { LoginForm } from './login-form'
+import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
+import styles from './login.module.css'
 
-export const metadata: Metadata = { title: 'Sign In' }
+export const metadata: Metadata = {
+  title: 'Авторизация | Luxhommè',
+  description: 'Войдите в личный кабинет Luxhommè.',
+}
 
 export default function LoginPage() {
   return (
-    <div>
-      <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold">Welcome back</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Sign in to your account</p>
+    <div className={styles.page}>
+      {/* Background image */}
+      <div className={styles.bg} aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/auth-bg.jpg" alt="" />
       </div>
-      <LoginForm />
+
+      {/* Header (white, overlaid on background) */}
+      <div className={styles.headerWrap}>
+        <SiteHeader />
+      </div>
+
+      {/* Auth form card */}
+      <div className={styles.formCard}>
+        <h1 className={styles.formTitle}>Авторизация</h1>
+
+        <form className={styles.formFields}>
+          <div>
+            <label className={styles.fieldLabel} htmlFor="phone">
+              Номер телефона
+            </label>
+            <input id="phone" type="tel" className={styles.fieldInput} autoComplete="tel" />
+          </div>
+
+          <button type="submit" className={styles.submitBtn}>
+            Войти
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

@@ -1,8 +1,98 @@
-@import "tailwindcss";
+/* ============================================================
+   Fluid rem scale — MUST be before Tailwind import so it isn't
+   overridden by the Tailwind preflight/base reset.
+   Desktop (≥769px): 1rem = 1px at 1440px viewport
+   Mobile  (≤768px): 1rem = 1px at 440px viewport
+   ============================================================ */
+html {
+  font-size: calc(1vw / 14.4);
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: calc(1vw / 4.4);
+  }
+}
+
+@import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================================
+   Luxhommè Design Tokens (from Figma)
+   ============================================================ */
+
+/* --- Brand Colors --- */
 :root {
+  /* Figma palette */
+  --color-text: #2a2a2a;
+  --color-grey: #878786;
+  --color-stroke: #c2c2bd;
+  --color-footer-bg: #cccbc9;
+  --color-white: #ffffff;
+  --color-cook: #e7ae90; /* warm salmon / CTA */
+  --color-clean: #86adea; /* soft blue / bonuses */
+  --color-care: #a9cb73; /* green / care series */
+  --color-dies: #e1dfda; /* card background */
+  --color-site-bg: #efeeeb; /* site background */
+  --color-black: #000000;
+
+  /* Semantic aliases */
+  --color-bg: var(--color-site-bg);
+  --color-fg: var(--color-text);
+  --color-cta: var(--color-cook);
+  --color-cta-hover: #d99b7a;
+  --color-card-bg: var(--color-dies);
+  --color-border: var(--color-stroke);
+
+  /* --- Typography (Figma font styles) --- */
+  --font-helvetica: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-gogol: 'Gogol', serif;
+
+  /* Font sizes */
+  --text-s: 12px; /* Text/S  — Regular */
+  --text-m: 14px; /* Text/M  — Light, lh 1.4 */
+  --text-ls: 18px; /* Text/Ls — Light */
+  --text-menu: 16px; /* Text/menu — Regular */
+  --text-20: 20px; /* Text/20 — Light, lh 1.2 */
+  --text-light: 24px; /* Text/Light — Light */
+  --text-regular: 24px; /* Text/Regular — Regular */
+  --text-h3: 42px; /* H3 — Light, lh 1.2 */
+  --text-h2: 48px; /* H2 — Light, lh 1 */
+  --text-h1: 60px; /* H1 — Light, lh 1.2 */
+  --text-gogol: 70px; /* Gogol/Gogol — Regular, lh 0.8 */
+
+  /* Font weights */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-bold: 700;
+
+  /* Line heights */
+  --lh-tight: 1;
+  --lh-heading: 1.2;
+  --lh-body: 1.4;
+  --lh-gogol: 0.8;
+
+  /* --- Spacing & Radius --- */
+  --radius-tag: 13px; /* pill tags / category buttons */
+  --radius-card: 6px; /* product cards */
+  --radius-club: 500px; /* club banner pill */
+  --radius-pill: 100px; /* rounded pill buttons */
+  --radius-badge: 40px; /* marketplace badges */
+
+  /* --- Gradients --- */
+  --gradient-pink: linear-gradient(182deg, #e5af93 73.5%, rgba(229, 175, 147, 0) 96.8%);
+  --gradient-blue: linear-gradient(
+    264deg,
+    rgba(92, 152, 239, 0.78) 22.5%,
+    rgba(163, 189, 227, 0) 157%
+  );
+  --gradient-hero: linear-gradient(to bottom, rgba(0, 0, 0, 0) 57%, rgba(0, 0, 0, 0.35) 89%);
+  --gradient-card: linear-gradient(to bottom, rgba(102, 102, 102, 0) 37%, rgba(0, 0, 0, 0.7) 100%);
+
+  /* ============================================================
+     shadcn/ui tokens (do not remove — used by ui/ components)
+     ============================================================ */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -19,7 +109,7 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
+  --shadcn-border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -115,10 +205,16 @@
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-helvetica);
+    font-weight: var(--weight-light);
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
 }

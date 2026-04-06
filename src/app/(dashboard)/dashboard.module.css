@@ -1,0 +1,620 @@
+/* ═══════════════════════════════════════════════════════════
+   Dashboard Layout — shared shell for all dashboard tabs
+   ═══════════════════════════════════════════════════════════ */
+
+.page {
+  background: var(--color-site-bg);
+  min-height: 100vh;
+}
+
+.headerWrap {
+  padding: 20rem 80rem 0;
+}
+
+.body {
+  display: flex;
+  gap: 80rem;
+  width: 1280rem;
+  margin: 0 auto;
+  padding-top: 60rem;
+  padding-bottom: 80rem;
+}
+
+/* ─── Sidebar (desktop) ─── */
+.sidebar {
+  width: 200rem;
+  flex-shrink: 0;
+}
+
+.userName {
+  font-family: var(--font-gogol);
+  font-weight: 400;
+  font-size: 34rem;
+  line-height: 1;
+  color: var(--color-black);
+  margin: 0 0 12rem;
+}
+
+.balance {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-black);
+  margin: 0 0 30rem;
+}
+
+.balance strong {
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.navLink {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-grey);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.navLink:hover,
+.navLink.active {
+  color: var(--color-black);
+  font-weight: 400;
+}
+
+.logoutLink {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-cook);
+  text-decoration: none;
+  margin-top: 20rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+
+/* ─── Mobile dropdown (hidden on desktop) ─── */
+.mobileSelect {
+  display: none;
+}
+
+/* ─── Content area ─── */
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Tab: Loyalty Program
+   ═══════════════════════════════════════════════════════════ */
+
+.loyaltyHeader {
+  text-align: center;
+  margin-bottom: 20rem;
+}
+
+.loyaltyLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-grey);
+  margin: 0 0 8rem;
+}
+
+.loyaltyBrand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rem;
+  margin-bottom: 12rem;
+}
+
+.loyaltyBrand img {
+  height: 14rem;
+  width: auto;
+}
+
+.loyaltyBrandText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  color: var(--color-black);
+}
+
+.levelLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  color: var(--color-grey);
+  margin: 0 0 4rem;
+}
+
+.levelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rem;
+}
+
+.levelName {
+  font-family: var(--font-gogol);
+  font-weight: 400;
+  font-size: 48rem;
+  line-height: 1;
+  color: var(--color-stroke);
+  margin: 0;
+}
+
+.levelNameNext {
+  font-family: var(--font-gogol);
+  font-weight: 400;
+  font-size: 34rem;
+  line-height: 1;
+  color: var(--color-stroke);
+  margin: 0;
+}
+
+.levelFrom {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  color: var(--color-grey);
+  margin: 0 0 12rem;
+  text-align: center;
+}
+
+/* Progress bar */
+.progressBar {
+  display: flex;
+  align-items: center;
+  gap: 12rem;
+  margin-bottom: 20rem;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 4rem;
+  background: var(--color-stroke);
+  border-radius: 2rem;
+  position: relative;
+}
+
+.progressDot {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  background: var(--color-black);
+}
+
+.progressArrow {
+  width: 40rem;
+  height: 40rem;
+  border-radius: 50%;
+  background: var(--color-cook);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  border: none;
+}
+
+.progressArrow img {
+  width: 20rem;
+  height: 20rem;
+  filter: brightness(0) invert(1);
+}
+
+/* Badges */
+.badges {
+  display: flex;
+  gap: 10rem;
+  justify-content: center;
+  margin-bottom: 20rem;
+}
+
+.badge {
+  padding: 4rem 12rem;
+  border: 1px solid var(--color-stroke);
+  border-radius: 100rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  background: transparent;
+}
+
+/* Bonus label */
+.bonusLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  color: var(--color-cook);
+  text-align: center;
+  margin: 0 0 20rem;
+}
+
+/* Level images */
+.levelImages {
+  display: flex;
+  justify-content: center;
+  gap: 80rem;
+  margin-bottom: 20rem;
+}
+
+.levelImage {
+  width: 200rem;
+  height: 200rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Current progress */
+.progressLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  color: var(--color-grey);
+  text-align: center;
+  margin: 0 0 4rem;
+}
+
+.progressValue {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 18rem;
+  color: var(--color-black);
+  text-align: center;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Tab: Orders
+   ═══════════════════════════════════════════════════════════ */
+
+.ordersTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ordersTable th {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-black);
+  text-align: left;
+  padding: 0 0 20rem;
+  border-bottom: 1px solid var(--color-stroke);
+}
+
+.ordersTable td {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-black);
+  padding: 20rem 0;
+  border-bottom: 1px solid var(--color-stroke);
+  vertical-align: middle;
+}
+
+.ordersTable td:last-child {
+  text-align: right;
+}
+
+.btnView {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 24rem;
+  border-radius: 100rem;
+  background: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Tab: Data (Profile)
+   ═══════════════════════════════════════════════════════════ */
+
+.dataHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rem;
+}
+
+.dataTitle {
+  font-family: var(--font-gogol);
+  font-weight: 400;
+  font-size: 34rem;
+  line-height: 1;
+  color: var(--color-black);
+  margin: 0;
+}
+
+.btnEdit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rem;
+  padding: 8rem 24rem;
+  border-radius: 100rem;
+  background: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.btnEdit img {
+  width: 14rem;
+  height: 14rem;
+  filter: brightness(0) invert(1);
+}
+
+.dataFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30rem 40rem;
+}
+
+.dataField {
+  border-bottom: 1px solid var(--color-stroke);
+  padding-bottom: 12rem;
+}
+
+.dataFieldLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-grey);
+  margin: 0 0 6rem;
+}
+
+.dataFieldValue {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-black);
+  margin: 0;
+}
+
+.dataFieldFull {
+  grid-column: 1 / -1;
+  border-bottom: 1px solid var(--color-stroke);
+  padding-bottom: 12rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Tab: Reviews
+   ═══════════════════════════════════════════════════════════ */
+
+.reviewsTitle {
+  font-family: var(--font-gogol);
+  font-weight: 400;
+  font-size: 34rem;
+  line-height: 1;
+  color: var(--color-black);
+  margin: 0 0 30rem;
+  text-transform: uppercase;
+}
+
+.reviewsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.reviewItem {
+  background: var(--color-dies);
+  border-radius: 6rem;
+  padding: 20rem;
+}
+
+.reviewItemTop {
+  display: flex;
+  align-items: center;
+  gap: 20rem;
+  margin-bottom: 16rem;
+}
+
+.reviewStars {
+  display: flex;
+}
+
+.reviewStars img {
+  width: 30rem;
+  height: 30rem;
+}
+
+.reviewEditLink {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-black);
+  text-decoration: none;
+}
+
+.reviewDate {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin-left: auto;
+}
+
+.reviewOzon {
+  width: 90rem;
+  height: 36rem;
+  border-radius: 40rem;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reviewOzon img {
+  height: 18rem;
+  width: auto;
+}
+
+.reviewBody {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0 0 16rem;
+}
+
+.reviewPhoto {
+  width: 150rem;
+  height: 150rem;
+  border-radius: 6rem;
+  object-fit: cover;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Mobile
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .headerWrap {
+    padding: 20rem 20rem 0;
+  }
+
+  .body {
+    flex-direction: column;
+    width: 100%;
+    gap: 30rem;
+    padding: 30rem 20rem 60rem;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .userName {
+    font-size: 48rem;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .logoutLink {
+    display: none;
+  }
+
+  .mobileSelect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6rem;
+    width: 100%;
+    height: 52rem;
+    border: 1px solid var(--color-stroke);
+    border-radius: 13rem;
+    background: var(--color-white);
+    font-family: var(--font-helvetica);
+    font-weight: var(--weight-light);
+    font-size: 14rem;
+    color: var(--color-black);
+    cursor: pointer;
+    margin-top: 20rem;
+  }
+
+  .mobileSelect img {
+    width: 12rem;
+    height: 12rem;
+  }
+
+  /* Loyalty */
+  .levelRow {
+    flex-direction: column;
+    gap: 10rem;
+  }
+
+  .levelName {
+    font-size: 40rem;
+  }
+
+  .levelNameNext {
+    display: none;
+  }
+
+  .levelImages {
+    gap: 40rem;
+  }
+
+  .levelImage {
+    width: 160rem;
+    height: 160rem;
+  }
+
+  .progressBar {
+    display: none;
+  }
+
+  /* Orders */
+  .ordersTable th:nth-child(n + 4),
+  .ordersTable td:nth-child(n + 4) {
+    display: none;
+  }
+
+  /* Data */
+  .dataFields {
+    grid-template-columns: 1fr;
+  }
+
+  .dataHeader {
+    flex-direction: row;
+    gap: 12rem;
+  }
+
+  .dataTitle {
+    font-size: 34rem;
+  }
+
+  /* Reviews */
+  .reviewItemTop {
+    flex-wrap: wrap;
+  }
+
+  .reviewDate {
+    margin-left: 0;
+  }
+}

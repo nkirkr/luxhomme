@@ -1,14 +1,12 @@
 import type { ReactNode } from 'react'
-import { Header } from '@/components/layout/header'
-import { Footer } from '@/components/layout/footer'
 import { ChatWidget } from '@/components/chat/chat-widget'
+import SiteFooter from '@/components/layout/site-footer/SiteFooter'
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <Header />
-      <main className="min-h-screen">{children}</main>
-      <Footer />
+      <main>{children}</main>
+      <SiteFooter />
       <ChatWidget />
     </>
   )

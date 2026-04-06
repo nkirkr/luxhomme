@@ -1,18 +1,45 @@
-import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { DashboardShell } from '../DashboardShell'
+import styles from '../dashboard.module.css'
 
-export const metadata: Metadata = { title: 'Orders' }
+export const metadata: Metadata = {
+  title: 'Заказы | Luxhommè',
+}
+
+const ORDERS = Array.from({ length: 8 }, () => ({
+  id: `№5673888`,
+  date: '12.03.2026',
+  status: 'Не удался',
+  total: '7 699 ₽ за 1 товар',
+}))
 
 export default function OrdersPage() {
-  if (process.env.NEXT_PUBLIC_FEATURE_SHOP !== 'true') notFound()
-
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Orders</h1>
-      <p className="mt-2 text-muted-foreground">View your order history.</p>
-      <div className="mt-8 rounded-lg border bg-card p-12 text-center">
-        <p className="text-muted-foreground">No orders yet.</p>
-      </div>
-    </div>
+    <DashboardShell>
+      <table className={styles.ordersTable}>
+        <thead>
+          <tr>
+            <th>Заказ</th>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Итого</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ORDERS.map((order, i) => (
+            <tr key={i}>
+              <td>{order.id}</td>
+              <td>{order.date}</td>
+              <td>{order.status}</td>
+              <td>{order.total}</td>
+              <td>
+                <button className={styles.btnView}>Просмотр</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </DashboardShell>
   )
 }

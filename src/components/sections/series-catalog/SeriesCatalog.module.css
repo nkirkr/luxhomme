@@ -1,0 +1,485 @@
+/* ================================================================
+   SeriesCatalog — «Наши серии» + сетка карточек
+   Desktop ref: 1280rem wide, mobile ref: 440px
+   ================================================================ */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+  width: 100%;
+}
+
+/* ── «Наши серии» row ── */
+.seriesRow {
+  display: flex;
+  gap: 80rem;
+  height: 440rem;
+  align-items: center;
+  width: 100%;
+}
+
+/* Left: text + buttons */
+.seriesText {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 371rem;
+  height: 360.5rem;
+  flex-shrink: 0;
+}
+
+.seriesHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 15rem;
+  width: 334rem;
+}
+
+.headingLine1 {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 48rem;
+  line-height: 1;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* "наши серии" — two words side by side, Gogol overlaps */
+.headingLine2 {
+  position: relative;
+  height: 73.5rem;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.headingWord {
+  position: absolute;
+  top: 31rem;
+  left: 0;
+  transform: translateY(-50%);
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 48rem;
+  line-height: 1;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.headingScript {
+  position: absolute;
+  top: 38.5rem;
+  left: 128rem;
+  transform: translateY(-50%);
+  font-family: var(--font-gogol);
+  font-weight: var(--weight-regular);
+  font-size: 70rem;
+  line-height: 0.8;
+  color: var(--color-cook);
+  margin: 0;
+}
+
+/* Series filter buttons */
+.seriesButtons {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.seriesBtnGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  align-items: flex-start;
+}
+
+.btnTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rem;
+  padding: 4rem 20rem;
+  border-radius: var(--radius-tag);
+  border: 1px solid transparent;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  background: none;
+}
+
+.btnTag.active {
+  background-color: var(--color-cook);
+  border-color: var(--color-cook);
+  color: var(--color-white);
+}
+
+.btnTag.inactive {
+  background: none;
+  border-color: var(--color-stroke);
+  color: var(--color-stroke);
+  padding: 4rem 12rem;
+}
+
+.btnTagIcon {
+  width: 14rem;
+  height: 14rem;
+  flex-shrink: 0;
+}
+
+.btnHint {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-stroke);
+  white-space: nowrap;
+}
+
+/* Right: banner */
+.banner {
+  position: relative;
+  flex: 1 0 0;
+  height: 100%;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 20rem;
+}
+
+.bannerImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+}
+
+.bannerButtons {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 16rem;
+  align-items: center;
+}
+
+.bannerBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rem;
+  padding: 4rem 50rem;
+  border-radius: var(--radius-tag);
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  background: none;
+}
+
+.bannerBtn.fill {
+  background-color: var(--color-cook);
+  border-color: var(--color-cook);
+  color: var(--color-white);
+}
+
+.bannerBtn.outline {
+  background: none;
+  border-color: var(--color-white);
+  color: var(--color-white);
+  padding: 4rem 12rem;
+}
+
+/* ── Catalog grid ── */
+.catalog {
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+  width: 100%;
+}
+
+.cardRow {
+  display: flex;
+  gap: 40rem;
+  align-items: center;
+  width: 100%;
+}
+
+/* ── Product Card ── */
+.card {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10rem;
+  padding: 12rem;
+  background-color: var(--color-card-bg);
+  border-radius: var(--radius-card);
+  min-width: 0;
+  height: 513rem;
+}
+
+.cardWidgets {
+  display: flex;
+  align-items: center;
+  height: 28rem;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.cardBadges {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  height: 100%;
+}
+
+.badgeBonus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 10rem;
+  border-radius: var(--radius-tag);
+  background-color: var(--color-clean);
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  white-space: nowrap;
+}
+
+.badgeGroup {
+  width: 53rem;
+  height: 24rem;
+  display: block;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.cardImageWrap {
+  flex: 1 0 0;
+  position: relative;
+  width: 100%;
+  min-height: 0;
+}
+
+.cardImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cardInfo {
+  display: flex;
+  gap: 10rem;
+  align-items: flex-end;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.cardName {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  padding: 12rem 0;
+  min-width: 0;
+}
+
+.cardCategory {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 12rem;
+  border-radius: var(--radius-tag);
+  border: 1px solid var(--color-stroke);
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-stroke);
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+.cardTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 18rem;
+  line-height: 1;
+  color: var(--color-black);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.cardPrice {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12rem 0;
+  height: 60rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.priceOld {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-black);
+  opacity: 0.5;
+  text-decoration: line-through;
+  margin: 0;
+}
+
+.priceNew {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 18rem;
+  line-height: 1;
+  color: var(--color-black);
+  margin: 0;
+}
+
+.cardCartBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rem;
+  padding: 12rem;
+  border-radius: var(--radius-card);
+  background-color: var(--color-cook);
+  border: 1px solid var(--color-cook);
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  white-space: nowrap;
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.cardCartBtn:hover {
+  background-color: var(--color-cta-hover);
+  border-color: var(--color-cta-hover);
+}
+
+/* ================================================================
+   Mobile  (≤ 768px)
+   ================================================================ */
+
+@media (max-width: 768px) {
+  .section {
+    gap: 20rem;
+  }
+
+  /* Series block stacks vertically */
+  .seriesRow {
+    flex-direction: column;
+    height: auto;
+    gap: 20rem;
+  }
+
+  .seriesText {
+    width: 100%;
+    height: auto;
+    gap: 40rem;
+  }
+
+  .seriesHeading {
+    width: 100%;
+  }
+
+  /* Mobile: "наши" and "серии" inline */
+  .headingLine2 {
+    position: relative;
+    height: auto;
+    display: flex;
+    align-items: center;
+    gap: 13rem;
+    white-space: nowrap;
+  }
+
+  .headingWord {
+    position: static;
+    transform: none;
+    font-size: 34rem;
+  }
+
+  .headingScript {
+    position: static;
+    transform: none;
+    font-size: 70rem;
+  }
+
+  .headingLine1 {
+    font-size: 34rem;
+  }
+
+  /* Banner: full width, 300rem tall */
+  .banner {
+    width: 100%;
+    height: 300rem;
+  }
+
+  /* Cards: 2 columns, 10rem gap */
+  .catalog {
+    gap: 10rem;
+  }
+
+  .cardRow {
+    gap: 10rem;
+    justify-content: space-between;
+  }
+
+  .card {
+    flex: none;
+    width: 195rem;
+    height: auto;
+    gap: 16rem;
+    padding: 12rem 8rem;
+  }
+
+  .cardWidgets {
+    height: 22rem;
+    justify-content: space-between;
+  }
+
+  .badgeBonus {
+    font-size: 12rem;
+    font-weight: var(--weight-regular);
+    padding: 4rem 6rem;
+  }
+
+  .badgeGroup {
+    width: 48.583rem;
+    height: 22rem;
+  }
+
+  .cardImageWrap {
+    flex: none;
+    height: 160rem;
+    position: relative;
+  }
+}

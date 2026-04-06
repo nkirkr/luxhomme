@@ -1,0 +1,17 @@
+/* Wrapper for all page sections below the hero */
+.content {
+  width: 1280rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+  padding: 40rem 0;
+}
+
+@media (max-width: 768px) {
+  .content {
+    width: 100%;
+    padding: 20rem 20rem;
+    gap: 20rem;
+  }
+}

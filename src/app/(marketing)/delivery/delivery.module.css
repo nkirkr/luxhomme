@@ -1,0 +1,298 @@
+.page {
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+.headerWrap {
+  padding: 20rem 80rem 0;
+}
+
+/* ── Content area ── */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+  padding: 80rem 80rem 80rem;
+}
+
+/* ── Section heading with dividers ── */
+.sectionTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  width: 100%;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-stroke);
+}
+
+.heading {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 60rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* ── Delivery cards row ── */
+.cardsRow {
+  display: flex;
+  gap: 40rem;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* Card shell */
+.deliveryCard {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30rem;
+  padding: 20rem;
+  border: 0.4px solid var(--color-stroke);
+  border-radius: 6rem;
+  min-width: 0;
+}
+
+/* Card text */
+.cardTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 34rem;
+  line-height: 1;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.cardDesc {
+  display: flex;
+  gap: 25rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.cardDesc p {
+  flex: 1 0 0;
+  margin: 0;
+  min-width: 0;
+}
+
+/* Card banner — with bg image */
+.cardBanner {
+  position: relative;
+  width: 100%;
+  border-radius: 6rem;
+  overflow: hidden;
+  padding: 16rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cardBannerBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  border-radius: 6rem;
+}
+
+.cardBannerOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 61.99%);
+  border-radius: 6rem;
+  pointer-events: none;
+}
+
+.cardBannerContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 60rem;
+  width: 239rem;
+}
+
+.ozonLogo {
+  width: 98rem;
+  height: 26rem;
+  display: block;
+  object-fit: contain;
+}
+
+.bannerTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 22rem;
+  line-height: 1;
+  color: var(--color-white);
+  margin: 0;
+}
+
+.bannerSubtitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1;
+  color: var(--color-white);
+  margin: 0;
+}
+
+.bannerFootnote {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1;
+  color: var(--color-white);
+  margin: 0;
+}
+
+/* СДЭК banner — neutral background */
+.cdekBanner {
+  position: relative;
+  width: 100%;
+  height: 214rem;
+  border-radius: 6rem;
+  overflow: hidden;
+  padding: 16rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #e0dfda;
+}
+
+.cdekBannerBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  border-radius: 6rem;
+}
+
+.cdekContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 163.352rem;
+}
+
+.cdekLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.cdekLogo {
+  width: 80.284rem;
+  height: 21.352rem;
+  display: block;
+  object-fit: contain;
+}
+
+.cdekBigText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 24rem;
+  line-height: 1;
+  color: var(--color-text);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.cdekNote {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-grey);
+  margin: 0;
+}
+
+/* ── Payment cards ── */
+.paymentRow {
+  display: flex;
+  gap: 40rem;
+  width: 100%;
+}
+
+.paymentCard {
+  flex: 1 0 0;
+  position: relative;
+  height: 230rem;
+  border-radius: 6rem;
+  overflow: hidden;
+  padding: 16rem;
+  min-width: 0;
+}
+
+.paymentBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  border-radius: 6rem;
+}
+
+.paymentLogo {
+  position: relative;
+  height: 32rem;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* ================================================================
+   Mobile (≤ 768px)
+   ================================================================ */
+@media (max-width: 768px) {
+  .headerWrap {
+    padding: 20rem 20rem 0;
+  }
+
+  .content {
+    padding: 40rem 20rem 40rem;
+    gap: 30rem;
+  }
+
+  .heading {
+    font-size: 34rem;
+    line-height: 1;
+  }
+
+  .cardsRow {
+    flex-direction: column;
+    gap: 20rem;
+  }
+
+  .cardTitle {
+    font-family: var(--font-helvetica);
+    font-weight: var(--weight-regular);
+    font-size: 24rem;
+  }
+
+  .paymentRow {
+    flex-direction: column;
+    gap: 20rem;
+  }
+
+  .paymentCard {
+    height: 170rem;
+  }
+}

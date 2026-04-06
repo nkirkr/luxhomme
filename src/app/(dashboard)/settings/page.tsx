@@ -1,29 +1,63 @@
 import type { Metadata } from 'next'
+import { DashboardShell } from '../DashboardShell'
+import styles from '../dashboard.module.css'
 
-export const metadata: Metadata = { title: 'Settings' }
+export const metadata: Metadata = {
+  title: 'Отзывы | Luxhommè',
+}
 
-export default function SettingsPage() {
+const REVIEWS = [
+  {
+    rating: 4,
+    date: '29 марта 2026',
+    text: '',
+    photo: '',
+  },
+  {
+    rating: 4,
+    date: '29 марта 2026',
+    text: 'Купила аэрогриль и осталась очень довольна, очень быстро готовит пищу.',
+    photo: '/images/product-review-photo.jpg',
+  },
+]
+
+function Stars({ count }: { count: number }) {
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Settings</h1>
-      <p className="mt-2 text-muted-foreground">Manage your account settings.</p>
-      <div className="mt-8 max-w-lg space-y-8">
-        <div className="rounded-lg border bg-card p-6">
-          <h3 className="font-semibold">Notifications</h3>
-          <p className="mt-1 text-sm text-muted-foreground">Configure notification preferences.</p>
-        </div>
-        <div className="rounded-lg border bg-card p-6">
-          <h3 className="font-semibold">Security</h3>
-          <p className="mt-1 text-sm text-muted-foreground">Change password and security settings.</p>
-        </div>
-        <div className="rounded-lg border border-destructive/50 bg-card p-6">
-          <h3 className="font-semibold text-destructive">Danger Zone</h3>
-          <p className="mt-1 text-sm text-muted-foreground">Delete your account permanently.</p>
-          <button className="mt-4 rounded-md border border-destructive px-4 py-2 text-sm text-destructive hover:bg-destructive/10">
-            Delete Account
-          </button>
-        </div>
-      </div>
+    <div className={styles.reviewStars}>
+      {[1, 2, 3, 4, 5].map((i) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img key={i} src={i <= count ? '/icons/star-filled.svg' : '/icons/star-empty.svg'} alt="" />
+      ))}
     </div>
+  )
+}
+
+export default function ReviewsPage() {
+  return (
+    <DashboardShell>
+      <h2 className={styles.reviewsTitle}>Отзывы</h2>
+
+      <div className={styles.reviewsList}>
+        {REVIEWS.map((review, i) => (
+          <div key={i} className={styles.reviewItem}>
+            <div className={styles.reviewItemTop}>
+              <Stars count={review.rating} />
+              <span className={styles.reviewEditLink}>Редактировать отзыв</span>
+              <span className={styles.reviewDate}>{review.date}</span>
+              <div className={styles.reviewOzon}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/icons/ozon-logo.svg" alt="Ozon" />
+              </div>
+            </div>
+
+            {review.text && <p className={styles.reviewBody}>{review.text}</p>}
+            {review.photo && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={review.photo} alt="" className={styles.reviewPhoto} />
+            )}
+          </div>
+        ))}
+      </div>
+    </DashboardShell>
   )
 }

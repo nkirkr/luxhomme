@@ -1,0 +1,293 @@
+/* ================================================================
+   Catalog page
+   Desktop: 1440px ref → font-size calc(1vw / 14.4) → 1rem ≈ 1px
+   Mobile:  440px  ref → font-size calc(1vw / 4.4)  → 1rem ≈ 1px
+   Content max-width: 1280rem, centered
+   ================================================================ */
+
+.page {
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  padding-bottom: 80rem;
+}
+
+/* ── Top bar: header + title ── */
+.headerWrap {
+  padding: 20rem 80rem 0;
+}
+
+/* Title block */
+.titleBlock {
+  padding: 44rem 80rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-stroke);
+}
+
+.pageTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 60rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 16rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.breadcrumb a {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.breadcrumb a:hover {
+  opacity: 0.7;
+}
+
+.breadcrumbSep {
+  color: var(--color-text);
+}
+
+.breadcrumbCurrent {
+  font-weight: var(--weight-bold);
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+/* ── Controls bar: filters + search ── */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rem 80rem 0;
+  gap: 20rem;
+}
+
+/* Filter pills */
+.filters {
+  display: flex;
+  gap: 12rem;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.filterBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 52rem;
+  padding: 4rem 30rem;
+  border-radius: 13rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+  color: var(--color-black);
+}
+
+.filterBtn.active {
+  background: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-black);
+}
+
+.filterBtn.inactive {
+  background: none;
+  border-color: var(--color-stroke);
+  color: var(--color-black);
+}
+
+.filterBtn.inactive:hover {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
+/* Search bar */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10rem;
+  width: 400rem;
+  padding: 14rem 20rem;
+  background-color: var(--color-card-bg);
+  border-radius: 6rem;
+  flex-shrink: 0;
+}
+
+.searchIcon {
+  width: 24rem;
+  height: 24rem;
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.searchInput {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 18rem;
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.searchInput::placeholder {
+  color: var(--color-grey);
+}
+
+/* ── Product grid ── */
+.grid {
+  margin-top: 40rem;
+  padding: 0 80rem;
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+}
+
+.gridRow {
+  display: flex;
+  gap: 40rem;
+  align-items: stretch;
+}
+
+/* ── Load more button ── */
+.loadMoreWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 40rem;
+}
+
+.loadMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rem 40rem;
+  height: 57rem;
+  background: var(--color-black);
+  border: none;
+  border-radius: 30rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-bold);
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-white);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.loadMoreBtn:hover {
+  opacity: 0.85;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 18rem;
+  line-height: 1.4;
+  color: var(--color-grey);
+  padding: 60rem 0;
+  width: 100%;
+}
+
+/* ================================================================
+   Mobile (≤ 768px)
+   ================================================================ */
+@media (max-width: 768px) {
+  .headerWrap {
+    padding: 20rem 20rem 0;
+  }
+
+  .titleBlock {
+    padding: 30rem 20rem 0;
+    gap: 16rem;
+  }
+
+  .pageTitle {
+    font-size: 34rem;
+  }
+
+  .controls {
+    padding: 20rem 20rem 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16rem;
+  }
+
+  .filters {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4rem;
+    /* hide scrollbar */
+    scrollbar-width: none;
+  }
+
+  .filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Mobile: dropdown-style filter */
+  .mobileFilterSelect {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10rem 20rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-stroke);
+    border-radius: 13rem;
+    font-family: var(--font-helvetica);
+    font-weight: var(--weight-light);
+    font-size: 14rem;
+    line-height: 1.4;
+    color: var(--color-black);
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .grid {
+    padding: 0 20rem;
+    gap: 10rem;
+    margin-top: 20rem;
+  }
+
+  .gridRow {
+    gap: 10rem;
+  }
+}
