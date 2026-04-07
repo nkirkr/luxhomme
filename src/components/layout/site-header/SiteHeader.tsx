@@ -31,7 +31,7 @@ export function SiteHeader({ solid }: SiteHeaderProps) {
               {link.hasArrow && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src="/icons/arrow-down.svg"
+                  src="/icons/header-arrow-down.svg"
                   alt=""
                   className={styles.navArrow}
                   aria-hidden="true"

@@ -64,13 +64,6 @@
   object-fit: contain;
 }
 
-.logoImgSm {
-  height: 18rem;
-  width: 90rem;
-  object-fit: contain;
-  display: block;
-}
-
 .logoImgTg {
   width: 18rem;
   height: 18rem;

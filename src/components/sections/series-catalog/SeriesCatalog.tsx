@@ -159,7 +159,11 @@ export function SeriesCatalog() {
                   {s.label}
                   {s.active && (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src="/icons/arrow-up-right.svg" alt="" className={styles.btnTagIcon} />
+                    <img
+                      src="/icons/arrow-up-right-white.svg"
+                      alt=""
+                      className={styles.btnTagIcon}
+                    />
                   )}
                 </Link>
                 <p className={styles.btnHint}>

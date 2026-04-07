@@ -4,14 +4,23 @@ import styles from './HeroSection.module.css'
 export function HeroSection() {
   return (
     <section className={styles.hero} aria-label="Главный баннер">
-      {/* Background image — fill relative to .hero */}
+      {/* Background image — desktop */}
       <Image
         src="/images/hero-bg.jpg"
         alt=""
         fill
         priority
         quality={90}
-        className={styles.bgImage}
+        className={`${styles.bgImage} ${styles.bgDesktop}`}
+      />
+      {/* Background image — mobile */}
+      <Image
+        src="/images/hero-bg-mob.jpg"
+        alt=""
+        fill
+        priority
+        quality={90}
+        className={`${styles.bgImage} ${styles.bgMobile}`}
       />
       {/* Dark gradient overlay */}
       <div className={styles.bgOverlay} aria-hidden="true" />
@@ -21,11 +30,11 @@ export function HeroSection() {
         <div className={styles.sliderArrows} aria-label="Управление слайдером">
           <button className={styles.arrowBtn} aria-label="Предыдущий слайд">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icons/arrow-left.svg" alt="" className={styles.arrowIcon} />
+            <img src="/icons/arrow-left-01-sharp.svg" alt="" className={styles.arrowIcon} />
           </button>
           <button className={styles.arrowBtn} aria-label="Следующий слайд">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icons/arrow-right.svg" alt="" className={styles.arrowIcon} />
+            <img src="/icons/arrow-right-01-sharp.svg" alt="" className={styles.arrowIcon} />
           </button>
         </div>
 
