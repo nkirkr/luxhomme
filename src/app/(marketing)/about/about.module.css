@@ -1,0 +1,452 @@
+.page {
+  background: var(--color-site-bg);
+  min-height: 100vh;
+}
+
+.headerWrap {
+  padding: 20rem 80rem 0;
+}
+
+.content {
+  width: 1280rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40rem;
+  padding: 40rem 0 80rem;
+}
+
+/* ─── Hero banner ─── */
+.banner {
+  position: relative;
+  width: 100%;
+  height: 300rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.bannerBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bannerBg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bannerOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(102, 102, 102, 0) 31%, rgba(0, 0, 0, 0.3) 100%);
+  z-index: 1;
+}
+
+.bannerContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 112rem;
+  color: var(--color-white);
+}
+
+.bannerTitle {
+  display: grid;
+  grid-template-columns: max-content;
+  grid-template-rows: max-content;
+  white-space: nowrap;
+}
+
+.bannerTitleSans {
+  grid-column: 1;
+  grid-row: 1;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 60rem;
+  line-height: 1.2;
+  margin: 0;
+  margin-left: 73rem;
+}
+
+.bannerTitleGogol {
+  grid-column: 1;
+  grid-row: 1;
+  font-family: var(--font-gogol);
+  font-weight: var(--weight-regular);
+  font-size: 106rem;
+  line-height: 0.83;
+  margin: 4rem 0 0;
+}
+
+.bannerDesc {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 24rem;
+  line-height: 1;
+  width: 548rem;
+  margin: 0;
+}
+
+/* ─── Bordered text box ─── */
+.textBox {
+  border: 1px solid var(--color-stroke);
+  padding: 20rem;
+  width: 598rem;
+  text-align: center;
+}
+
+.textBoxText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* ─── Divider ─── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-stroke);
+}
+
+/* ─── Three columns ─── */
+.columns {
+  display: flex;
+  gap: 10rem;
+  width: 100%;
+}
+
+.col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  min-width: 0;
+}
+
+.colHeader {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+}
+
+.colIcon {
+  border: 1px solid var(--color-stroke);
+  border-radius: 6rem;
+  padding: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.colIcon img {
+  width: 30rem;
+  height: 30rem;
+  object-fit: contain;
+}
+
+.colTitleBox {
+  flex: 1;
+  border: 1px solid var(--color-stroke);
+  border-radius: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12rem 15rem;
+  align-self: stretch;
+}
+
+.colTitleText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 24rem;
+  line-height: 1;
+  color: var(--color-text);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.colBody {
+  border: 1px solid var(--color-stroke);
+  border-radius: 6rem;
+  padding: 20rem;
+}
+
+.colBodyText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* Products column — series items */
+.seriesTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 18rem;
+  line-height: 1;
+  color: var(--color-text);
+  margin: 0 0 20rem;
+}
+
+.seriesList {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.seriesItem {
+  display: flex;
+  gap: 20rem;
+  align-items: center;
+}
+
+.seriesBadge {
+  border: 1px solid;
+  border-radius: 4rem;
+  padding: 2rem 8rem;
+  width: 72rem;
+  text-align: center;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.seriesBadgeCook {
+  border-color: var(--color-cook);
+  color: var(--color-cook);
+}
+.seriesBadgeClean {
+  border-color: var(--color-clean);
+  color: var(--color-clean);
+}
+.seriesBadgeCare {
+  border-color: var(--color-care);
+  color: var(--color-care);
+}
+
+.seriesText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.colFooter {
+  border: 1px solid var(--color-stroke);
+  border-radius: 6rem;
+  padding: 10rem;
+  text-align: center;
+}
+
+.colFooterText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-grey);
+  margin: 0;
+}
+
+/* ─── Telegram banner ─── */
+.telegramBanner {
+  position: relative;
+  width: 100%;
+  height: 440rem;
+  border-radius: 6rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 80rem;
+}
+
+.telegramBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.telegramBg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.53;
+}
+
+.telegramGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, white 5.5%, #86adea 67%);
+  z-index: 0;
+}
+
+.telegramBlur {
+  position: absolute;
+  top: -17rem;
+  right: -80rem;
+  width: 844rem;
+  height: 472rem;
+  background: var(--gradient-blue);
+  filter: blur(41rem);
+  z-index: 1;
+}
+
+.telegramPhoto {
+  position: absolute;
+  left: -34rem;
+  top: -19rem;
+  width: 944rem;
+  height: 683rem;
+  z-index: 2;
+  transform: scaleY(-1) rotate(180deg);
+}
+
+.telegramPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.telegramContent {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  color: var(--color-white);
+  width: 534rem;
+}
+
+.telegramHeading {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.8;
+}
+
+.telegramHeadingGogol {
+  font-family: var(--font-gogol);
+  font-weight: var(--weight-regular);
+  font-size: 58rem;
+  margin: 0;
+}
+
+.telegramHeadingSans {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 42rem;
+  line-height: 0.8;
+  margin: 0;
+}
+
+.telegramDesc {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 16rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.telegramDesc strong {
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════════════
+   Mobile
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .headerWrap {
+    padding: 20rem 20rem 0;
+  }
+
+  .content {
+    width: 100%;
+    padding: 20rem 20rem 60rem;
+    gap: 20rem;
+  }
+
+  .banner {
+    height: 200rem;
+  }
+
+  .bannerContent {
+    gap: 20rem;
+    padding: 0 10rem;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .bannerDesc {
+    font-size: 14rem;
+    line-height: 1.4;
+    width: 196rem;
+  }
+
+  .textBox {
+    width: 100%;
+  }
+
+  .columns {
+    flex-direction: column;
+    gap: 20rem;
+  }
+
+  /* Telegram banner */
+  .telegramBanner {
+    height: 440rem;
+    padding: 40rem 10rem;
+    align-items: center;
+  }
+
+  .telegramContent {
+    width: 286rem;
+  }
+
+  .telegramHeadingGogol {
+    font-size: 32rem;
+  }
+
+  .telegramHeadingSans {
+    font-size: 42rem;
+  }
+
+  .telegramDesc {
+    font-size: 14rem;
+  }
+
+  .telegramPhoto {
+    left: auto;
+    right: -100rem;
+    top: 162rem;
+    width: 506rem;
+    height: 365rem;
+  }
+
+  .telegramBlur {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 596rem;
+    height: 213rem;
+  }
+}

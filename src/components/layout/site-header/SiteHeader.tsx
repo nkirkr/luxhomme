@@ -5,7 +5,7 @@ const navLinks = [
   { label: 'Каталог', href: '/products', hasArrow: true },
   { label: 'О нас', href: '/about', hasArrow: false },
   { label: 'Покупателям', href: '/buyers', hasArrow: true },
-  { label: 'Академия', href: '/academy', hasArrow: false },
+  { label: 'Академия', href: '/blog', hasArrow: false },
 ]
 
 interface SiteHeaderProps {
