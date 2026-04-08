@@ -46,7 +46,7 @@ export default function AboutSection() {
           <p className={styles.headingLine}>Ощущение дома рождается</p>
           <span className={styles.headingMixed}>
             <span className={styles.headingMixedNormal}>из</span>{' '}
-            <span className={styles.headingMixedScript}>уюта</span>
+            <span className={styles.headingMixedScript}>&nbsp;уюта</span>
           </span>
           <p className={styles.headingLine}>Уют — с Luxhommè</p>
         </div>

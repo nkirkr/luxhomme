@@ -295,13 +295,26 @@
 
   .cardRow {
     flex-direction: row;
+    flex: unset;
   }
 
   .cardLarge {
     height: 400rem;
   }
 
+  .cardSmall {
+    height: 260rem;
+  }
+
   .cardTop {
     height: 260rem;
+  }
+
+  .colRight {
+    gap: 10rem;
+  }
+
+  .content {
+    gap: 10rem;
   }
 }

@@ -46,10 +46,6 @@ export default function SiteFooter() {
       {/* Bottom row */}
       <div className={styles.bottom}>
         <p className={styles.copy}>Luxhommè | 2026</p>
-        <button className={styles.scrollTop} onClick={scrollToTop} aria-label="Наверх">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/arrow-up.svg" alt="" className={styles.scrollTopIcon} />
-        </button>
       </div>
     </footer>
   )

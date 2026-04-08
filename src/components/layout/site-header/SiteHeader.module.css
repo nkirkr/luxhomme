@@ -1,6 +1,5 @@
 /* ================================================================
-   SiteHeader — overlaid on hero, desktop + mobile
-   Desktop reference: 1440px → nav at top-20rem, width 1280rem
+   SiteHeader — desktop + mobile
    ================================================================ */
 
 .header {
@@ -11,7 +10,6 @@
   z-index: 40;
 }
 
-/* Solid variant: static position, dark text (for inner pages) */
 .solid {
   position: static;
 }
@@ -19,10 +17,6 @@
 .solid .navLabel,
 .solid .cartCount {
   color: var(--color-black);
-}
-
-.solid .iconImage {
-  filter: none;
 }
 
 .inner {
@@ -61,6 +55,8 @@
   align-items: center;
   gap: 4rem;
   text-decoration: none;
+  position: relative;
+  cursor: pointer;
 }
 
 .navLabel {
@@ -110,27 +106,350 @@
   color: var(--color-white);
 }
 
+/* ── Hamburger button (mobile only) ── */
+.hamburger {
+  display: none;
+  width: 40rem;
+  height: 40rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.hamburgerLine {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 23rem;
+  height: 2.5rem;
+  background: var(--color-white);
+  border-radius: 2rem;
+  transition: background 0.2s;
+}
+
+.solid .hamburgerLine {
+  background: var(--color-black);
+}
+
+.hamburgerLine:nth-child(1) {
+  top: 10rem;
+}
+.hamburgerLine:nth-child(2) {
+  top: 19rem;
+}
+.hamburgerLine:nth-child(3) {
+  top: 27rem;
+}
+
 /* ================================================================
-   Mobile  (≤ 768px) — header is hidden; mobile has no nav bar
-   in the hero Figma frame (nav is separate bottom-sheet pattern)
+   Desktop dropdowns
+   ================================================================ */
+
+.dropdownWrap {
+  position: relative;
+}
+
+/* ── Каталог mega-menu (fixed, centered on page) ── */
+.catalogDropdown {
+  position: fixed;
+  top: 44rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 20rem;
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.catalogDropdownOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.catalogMenu {
+  background: var(--color-white);
+  width: 900rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.08);
+  border-radius: 0 0 6rem 6rem;
+}
+
+.catalogColumns {
+  display: flex;
+  height: 310rem;
+}
+
+.catalogCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.catalogColTitle {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 18rem;
+  line-height: 1;
+  color: var(--color-text);
+  padding: 20rem 12rem;
+  border-bottom: 1px solid var(--color-stroke);
+  margin: 0;
+}
+
+.catalogCard {
+  display: flex;
+  gap: 20rem;
+  padding: 12rem;
+  align-items: flex-start;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: background 0.15s;
+}
+
+.catalogCard:hover {
+  background: var(--color-site-bg);
+}
+
+.catalogCardImg {
+  width: 60rem;
+  height: 60rem;
+  border-radius: 6rem;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.catalogCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.catalogCardName {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.catalogCardPrice {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.catalogFooter {
+  padding: 12rem;
+}
+
+.catalogLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10rem;
+  border: 1px solid var(--color-stroke);
+  border-radius: 13rem;
+  padding: 4rem 12rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-black);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.catalogLink:hover {
+  background: var(--color-site-bg);
+}
+
+.catalogLinkArrow {
+  width: 14rem;
+  height: 14rem;
+}
+
+/* ── Покупателям dropdown ── */
+.buyersDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 10rem;
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.dropdownWrap:hover .buyersDropdown,
+.buyersDropdown:hover {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.buyersMenu {
+  background: var(--color-white);
+  border-radius: 6rem;
+  overflow: hidden;
+  box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.08);
+  min-width: 220rem;
+}
+
+.buyersItem {
+  display: block;
+  padding: 10rem 20rem;
+  border-bottom: 1px solid #e1dfda;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-black);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.buyersItem:last-child {
+  border-bottom: none;
+}
+
+.buyersItem:hover {
+  background: var(--color-site-bg);
+}
+
+/* ================================================================
+   Mobile overlay menu
+   ================================================================ */
+
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--color-black);
+  display: flex;
+  flex-direction: column;
+  padding: 140rem 20rem 40rem;
+  gap: 20rem;
+  overflow-y: auto;
+}
+
+.mobileCloseBtn {
+  position: absolute;
+  top: 20rem;
+  right: 20rem;
+  width: 40rem;
+  height: 40rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mobileCloseSvg {
+  width: 24rem;
+  height: 24rem;
+  stroke: var(--color-white);
+}
+
+.mobileNavTop {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.mobileNavLink {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 24rem;
+  line-height: 1;
+  color: var(--color-white);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.mobileExpandable {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.mobileExpandableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.mobileExpandableTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 24rem;
+  line-height: 1;
+  color: var(--color-white);
+  text-transform: uppercase;
+}
+
+.mobileExpandableIcon {
+  width: 24rem;
+  height: 24rem;
+  stroke: var(--color-white);
+  transition: transform 0.3s;
+}
+
+.mobileExpandableIconOpen {
+  transform: rotate(0deg);
+}
+
+.mobileSubItems {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  overflow: hidden;
+}
+
+.mobileSubLink {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 16rem;
+  line-height: 1;
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+/* ================================================================
+   Mobile  (≤ 768px)
    ================================================================ */
 
 @media (max-width: 768px) {
   .inner {
     width: 100%;
-    padding: 20rem 20rem 0;
+    padding: 20rem 10rem 0;
   }
 
   .nav {
     display: none;
   }
 
-  .icons {
-    display: none;
+  .hamburger {
+    display: block;
+    order: -1;
   }
 
   .logo {
-    width: 120rem;
-    height: 15rem;
+    width: 165rem;
+    height: 20.6rem;
   }
 }

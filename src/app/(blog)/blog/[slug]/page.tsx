@@ -89,7 +89,12 @@ function BackButton() {
   return (
     <Link href="/blog" className={styles.backBtn}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/icons/arrow-left.svg" alt="" className={styles.backBtnIcon} aria-hidden="true" />
+      <img
+        src="/icons/arrow-left-black.svg"
+        alt=""
+        className={styles.backBtnIcon}
+        aria-hidden="true"
+      />
       <span className={styles.backBtnLabel}>Назад</span>
     </Link>
   )
