@@ -334,5 +334,6 @@
 
 /* Hide mobile label on desktop */
 .mobileLabel {
-  display: none;
+  display: inline-block;
+  margin-bottom: 10rem;
 }

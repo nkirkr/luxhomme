@@ -143,8 +143,8 @@
 .stepSubColumns {
   display: flex;
   gap: 120rem;
-  padding-left: 60rem;
-  margin-top: 20rem;
+  /* padding-left: 60rem; */
+  margin-top: 40rem;
 }
 
 .stepSubCol {
@@ -172,7 +172,7 @@
   font-size: 12rem;
   line-height: 1.2;
   color: var(--color-grey);
-  margin-top: 12rem;
+  margin-top: 24rem;
 }
 
 .stepSubText {
@@ -188,7 +188,7 @@
 .stepContacts {
   display: flex;
   gap: 80rem;
-  padding-left: 60rem;
+  /* padding-left: 60rem; */
   margin-top: 20rem;
 }
 
@@ -545,6 +545,10 @@
 .reportIcon {
   width: 20rem;
   height: 20rem;
+}
+
+.boldSecondStep {
+  max-width: 582rem;
 }
 
 /* ═══════════════════════════════════════════════════════════

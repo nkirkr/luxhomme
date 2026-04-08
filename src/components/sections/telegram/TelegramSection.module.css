@@ -23,7 +23,6 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, #86adea 0%, rgba(134, 173, 234, 0) 66.84%, white 94.5%);
   pointer-events: none;
 }
 

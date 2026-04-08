@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
-import { fontSans, fontMono } from '@/lib/fonts'
+import { fontSans, fontMono, fontInter, fontGogol } from '@/lib/fonts'
 import { AppProviders } from '@/components/providers/app-providers'
 import { generateAlternateUrls } from '@/lib/seo'
 import '@/styles/globals.css'
@@ -62,7 +62,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}>
+      <body
+        className={`${fontSans.variable} ${fontMono.variable} ${fontInter.variable} ${fontGogol.variable} font-sans antialiased`}
+      >
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

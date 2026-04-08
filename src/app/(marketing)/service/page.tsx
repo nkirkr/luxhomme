@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
 import styles from './service.module.css'
+import clsx from 'clsx'
 
 export const metadata: Metadata = {
   title: 'Сервис и гарантия | Luxhommè',
@@ -45,8 +46,8 @@ export default function ServicePage() {
           <div className={styles.step}>
             <div className={styles.stepNum}>2</div>
             <div className={styles.stepContent}>
-              <p className={styles.stepBoldBlack}>
-                Назовите номер заказа, модель техники и опишите проблему. Наш специалист проведет
+              <p className={clsx(styles.stepBoldBlack, styles.boldSecondStep)}>
+                Назовите номер заказа, модель техники и опишите проблему. Наш специалист проведет
                 первичную диагностику и даст дальнейшие инструкции.
               </p>
               <div className={styles.stepContacts}>
@@ -420,7 +421,7 @@ export default function ServicePage() {
                 <div className={styles.formSelect}>
                   <span />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/icons/arrow-down.svg" alt="" />
+                  <img src="/icons/form-arrow.svg" alt="" />
                 </div>
                 <p className={styles.formSelectHint}>Выберите товар, который хотите вернуть</p>
               </div>
@@ -431,7 +432,7 @@ export default function ServicePage() {
                 <div className={styles.formSelect}>
                   <span />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/icons/arrow-down.svg" alt="" />
+                  <img src="/icons/form-arrow.svg" alt="" />
                 </div>
                 <p className={styles.formSelectHint}>Выберите причину возврата</p>
               </div>

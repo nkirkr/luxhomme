@@ -19,6 +19,18 @@ html {
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================================
+   @font-face declarations — after Tailwind so they aren't
+   stripped by the preflight/base reset
+   ============================================================ */
+@font-face {
+  font-family: 'Gogol';
+  src: url('/fonts/Gogol-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================================
    Luxhommè Design Tokens (from Figma)
    ============================================================ */
 
@@ -47,6 +59,7 @@ html {
 
   /* --- Typography (Figma font styles) --- */
   --font-helvetica: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-inter: 'Inter', sans-serif;
   --font-gogol: 'Gogol', serif;
 
   /* Font sizes */

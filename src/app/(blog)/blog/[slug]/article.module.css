@@ -89,6 +89,7 @@
   text-decoration: none;
   color: var(--color-black);
   transition: opacity 0.2s;
+  width: fit-content;
 }
 
 .backBtn:hover {

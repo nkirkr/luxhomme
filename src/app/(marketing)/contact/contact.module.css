@@ -81,7 +81,8 @@
 
 .infoRow {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  gap: 30rem;
 }
 
 .infoLabel {
@@ -134,7 +135,7 @@
 .socialCard {
   display: flex;
   align-items: center;
-  gap: 87rem;
+  gap: 75rem;
 }
 
 .socialLabel {
@@ -206,6 +207,7 @@
   /* Mobile: stack label + value vertically */
   .infoRow {
     flex-direction: column;
+    align-items: flex-start;
     gap: 12rem;
   }
 

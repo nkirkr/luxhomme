@@ -46,7 +46,7 @@ export default function AboutSection() {
           <p className={styles.headingLine}>Ощущение дома рождается</p>
           <span className={styles.headingMixed}>
             <span className={styles.headingMixedNormal}>из</span>{' '}
-            <span className={styles.headingMixedScript}>уюта</span>
+            <span className={styles.headingMixedScript}>&nbsp;уюта</span>
           </span>
           <p className={styles.headingLine}>Уют — с Luxhommè</p>
         </div>
@@ -57,7 +57,7 @@ export default function AboutSection() {
         {/* Logo + description */}
         <div className={styles.description}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/logo-group.svg" alt="Luxhommè" className={styles.logoGroup} />
+          <img src="/icons/logo-group-black.svg" alt="Luxhommè" className={styles.logoGroup} />
           <p className={styles.descText}>
             Luxhommè — бытовая техника для тех, кто ценит жизнь и комфорт.
           </p>

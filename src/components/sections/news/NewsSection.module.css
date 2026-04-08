@@ -173,6 +173,7 @@
   line-height: 1.4;
   color: var(--color-white);
   white-space: nowrap;
+  width: fit-content;
 }
 
 .cardFooter {
@@ -294,13 +295,26 @@
 
   .cardRow {
     flex-direction: row;
+    flex: unset;
   }
 
   .cardLarge {
     height: 400rem;
   }
 
+  .cardSmall {
+    height: 260rem;
+  }
+
   .cardTop {
     height: 260rem;
+  }
+
+  .colRight {
+    gap: 10rem;
+  }
+
+  .content {
+    gap: 10rem;
   }
 }

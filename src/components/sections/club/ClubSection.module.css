@@ -111,8 +111,13 @@
   .section {
     border-radius: 20rem;
     height: auto;
-    padding: 40rem 10rem;
+    padding: 54rem 10rem;
     align-items: flex-start;
+  }
+
+  .badge,
+  .joinBtn {
+    margin: 0 auto;
   }
 
   .content {
