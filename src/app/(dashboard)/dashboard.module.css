@@ -27,12 +27,11 @@
 }
 
 .userName {
-  font-family: var(--font-gogol);
   font-weight: 400;
-  font-size: 34rem;
+  font-size: 24rem;
   line-height: 1;
   color: var(--color-black);
-  margin: 0 0 12rem;
+  margin: 0 0 20rem;
 }
 
 .balance {
@@ -303,7 +302,11 @@
   color: var(--color-black);
   text-align: left;
   padding: 0 0 20rem;
-  border-bottom: 1px solid var(--color-stroke);
+}
+
+.ordersTable th:last-child {
+  text-align: end;
+  padding-right: 35rem;
 }
 
 .ordersTable td {
@@ -313,8 +316,12 @@
   line-height: 1.4;
   color: var(--color-black);
   padding: 20rem 0;
-  border-bottom: 1px solid var(--color-stroke);
+  border-bottom: 1rem solid var(--color-stroke);
   vertical-align: middle;
+}
+
+.ordersTable td:first-child {
+  font-weight: 700;
 }
 
 .ordersTable td:last-child {
@@ -325,7 +332,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8rem 24rem;
+  padding: 14rem 26.5rem;
   border-radius: 100rem;
   background: var(--color-black);
   color: var(--color-white);
@@ -336,6 +343,66 @@
   font-size: 14rem;
   line-height: 1.4;
   text-decoration: none;
+}
+
+.ordersEmpty {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 6rem;
+  padding: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+  align-items: flex-start;
+}
+
+.ordersEmptyTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 48rem;
+  line-height: 1;
+  color: var(--color-black);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.ordersEmptyBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14rem 24rem;
+  border-radius: 100rem;
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 14rem;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.orderModalField {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.orderModalFieldLabel {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-text, #2a2a2a);
+  margin: 0;
+}
+
+.orderModalFieldValue {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text, #2a2a2a);
+  margin: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -350,7 +417,6 @@
 }
 
 .dataTitle {
-  font-family: var(--font-gogol);
   font-weight: 400;
   font-size: 34rem;
   line-height: 1;
@@ -421,13 +487,11 @@
    ═══════════════════════════════════════════════════════════ */
 
 .reviewsTitle {
-  font-family: var(--font-gogol);
   font-weight: 400;
   font-size: 34rem;
   line-height: 1;
   color: var(--color-black);
-  margin: 0 0 30rem;
-  text-transform: uppercase;
+  margin: 0 0 20rem;
 }
 
 .reviewsList {
@@ -439,14 +503,13 @@
 .reviewItem {
   background: var(--color-dies);
   border-radius: 6rem;
-  padding: 20rem;
+  padding: 15rem;
 }
 
 .reviewItemTop {
   display: flex;
   align-items: center;
   gap: 20rem;
-  margin-bottom: 16rem;
 }
 
 .reviewStars {
@@ -459,19 +522,25 @@
 }
 
 .reviewEditLink {
+  cursor: pointer;
   font-family: var(--font-helvetica);
   font-weight: 700;
   font-size: 14rem;
-  line-height: 1.2;
+  line-height: 1;
   color: var(--color-black);
   text-decoration: none;
+  transition: 0.2s ease-in-out;
+}
+
+.reviewEditLink:hover {
+  opacity: 0.6;
 }
 
 .reviewDate {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
-  font-size: 14rem;
-  line-height: 1.4;
+  font-size: 18rem;
+  line-height: 1;
   color: var(--color-text);
   margin-left: auto;
 }
@@ -497,7 +566,7 @@
   font-size: 14rem;
   line-height: 1.4;
   color: var(--color-text);
-  margin: 0 0 16rem;
+  margin: 34rem 0 20rem;
 }
 
 .reviewPhoto {
@@ -508,10 +577,241 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
+   Review Edit Modal
+   ═══════════════════════════════════════════════════════════ */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: var(--color-stroke-bg, #e1dfda);
+  width: 560rem;
+  display: flex;
+  flex-direction: column;
+  padding: 16rem;
+  position: relative;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rem;
+}
+
+.modalHeaderOrder {
+  margin-bottom: 40rem;
+}
+
+.modalTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 24rem;
+  line-height: 1;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.modalCloseBtn {
+  width: 30rem;
+  height: 30rem;
+  border-radius: 100rem;
+  background: var(--color-black);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modalCloseSvg {
+  width: 14rem;
+  height: 14rem;
+  stroke: var(--color-white);
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 19rem;
+  margin-bottom: 20rem;
+}
+
+.modalBodyOrder {
+  margin-bottom: 0;
+}
+
+.modalUploadBtn {
+  display: flex;
+  align-items: center;
+  gap: 10rem;
+  background: var(--color-black);
+  border: none;
+  border-radius: 6rem;
+  padding: 10rem 22rem;
+  height: 40rem;
+  cursor: pointer;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.modalUploadIcon {
+  width: 14rem;
+  height: 14rem;
+}
+
+.modalPhotoWrap {
+  position: relative;
+  width: 150rem;
+  height: 150rem;
+  border-radius: 6rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.modalPhotoWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modalPhotoDeleteBtn {
+  position: absolute;
+  top: 4.5rem;
+  right: 5rem;
+  width: 29rem;
+  height: 32rem;
+  background: var(--color-black);
+  border: none;
+  border-radius: 6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalPhotoDeleteIcon {
+  width: 14rem !important;
+  height: 14rem !important;
+  stroke: var(--color-white);
+}
+
+.modalRatingSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.modalRatingLabel {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.modalStars {
+  display: flex;
+  gap: 0;
+}
+
+.modalStarBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 30rem;
+  height: 30rem;
+}
+
+.modalStarBtn img {
+  width: 30rem;
+  height: 30rem;
+  display: block;
+}
+
+.modalCommentBox {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 12rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.modalCommentLabel {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.modalCommentInput {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  resize: none;
+  min-height: 60rem;
+}
+
+.modalCommentInput::placeholder {
+  color: var(--color-grey);
+}
+
+.modalSaveBtn {
+  width: 100%;
+  height: 40rem;
+  background: var(--color-cook);
+  border: 1px solid var(--color-cook);
+  border-radius: 6rem;
+  cursor: pointer;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  text-align: center;
+  transition: opacity 0.2s;
+}
+
+.modalSaveBtn:hover {
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════════════════
    Mobile
    ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
+  .dataFieldLabel {
+    line-height: normal;
+    margin-bottom: 12rem;
+    font-size: 16rem;
+  }
+  .dataFieldValue {
+    font-size: 18rem;
+  }
   .headerWrap {
     padding: 20rem 20rem 0;
   }
@@ -525,6 +825,10 @@
 
   .sidebar {
     width: 100%;
+  }
+
+  .balance {
+    margin-bottom: 20rem;
   }
 
   .userName {
@@ -558,8 +862,8 @@
   }
 
   .mobileSelect img {
-    width: 12rem;
-    height: 12rem;
+    width: 16rem;
+    height: 16rem;
   }
 
   /* Loyalty */
@@ -595,6 +899,11 @@
     display: none;
   }
 
+  .ordersEmptyTitle {
+    font-size: 28rem;
+    white-space: normal;
+  }
+
   /* Data */
   .dataFields {
     grid-template-columns: 1fr;
@@ -603,6 +912,7 @@
   .dataHeader {
     flex-direction: row;
     gap: 12rem;
+    margin-bottom: 20rem;
   }
 
   .dataTitle {
@@ -612,9 +922,28 @@
   /* Reviews */
   .reviewItemTop {
     flex-wrap: wrap;
+    justify-content: space-between;
   }
 
+  .reviewItem {
+    padding: 20rem;
+  }
+  .reviewBody {
+    border-bottom: 1rem solid var(--color-stroke);
+    border-top: 1rem solid var(--color-stroke);
+    padding: 20rem 0;
+  }
   .reviewDate {
     margin-left: 0;
+    order: -3;
+  }
+  .reviewOzon {
+    order: -2;
+  }
+
+  .modal {
+    width: calc(100vw - 40rem);
+    max-height: 90vh;
+    overflow-y: auto;
   }
 }

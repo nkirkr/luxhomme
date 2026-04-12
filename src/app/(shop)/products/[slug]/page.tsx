@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
 import { ProductCard, type Product } from '@/components/sections/series-catalog/SeriesCatalog'
+import { AddToCartButton } from './AddToCartButton'
 import styles from './product.module.css'
 
 /* ─── Mock data ─── */
@@ -241,7 +242,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
             <div className={styles.actions}>
               <button className={styles.btnBuy}>Купить в 1 клик</button>
-              <button className={styles.btnCart}>В корзину</button>
+              <AddToCartButton
+                id={PRODUCT.slug}
+                name={PRODUCT.name}
+                price={parseFloat(PRODUCT.priceNew.replace(/[^\d,]/g, '').replace(',', '.'))}
+                priceFormatted={PRODUCT.priceNew}
+                image="/images/product-card.png"
+                href={`/products/${PRODUCT.slug}`}
+              />
             </div>
 
             <div className={styles.divider} />

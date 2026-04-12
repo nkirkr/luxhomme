@@ -125,12 +125,41 @@
   border-color: var(--color-stroke);
   color: var(--color-stroke);
   padding: 4rem 12rem;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Per-series hover colors */
+.btnTag.inactive.series_clean.btnTagHovered {
+  background-color: var(--color-clean);
+  border-color: var(--color-clean);
+  color: var(--color-white);
+}
+
+.btnTag.inactive.series_care.btnTagHovered {
+  background-color: var(--color-care);
+  border-color: var(--color-care);
+  color: var(--color-white);
+}
+
+.btnTag.inactive.series_kitchen.btnTagHovered {
+  background-color: var(--color-cook);
+  border-color: var(--color-cook);
+  color: var(--color-white);
 }
 
 .btnTagIcon {
   width: 14rem;
   height: 14rem;
   flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.btnTagIcon.btnTagIconVisible {
+  opacity: 1;
 }
 
 .btnHint {
@@ -202,6 +231,23 @@
   border-color: var(--color-white);
   color: var(--color-white);
   padding: 4rem 12rem;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.bannerBtn.outline.series_clean.bannerBtnHovered {
+  background-color: var(--color-clean);
+  border-color: var(--color-clean);
+}
+
+.bannerBtn.outline.series_care.bannerBtnHovered {
+  background-color: var(--color-care);
+  border-color: var(--color-care);
+}
+
+.bannerBtn.fill.series_kitchen.bannerBtnHovered {
+  opacity: 0.85;
 }
 
 /* ── Catalog grid ── */

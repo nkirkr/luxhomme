@@ -53,9 +53,9 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
           {/* Mobile dropdown */}
           <button className={styles.mobileSelect}>
-            {TAB_LABELS[pathname] || 'Программа лояльности'}
+            <p>{TAB_LABELS[pathname] || 'Программа лояльности'}</p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icons/arrow-down.svg" alt="" />
+            <img src="/icons/header-arrow-down-black.svg" alt="" />
           </button>
         </aside>
 

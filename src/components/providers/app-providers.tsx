@@ -8,6 +8,8 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { Toaster } from '@/components/ui/sonner'
 import { CookieConsent } from '@/components/cookie-consent'
 import { WebVitalsReporter } from '@/components/web-vitals-reporter'
+import { CartProvider } from '@/lib/cart/CartContext'
+import { AddToCartModal } from '@/components/cart/AddToCartModal'
 
 interface AppProvidersProps {
   children: ReactNode
@@ -17,7 +19,10 @@ export function AppProviders({ children }: AppProvidersProps) {
   return (
     <ThemeProvider>
       <TooltipProvider>
-        {children}
+        <CartProvider>
+          {children}
+          <AddToCartModal />
+        </CartProvider>
         <Toaster />
         <CookieConsent />
         <AnalyticsProvider />

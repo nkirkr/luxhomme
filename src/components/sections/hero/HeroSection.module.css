@@ -10,7 +10,25 @@
   overflow: hidden;
 }
 
-/* next/image fill sits directly inside .hero (position:relative) */
+/* ── Swiper fills the entire hero ── */
+.swiperWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiperSlide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* next/image fill sits inside .swiperSlide (position:relative) */
 .bgImage {
   object-fit: cover;
   object-position: center;
@@ -29,6 +47,7 @@
   inset: 0;
   z-index: 1;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 56.581%, rgba(0, 0, 0, 0.35) 89.231%);
+  pointer-events: none;
 }
 
 /* ── Inner container: 1280rem wide, centred, full height ── */
@@ -134,13 +153,30 @@
   color: var(--color-white);
 }
 
-/* ── Slider dots ── */
-.sliderDots {
-  display: block;
-  width: 134rem;
+/* ── Custom dots row ── */
+.dotsRow {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+}
+
+.dot {
+  width: 8rem;
   height: 8rem;
-  object-fit: contain;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    transform 0.3s;
   flex-shrink: 0;
+}
+
+.dotActive {
+  background: #fff;
+  transform: scale(1.4);
 }
 
 /* ================================================================
@@ -216,7 +252,7 @@
     font-size: 52rem;
   }
 
-  .sliderDots {
+  .dotsRow {
     align-self: center;
   }
 }
