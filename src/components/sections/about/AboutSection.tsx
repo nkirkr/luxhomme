@@ -11,6 +11,7 @@ export default function AboutSection() {
           src="/images/about-photo.jpg"
           alt="Продукт Luxhommè"
           fill
+          sizes="(max-width: 768px) 100vw, 50vw"
           className={styles.photoImage}
         />
       </div>

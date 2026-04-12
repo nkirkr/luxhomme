@@ -72,6 +72,11 @@
   width: 12rem;
   height: 12rem;
   flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.navItem:hover .navArrow {
+  transform: rotate(180deg);
 }
 
 /* ── Icons (profile + basket) ── */

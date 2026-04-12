@@ -43,14 +43,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8rem;
-  height: 36rem;
-  padding: 8rem 12rem;
+  padding: 9rem 12rem;
   background: var(--color-white);
   border-radius: 40rem;
   text-decoration: none;
   flex-shrink: 0;
   transition: opacity 0.2s;
+}
+
+.logoBtn:nth-of-type(1) img {
+  width: 66rem;
+  height: 18rem;
 }
 
 .logoBtn:hover {
@@ -61,7 +64,7 @@
   display: block;
   height: 18rem;
   width: auto;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .logoImgTg {

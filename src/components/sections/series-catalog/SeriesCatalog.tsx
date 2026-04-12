@@ -1,7 +1,14 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
+import { useCart } from '@/lib/cart/CartContext'
 import styles from './SeriesCatalog.module.css'
 
+type SeriesKey = 'kitchen' | 'clean' | 'care'
+
 type SeriesCategory = {
+  key: SeriesKey
   label: string
   hint: string
   active?: boolean
@@ -20,16 +27,17 @@ export type Product = {
 
 const SERIES: SeriesCategory[] = [
   {
+    key: 'kitchen',
     label: 'Кухня',
     hint: 'Простые\nи здоровые блюда\nдля вашей семьи',
     active: true,
     href: '/products?series=kitchen',
   },
-  { label: 'Чистота', hint: 'Лёгкая уборка', href: '/products?series=clean' },
-  { label: 'Забота', hint: 'Забота о себе', href: '/products?series=care' },
+  { key: 'clean', label: 'Чистота', hint: 'Лёгкая уборка', href: '/products?series=clean' },
+  { key: 'care', label: 'Забота', hint: 'Забота о себе', href: '/products?series=care' },
 ]
 
-const PRODUCTS: Product[] = [
+export const PRODUCTS: Product[] = [
   {
     id: '1',
     category: 'Чистота',
@@ -87,6 +95,19 @@ const PRODUCTS: Product[] = [
 ]
 
 export function ProductCard({ product }: { product: Product }) {
+  const { addItem } = useCart()
+
+  function handleAddToCart() {
+    addItem({
+      id: product.id,
+      name: product.name.replace('\n', ' '),
+      price: parseFloat(product.priceNew.replace(/[^\d,]/g, '').replace(',', '.')),
+      priceFormatted: product.priceNew,
+      image: product.image,
+      href: product.href,
+    })
+  }
+
   return (
     <div className={styles.card}>
       {/* Badges */}
@@ -124,9 +145,9 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       {/* Add to cart */}
-      <Link href={product.href} className={styles.cardCartBtn}>
+      <button onClick={handleAddToCart} className={styles.cardCartBtn}>
         В корзину
-      </Link>
+      </button>
     </div>
   )
 }
@@ -134,6 +155,7 @@ export function ProductCard({ product }: { product: Product }) {
 /** «Исследуйте наши серии» + баннер + сетка товаров */
 export function SeriesCatalog() {
   const rows = [PRODUCTS.slice(0, 3), PRODUCTS.slice(3, 6)]
+  const [hoveredKey, setHoveredKey] = useState<SeriesKey | null>(null)
 
   return (
     <section className={styles.section} aria-label="Наши серии и каталог">
@@ -150,32 +172,38 @@ export function SeriesCatalog() {
           </div>
 
           <div className={styles.seriesButtons}>
-            {SERIES.map((s) => (
-              <div key={s.label} className={styles.seriesBtnGroup}>
-                <Link
-                  href={s.href}
-                  className={`${styles.btnTag} ${s.active ? styles.active : styles.inactive}`}
+            {SERIES.map((s) => {
+              const isHovered = hoveredKey === s.key
+              return (
+                <div
+                  key={s.label}
+                  className={styles.seriesBtnGroup}
+                  onMouseEnter={() => setHoveredKey(s.key)}
+                  onMouseLeave={() => setHoveredKey(null)}
                 >
-                  {s.label}
-                  {s.active && (
-                    // eslint-disable-next-line @next/next/no-img-element
+                  <Link
+                    href={s.href}
+                    className={`${styles.btnTag} ${s.active ? styles.active : styles.inactive} ${styles[`series_${s.key}`]} ${isHovered ? styles.btnTagHovered : ''}`}
+                  >
+                    {s.label}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/icons/arrow-up-right-white.svg"
                       alt=""
-                      className={styles.btnTagIcon}
+                      className={`${styles.btnTagIcon} ${s.active || isHovered ? styles.btnTagIconVisible : ''}`}
                     />
-                  )}
-                </Link>
-                <p className={styles.btnHint}>
-                  {s.hint.split('\n').map((line, i) => (
-                    <span key={i}>
-                      {line}
-                      {i < s.hint.split('\n').length - 1 && <br />}
-                    </span>
-                  ))}
-                </p>
-              </div>
-            ))}
+                  </Link>
+                  <p className={styles.btnHint}>
+                    {s.hint.split('\n').map((line, i) => (
+                      <span key={i}>
+                        {line}
+                        {i < s.hint.split('\n').length - 1 && <br />}
+                      </span>
+                    ))}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         </div>
 
@@ -188,15 +216,20 @@ export function SeriesCatalog() {
             className={styles.bannerImage}
           />
           <div className={styles.bannerButtons}>
-            <Link href="/products?series=kitchen" className={`${styles.bannerBtn} ${styles.fill}`}>
-              Кухня
-            </Link>
-            <Link href="/products?series=clean" className={`${styles.bannerBtn} ${styles.outline}`}>
-              Чистота
-            </Link>
-            <Link href="/products?series=care" className={`${styles.bannerBtn} ${styles.outline}`}>
-              Забота
-            </Link>
+            {SERIES.map((s) => {
+              const isHovered = hoveredKey === s.key
+              return (
+                <Link
+                  key={s.key}
+                  href={s.href}
+                  className={`${styles.bannerBtn} ${s.active ? styles.fill : styles.outline} ${styles[`series_${s.key}`]} ${isHovered ? styles.bannerBtnHovered : ''}`}
+                  onMouseEnter={() => setHoveredKey(s.key)}
+                  onMouseLeave={() => setHoveredKey(null)}
+                >
+                  {s.label}
+                </Link>
+              )
+            })}
           </div>
         </div>
       </div>
