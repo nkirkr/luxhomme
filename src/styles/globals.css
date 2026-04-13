@@ -231,3 +231,14 @@ html {
       'calt' 1;
   }
 }
+
+/* ── Sticky footer helper ── */
+.siteLayout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.siteLayout > main {
+  flex: 1;
+}

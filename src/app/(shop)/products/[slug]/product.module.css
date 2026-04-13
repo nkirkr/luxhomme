@@ -31,11 +31,16 @@
   flex-shrink: 0;
 }
 
-.thumbs {
-  display: flex;
-  flex-direction: column;
-  gap: 5rem;
-  width: 64rem;
+/* Thumbs swiper (vertical column) */
+.thumbsSwiper {
+  width: 64rem !important;
+  height: 662rem !important;
+  flex-shrink: 0;
+}
+
+.thumbSlide {
+  height: 86rem !important;
+  width: 64rem !important;
 }
 
 .thumb {
@@ -46,9 +51,11 @@
   cursor: pointer;
   border: 1px solid transparent;
   opacity: 0.3;
+  transition: opacity 0.2s;
 }
 
-.thumb.active {
+/* Swiper sets swiper-slide-thumb-active on active thumb */
+:global(.swiper-slide-thumb-active) .thumb {
   opacity: 1;
   border-color: var(--color-black);
 }
@@ -57,6 +64,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Main swiper */
+.mainSwiper {
+  width: 555rem !important;
+  height: 662rem !important;
+  border-radius: 6rem;
+  overflow: hidden;
 }
 
 .mainImage {
@@ -215,6 +230,22 @@
   font-size: 16rem;
   line-height: 1.04;
   color: var(--color-black);
+  display: block;
+  position: relative;
+}
+
+.splitLine::after {
+  background-image: url('/icons/split-arrow.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -10rem;
+  width: 20rem;
+  height: 20rem;
 }
 
 .splitSub {
@@ -357,39 +388,41 @@
   background: var(--color-stroke);
 }
 
+/* ─── Tabs nav ─── */
+.descTabs {
+  display: flex;
+  gap: 28rem;
+  justify-content: center;
+  margin-bottom: 40rem;
+}
+
 /* ─── Description section ─── */
 .descSection {
   margin-bottom: 80rem;
 }
 
-.descTabs {
-  display: flex;
-  gap: 40rem;
-  justify-content: center;
-  margin-bottom: 40rem;
-}
-
 .descTab {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
-  font-size: 14rem;
-  line-height: 1.4;
-  color: var(--color-text);
-  padding: 4rem 12rem;
-  border: 1px solid var(--color-stroke);
-  border-radius: 13rem;
+  font-size: 12rem;
+  line-height: 120%;
+  color: var(--color-stroke);
+  padding: 5rem 12rem;
+  border-radius: 5rem;
   background: transparent;
   cursor: pointer;
   text-decoration: none;
+  font-weight: 400;
 }
 
 .descTab.activeTab {
-  border-color: var(--color-cook);
-  color: var(--color-cook);
+  color: var(--color-black);
+  background: var(--color-dies);
 }
 
 .descBody {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 60rem;
 }
@@ -481,6 +514,7 @@
 
 .accessoriesGrid {
   display: flex;
+  justify-content: center;
   gap: 12rem;
   overflow-x: auto;
 }
@@ -561,7 +595,7 @@
 
 .reviewsHeader {
   display: flex;
-  gap: 80rem;
+  justify-content: space-between;
   margin-bottom: 40rem;
 }
 
@@ -759,13 +793,29 @@
   gap: 40rem;
 }
 
+/* ─── Video section ─── */
+.videoSection {
+  margin-bottom: 80rem;
+}
+
+.videoPlaceholder {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  color: var(--color-text);
+}
+
 /* ═══════════════════════════════════════════════════════════
    Mobile
    ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
+  .sectionHeading {
+    margin-bottom: 20rem;
+  }
+
   .headerWrap {
-    padding: 20rem 20rem 0;
+    padding: 0rem 20rem 0;
   }
 
   .content {
@@ -776,32 +826,54 @@
   /* Hero */
   .hero {
     flex-direction: column;
-    gap: 20rem;
-    margin-bottom: 40rem;
+    gap: 40rem;
+    margin-bottom: 80rem;
   }
 
   .gallery {
     width: 100%;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 20rem;
+  }
+
+  .mainSwiper {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 555 / 644;
   }
 
   .mainImage {
     width: 100%;
-    height: auto;
-    aspect-ratio: 555 / 644;
+    height: 100%;
   }
 
-  .thumbs {
-    flex-direction: row;
-    width: auto;
+  .thumbsSwiper {
+    width: 100% !important;
+    height: 80rem !important;
     padding: 0 20rem;
-    overflow-x: auto;
+  }
+
+  .thumbSlide {
+    height: 80rem !important;
+    width: 80rem !important;
   }
 
   .thumb {
     width: 80rem;
     height: 80rem;
+  }
+
+  .deliveryTitle {
+    margin-top: 4rem;
+  }
+
+  .thumb {
+    width: 80rem;
+    height: 80rem;
+  }
+
+  .ratingRow {
+    margin-bottom: 20rem;
   }
 
   .info {
@@ -811,23 +883,36 @@
   .productTitle {
     font-size: 34rem;
     margin-bottom: 20rem;
+    order: -6;
   }
 
   /* Price */
   .priceBlock {
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 10rem;
+    order: -5;
+    margin-top: 0;
+  }
+
+  .instructionDownload {
+    margin-left: auto;
   }
 
   .actions {
     flex-direction: column;
     gap: 12rem;
+    order: -4;
+    margin-bottom: 30rem;
+  }
+
+  .divider {
+    display: none;
   }
 
   .btnBuy,
   .btnCart {
     height: 40rem;
+    padding: 10rem 0;
   }
 
   /* Section titles */
@@ -881,7 +966,7 @@
   /* Accessories */
   .accessoriesSection {
     padding: 0 20rem;
-    margin-bottom: 40rem;
+    margin-bottom: 80rem;
   }
 
   .accessoriesGrid {
@@ -896,7 +981,7 @@
   /* Instruction */
   .instructionSection {
     padding: 0 20rem;
-    margin-bottom: 40rem;
+    margin-bottom: 80rem;
   }
 
   .instructionBtn {
@@ -906,7 +991,7 @@
   /* Reviews */
   .reviewsSection {
     padding: 0 20rem;
-    margin-bottom: 40rem;
+    margin-bottom: 80rem;
   }
 
   .reviewsHeader {
@@ -925,11 +1010,15 @@
   /* Related */
   .relatedSection {
     padding: 0 20rem;
-    margin-bottom: 40rem;
+    margin-bottom: 80rem;
   }
 
   .relatedGrid {
     flex-wrap: wrap;
     gap: 10rem;
+  }
+
+  .deliveryRow:nth-of-type(1) {
+    border-bottom: 1rem solid var(--color-stroke);
   }
 }

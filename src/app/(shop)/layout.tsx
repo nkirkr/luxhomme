@@ -6,9 +6,9 @@ export default function ShopLayout({ children }: { children: ReactNode }) {
   if (process.env.NEXT_PUBLIC_FEATURE_SHOP !== 'true') notFound()
 
   return (
-    <>
+    <div className="siteLayout">
       <main>{children}</main>
       <SiteFooter />
-    </>
+    </div>
   )
 }

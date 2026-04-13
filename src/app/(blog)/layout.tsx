@@ -6,9 +6,9 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
   if (process.env.NEXT_PUBLIC_FEATURE_BLOG !== 'true') notFound()
 
   return (
-    <>
+    <div className="siteLayout">
       <main>{children}</main>
       <SiteFooter />
-    </>
+    </div>
   )
 }

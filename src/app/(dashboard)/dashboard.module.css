@@ -4,7 +4,7 @@
 
 .page {
   background: var(--color-site-bg);
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 .headerWrap {
@@ -13,7 +13,6 @@
 
 .body {
   display: flex;
-  gap: 80rem;
   width: 1280rem;
   margin: 0 auto;
   padding-top: 60rem;
@@ -22,12 +21,13 @@
 
 /* ─── Sidebar (desktop) ─── */
 .sidebar {
-  width: 200rem;
+  width: 210rem;
   flex-shrink: 0;
 }
 
 .userName {
-  font-weight: 400;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
   font-size: 24rem;
   line-height: 1;
   color: var(--color-black);
@@ -40,11 +40,15 @@
   font-size: 14rem;
   line-height: 1.4;
   color: var(--color-black);
-  margin: 0 0 30rem;
+  margin: 0 0 40rem;
+  display: flex;
+  gap: 12rem;
+  align-items: center;
 }
 
 .balance strong {
-  font-weight: 700;
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
 }
 
 .nav {
@@ -58,22 +62,25 @@
   font-weight: var(--weight-light);
   font-size: 14rem;
   line-height: 1.4;
-  color: var(--color-grey);
+  color: var(--color-black);
+  opacity: 0.4;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: opacity 0.2s;
 }
 
-.navLink:hover,
+.navLink:hover {
+  opacity: 0.7;
+}
+
 .navLink.active {
-  color: var(--color-black);
-  font-weight: 400;
+  opacity: 1;
 }
 
 .logoutLink {
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-light);
+  font-weight: var(--weight-bold);
   font-size: 14rem;
-  line-height: 1.4;
+  line-height: 1.2;
   color: var(--color-cook);
   text-decoration: none;
   margin-top: 20rem;
@@ -93,6 +100,8 @@
 .content {
   flex: 1;
   min-width: 0;
+  max-width: 702rem;
+  margin-left: auto;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -100,17 +109,30 @@
    ═══════════════════════════════════════════════════════════ */
 
 .loyaltyHeader {
-  text-align: center;
-  margin-bottom: 20rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.loyaltyTopBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  align-items: flex-end;
+  width: 140rem;
+  margin-bottom: 27rem;
 }
 
 .loyaltyLabel {
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-light);
-  font-size: 14rem;
-  line-height: 1.4;
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1.2;
   color: var(--color-grey);
-  margin: 0 0 8rem;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  text-align: start;
+  margin-bottom: 12rem;
 }
 
 .loyaltyBrand {
@@ -118,51 +140,65 @@
   align-items: center;
   justify-content: center;
   gap: 6rem;
-  margin-bottom: 12rem;
+  width: fit-content;
+  border: 1rem solid var(--color-stroke);
+  border-radius: 100rem;
+  padding: 3rem 16rem;
+  height: 16rem;
 }
 
 .loyaltyBrand img {
-  height: 14rem;
+  height: 9rem;
   width: auto;
 }
 
 .loyaltyBrandText {
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-light);
-  font-size: 14rem;
+  font-weight: var(--weight-regular);
+  font-size: 8rem;
+  line-height: 1.2;
   color: var(--color-black);
+  white-space: nowrap;
 }
 
 .levelLabel {
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-light);
-  font-size: 14rem;
-  color: var(--color-grey);
-  margin: 0 0 4rem;
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-black);
+  margin: 0;
+  text-align: center;
 }
 
 .levelRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8rem;
+}
+
+.levelCenter {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  align-items: center;
 }
 
 .levelName {
-  font-family: var(--font-gogol);
-  font-weight: 400;
-  font-size: 48rem;
-  line-height: 1;
-  color: var(--color-stroke);
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 42rem;
+  line-height: 1.2;
+  color: var(--color-grey);
   margin: 0;
 }
 
 .levelNameNext {
-  font-family: var(--font-gogol);
-  font-weight: 400;
-  font-size: 34rem;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 24rem;
   line-height: 1;
-  color: var(--color-stroke);
+  color: var(--color-grey);
   margin: 0;
 }
 
@@ -170,7 +206,8 @@
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
   font-size: 14rem;
-  color: var(--color-grey);
+  line-height: 1.4;
+  color: var(--color-black);
   margin: 0 0 12rem;
   text-align: center;
 }
@@ -181,17 +218,28 @@
   align-items: center;
   gap: 12rem;
   margin-bottom: 20rem;
-}
-
-.progressTrack {
-  flex: 1;
-  height: 4rem;
-  background: var(--color-stroke);
-  border-radius: 2rem;
   position: relative;
 }
 
-.progressDot {
+.progressTrackBg {
+  position: absolute;
+  left: 0;
+  right: 52rem;
+  height: 2rem;
+  background: #d9d9d9;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.progressTrack {
+  width: 483rem;
+  height: 2rem;
+  background: var(--color-text);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.progressDotStart {
   position: absolute;
   left: 0;
   top: 50%;
@@ -202,9 +250,24 @@
   background: var(--color-black);
 }
 
+.progressDotEnd {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%);
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  background: #d9d9d9;
+}
+
+.progressSpacer {
+  flex: 1;
+}
+
 .progressArrow {
-  width: 40rem;
-  height: 40rem;
+  width: 52rem;
+  height: 52rem;
   border-radius: 50%;
   background: var(--color-cook);
   display: flex;
@@ -216,70 +279,81 @@
 }
 
 .progressArrow img {
-  width: 20rem;
-  height: 20rem;
+  width: 32rem;
+  height: 32rem;
   filter: brightness(0) invert(1);
 }
 
 /* Badges */
 .badges {
   display: flex;
-  gap: 10rem;
-  justify-content: center;
-  margin-bottom: 20rem;
+  gap: 12rem;
+  justify-content: flex-start;
 }
 
 .badge {
   padding: 4rem 12rem;
-  border: 1px solid var(--color-stroke);
-  border-radius: 100rem;
+  border: none;
+  border-radius: 20rem;
+  height: 24rem;
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-light);
-  font-size: 14rem;
-  line-height: 1.4;
-  color: var(--color-text);
-  background: transparent;
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-black);
+  background: var(--color-dies);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Bonus label */
 .bonusLabel {
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-light);
-  font-size: 14rem;
-  color: var(--color-cook);
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-grey);
   text-align: center;
-  margin: 0 0 20rem;
 }
 
 /* Level images */
 .levelImages {
   display: flex;
-  justify-content: center;
-  gap: 80rem;
-  margin-bottom: 20rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.levelImageCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rem;
 }
 
 .levelImage {
-  width: 200rem;
-  height: 200rem;
-  border-radius: 50%;
+  width: 150rem;
+  height: 150rem;
+  border-radius: 102rem;
   object-fit: cover;
 }
 
 /* Current progress */
 .progressLabel {
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-light);
-  font-size: 14rem;
-  color: var(--color-grey);
+  font-weight: var(--weight-regular);
+  font-size: 12rem;
+  line-height: 1.2;
+  color: var(--color-text);
   text-align: center;
-  margin: 0 0 4rem;
+  margin: 0 0 12rem;
 }
 
 .progressValue {
   font-family: var(--font-helvetica);
-  font-weight: 700;
-  font-size: 18rem;
+  font-weight: var(--weight-bold);
+  font-size: 16rem;
+  line-height: 1.04;
   color: var(--color-black);
   text-align: center;
   margin: 0;
@@ -819,8 +893,8 @@
   .body {
     flex-direction: column;
     width: 100%;
-    gap: 30rem;
-    padding: 30rem 20rem 60rem;
+    gap: 40rem;
+    padding: 124rem 20rem 29rem;
   }
 
   .sidebar {
@@ -829,10 +903,16 @@
 
   .balance {
     margin-bottom: 20rem;
+    font-size: 18rem;
   }
 
   .userName {
     font-size: 48rem;
+  }
+
+  .content {
+    max-width: none;
+    margin-left: 0;
   }
 
   .nav {
@@ -867,13 +947,21 @@
   }
 
   /* Loyalty */
+  .loyaltyHeader {
+    align-items: center;
+  }
+
+  .loyaltyTopBlock {
+    align-items: center;
+  }
+
   .levelRow {
     flex-direction: column;
     gap: 10rem;
   }
 
   .levelName {
-    font-size: 40rem;
+    font-size: 36rem;
   }
 
   .levelNameNext {
@@ -881,16 +969,24 @@
   }
 
   .levelImages {
-    gap: 40rem;
+    justify-content: center;
   }
 
   .levelImage {
-    width: 160rem;
-    height: 160rem;
+    width: 150rem;
+    height: 150rem;
+  }
+
+  .levelImageNext {
+    display: none;
   }
 
   .progressBar {
     display: none;
+  }
+
+  .badges {
+    justify-content: center;
   }
 
   /* Orders */

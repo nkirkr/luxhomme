@@ -33,9 +33,10 @@ export function DashboardShell({ children }: { children: ReactNode }) {
         {/* Sidebar */}
         <aside className={styles.sidebar}>
           <h1 className={styles.userName}>Иван Иванов</h1>
-          <p className={styles.balance}>
-            Баланс: <strong>500 бонусов</strong>
-          </p>
+          <div className={styles.balance}>
+            <span>Баланс:</span>
+            <strong>500 бонусов</strong>
+          </div>
 
           <nav className={styles.nav}>
             {NAV_ITEMS.map((item) => (

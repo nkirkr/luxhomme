@@ -11,7 +11,7 @@
 }
 
 .solid {
-  position: static;
+  position: fixed;
 }
 
 .solid .navLabel,
@@ -441,7 +441,11 @@
 @media (max-width: 768px) {
   .inner {
     width: 100%;
-    padding: 20rem 10rem 0;
+    padding: 20rem 20rem 0;
+  }
+
+  .headerWrap {
+    padding-top: 0;
   }
 
   .nav {
