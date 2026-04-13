@@ -390,6 +390,7 @@
 
 .descBody {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 60rem;
 }
@@ -481,6 +482,7 @@
 
 .accessoriesGrid {
   display: flex;
+  justify-content: center;
   gap: 12rem;
   overflow-x: auto;
 }
@@ -561,7 +563,7 @@
 
 .reviewsHeader {
   display: flex;
-  gap: 80rem;
+  justify-content: space-between;
   margin-bottom: 40rem;
 }
 
@@ -764,8 +766,12 @@
    ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
+  .sectionHeading {
+    margin-bottom: 20rem;
+  }
+
   .headerWrap {
-    padding: 20rem 20rem 0;
+    padding: 0rem 20rem 0;
   }
 
   .content {
@@ -776,8 +782,8 @@
   /* Hero */
   .hero {
     flex-direction: column;
-    gap: 20rem;
-    margin-bottom: 40rem;
+    gap: 40rem;
+    margin-bottom: 80rem;
   }
 
   .gallery {
@@ -790,6 +796,7 @@
     width: 100%;
     height: auto;
     aspect-ratio: 555 / 644;
+    order: -1;
   }
 
   .thumbs {
@@ -799,9 +806,17 @@
     overflow-x: auto;
   }
 
+  .deliveryTitle {
+    margin-top: 4rem;
+  }
+
   .thumb {
     width: 80rem;
     height: 80rem;
+  }
+
+  .ratingRow {
+    margin-bottom: 20rem;
   }
 
   .info {
@@ -811,23 +826,36 @@
   .productTitle {
     font-size: 34rem;
     margin-bottom: 20rem;
+    order: -6;
   }
 
   /* Price */
   .priceBlock {
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 10rem;
+    order: -5;
+    margin-top: 0;
+  }
+
+  .instructionDownload {
+    margin-left: auto;
   }
 
   .actions {
     flex-direction: column;
     gap: 12rem;
+    order: -4;
+    margin-bottom: 30rem;
+  }
+
+  .divider {
+    display: none;
   }
 
   .btnBuy,
   .btnCart {
     height: 40rem;
+    padding: 10rem 0;
   }
 
   /* Section titles */
@@ -881,7 +909,7 @@
   /* Accessories */
   .accessoriesSection {
     padding: 0 20rem;
-    margin-bottom: 40rem;
+    margin-bottom: 80rem;
   }
 
   .accessoriesGrid {
@@ -896,7 +924,7 @@
   /* Instruction */
   .instructionSection {
     padding: 0 20rem;
-    margin-bottom: 40rem;
+    margin-bottom: 80rem;
   }
 
   .instructionBtn {
@@ -906,7 +934,7 @@
   /* Reviews */
   .reviewsSection {
     padding: 0 20rem;
-    margin-bottom: 40rem;
+    margin-bottom: 80rem;
   }
 
   .reviewsHeader {
@@ -925,11 +953,15 @@
   /* Related */
   .relatedSection {
     padding: 0 20rem;
-    margin-bottom: 40rem;
+    margin-bottom: 80rem;
   }
 
   .relatedGrid {
     flex-wrap: wrap;
     gap: 10rem;
+  }
+
+  .deliveryRow:nth-of-type(1) {
+    border-bottom: 1rem solid var(--color-stroke);
   }
 }

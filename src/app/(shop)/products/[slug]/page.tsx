@@ -20,6 +20,8 @@ const PRODUCT = {
     '/images/product-hero.jpg',
     '/images/product-hero.jpg',
     '/images/product-hero.jpg',
+    '/images/product-hero.jpg',
+    '/images/product-hero.jpg',
   ],
   shortSpecs: [
     { label: 'Мощность, Вт', value: '1500' },
@@ -258,7 +260,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
             <div className={styles.deliveryRow}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/icons/map-pin.svg" alt="" className={styles.deliveryIcon} />
+              <img src="/icons/delivery-location.svg" alt="" className={styles.deliveryIcon} />
               <div className={styles.deliveryInfo}>
                 <div>
                   <p className={styles.deliveryLabel}>Санкт-Петербург</p>
@@ -334,17 +336,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           <div className={styles.specsBody}>
             <div className={styles.specsDrawings}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/product-drawing-front.svg"
-                alt="Чертёж — вид спереди"
-                className={styles.drawingImage}
-              />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/product-drawing-side.svg"
-                alt="Чертёж — вид сбоку"
-                className={styles.drawingImage}
-              />
+              <img src="/images/specs.png" alt="Чертёж" className={styles.drawingImage} />
+              {}
             </div>
 
             <div className={styles.specsTable}>
