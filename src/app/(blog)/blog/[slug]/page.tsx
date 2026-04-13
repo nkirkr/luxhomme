@@ -158,12 +158,6 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* Related posts */}
         <div className={styles.relatedSection}>
-          <div className={styles.searchBar}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icons/search.svg" alt="" className={styles.searchIcon} aria-hidden="true" />
-            <p className={styles.searchText}>Поиск</p>
-          </div>
-
           <div className={styles.relatedBlock}>
             <h3 className={styles.relatedTitle}>Свежие записи:</h3>
             <div className={styles.relatedCards}>

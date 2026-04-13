@@ -109,7 +109,7 @@ export function ProductCard({ product }: { product: Product }) {
   }
 
   return (
-    <div className={styles.card}>
+    <Link href={product.href} className={styles.card}>
       {/* Badges */}
       <div className={styles.cardWidgets}>
         <div className={styles.cardBadges}>
@@ -148,7 +148,7 @@ export function ProductCard({ product }: { product: Product }) {
       <button onClick={handleAddToCart} className={styles.cardCartBtn}>
         В корзину
       </button>
-    </div>
+    </Link>
   )
 }
 

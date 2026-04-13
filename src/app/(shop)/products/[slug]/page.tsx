@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
-import { ProductCard, type Product } from '@/components/sections/series-catalog/SeriesCatalog'
+import type { Product } from '@/components/sections/series-catalog/SeriesCatalog'
 import { AddToCartButton } from './AddToCartButton'
+import { ProductGallery } from './ProductGallery'
+import { ProductTabs } from './ProductTabs'
 import styles from './product.module.css'
 
 /* ─── Mock data ─── */
@@ -139,32 +141,6 @@ const RELATED_PRODUCTS: Product[] = [
   },
 ]
 
-const TABS = ['Описание', 'Характеристики', 'Отзывы', 'Аксессуары', 'Видео']
-
-const REVIEW_FILTERS = [
-  'Все',
-  'С фото',
-  'С видео',
-  'Сначала положительные',
-  'Сначала отрицательные',
-]
-
-function Stars({ count }: { count: number }) {
-  return (
-    <div className={styles.stars}>
-      {[1, 2, 3, 4, 5].map((i) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          key={i}
-          src={i <= count ? '/icons/star-filled.svg' : '/icons/star-empty.svg'}
-          alt=""
-          className={styles.starIcon}
-        />
-      ))}
-    </div>
-  )
-}
-
 function SpecRow({ label, value }: { label: string; value: string }) {
   return (
     <div className={styles.specRow}>
@@ -199,20 +175,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <div className={styles.content}>
         {/* ═══ Hero: Gallery + Info ═══ */}
         <section className={styles.hero}>
-          <div className={styles.gallery}>
-            <div className={styles.thumbs}>
-              {PRODUCT.images.map((img, i) => (
-                <div key={i} className={`${styles.thumb} ${i === 0 ? styles.active : ''}`}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={img} alt="" />
-                </div>
-              ))}
-            </div>
-            <div className={styles.mainImage}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={PRODUCT.images[0]} alt={PRODUCT.name} />
-            </div>
-          </div>
+          <ProductGallery images={PRODUCT.images} name={PRODUCT.name} />
 
           <div className={styles.info}>
             <h1 className={styles.productTitle}>{PRODUCT.name}</h1>
@@ -297,211 +260,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           </div>
         </section>
 
-        {/* ═══ Description ═══ */}
-        <section className={styles.descSection}>
-          <div className={styles.descTabs}>
-            {TABS.map((tab, i) => (
-              <span key={tab} className={`${styles.descTab} ${i === 0 ? styles.activeTab : ''}`}>
-                {tab}
-              </span>
-            ))}
-          </div>
-
-          <div className={styles.sectionHeading}>
-            <h2 className={styles.sectionTitle}>Описание</h2>
-            <div className={styles.sectionLine} />
-          </div>
-
-          <div className={styles.descBody}>
-            <div className={styles.descSlider}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={PRODUCT.descSlides[0].image} alt="" className={styles.descSlideImage} />
-            </div>
-            <div className={styles.descText}>
-              <h3 className={styles.descTextTitle}>{PRODUCT.descSlides[0].title}</h3>
-              <p className={styles.descTextBody}>{PRODUCT.descSlides[0].text}</p>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══ Characteristics ═══ */}
-        <section className={styles.specsSection} id="specs">
-          <div className={styles.sectionHeading}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <h2 className={styles.sectionTitle}>Характеристики</h2>
-            </div>
-            <div className={styles.sectionLine} />
-          </div>
-
-          <div className={styles.specsBody}>
-            <div className={styles.specsDrawings}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/specs.png" alt="Чертёж" className={styles.drawingImage} />
-              {}
-            </div>
-
-            <div className={styles.specsTable}>
-              <div className={styles.specsColumns}>
-                <div>
-                  <div className={styles.specsGroup}>
-                    <h4 className={styles.specsGroupTitle}>Основная информация</h4>
-                    {PRODUCT.specs.main.map((s) => (
-                      <SpecRow key={s.label} label={s.label} value={s.value} />
-                    ))}
-                  </div>
-                  <div className={styles.specsGroup}>
-                    <h4 className={styles.specsGroupTitle}>Питание</h4>
-                    {PRODUCT.specs.power.map((s) => (
-                      <SpecRow key={s.label} label={s.label} value={s.value} />
-                    ))}
-                  </div>
-                  <div className={styles.specsGroup}>
-                    <h4 className={styles.specsGroupTitle}>Технические особенности</h4>
-                    {PRODUCT.specs.tech.map((s) => (
-                      <SpecRow key={s.label} label={s.label} value={s.value} />
-                    ))}
-                  </div>
-                  <div className={styles.specsGroup}>
-                    <h4 className={styles.specsGroupTitle}>Дополнительная информация</h4>
-                    {PRODUCT.specs.extra.map((s) => (
-                      <SpecRow key={s.label} label={s.label} value={s.value} />
-                    ))}
-                  </div>
-                  <div className={styles.specsGroup}>
-                    <h4 className={styles.specsGroupTitle}>Габариты</h4>
-                    {PRODUCT.specs.dimensions.map((s) => (
-                      <SpecRow key={s.label} label={s.label} value={s.value} />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <div className={styles.specsGroup}>
-                    <h4 className={styles.specsGroupTitle}>Общие характеристики</h4>
-                    {PRODUCT.specs.general.map((s) => (
-                      <SpecRow key={s.label} label={s.label} value={s.value} />
-                    ))}
-                  </div>
-                  <div className={styles.specsGroup}>
-                    <h4 className={styles.specsGroupTitle}>Управление</h4>
-                    {PRODUCT.specs.control.map((s) => (
-                      <SpecRow key={s.label} label={s.label} value={s.value} />
-                    ))}
-                  </div>
-                  <div className={styles.specsGroup}>
-                    <h4 className={styles.specsGroupTitle}>Материалы</h4>
-                    {PRODUCT.specs.materials.map((s) => (
-                      <SpecRow key={s.label} label={s.label} value={s.value} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══ Accessories ═══ */}
-        <section className={styles.accessoriesSection}>
-          <div className={styles.sectionHeading}>
-            <h2 className={styles.sectionTitle}>Акссесуары</h2>
-            <div className={styles.sectionLine} />
-          </div>
-
-          <div className={styles.accessoriesGrid}>
-            {PRODUCT.accessories.map((acc, i) => (
-              <div key={i} className={styles.accessoryCard}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={acc.image} alt={acc.name} className={styles.accessoryImage} />
-                <p className={styles.accessoryName}>{acc.name}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ═══ Instruction ═══ */}
-        <section className={styles.instructionSection}>
-          <div className={styles.sectionHeading}>
-            <h2 className={styles.sectionTitle}>Инструкция</h2>
-            <div className={styles.sectionLine} />
-          </div>
-
-          <a href={PRODUCT.instruction.href} className={styles.instructionBtn} download>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icons/pdf-icon.svg" alt="" className={styles.instructionIcon} />
-            <span className={styles.instructionLabel}>{PRODUCT.instruction.label}</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icons/download-icon.svg" alt="" className={styles.instructionDownload} />
-          </a>
-        </section>
-
-        {/* ═══ Reviews ═══ */}
-        <section className={styles.reviewsSection}>
-          <div className={styles.sectionHeading}>
-            <h2 className={styles.sectionTitle}>Отзывы</h2>
-            <div className={styles.sectionLine} />
-          </div>
-
-          <div className={styles.reviewsHeader}>
-            <div className={styles.reviewsLeft}>
-              <div className={styles.ratingRow}>
-                <Stars count={5} />
-                <span className={styles.ratingText}>{PRODUCT.ratingAvg}</span>
-              </div>
-              <p className={styles.ratingCaption}>
-                Рейтинг формируется на основе актуальных отзывов
-              </p>
-              <button className={styles.btnReview}>Написать отзыв</button>
-            </div>
-
-            <div className={styles.reviewFilters}>
-              {REVIEW_FILTERS.map((f) => (
-                <button key={f} className={styles.filterBtn}>
-                  {f}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className={styles.reviewCards}>
-            {PRODUCT.reviews.map((review, i) => (
-              <div key={i} className={styles.reviewCard}>
-                <div className={styles.reviewCardTop}>
-                  <span className={styles.reviewDate}>{review.date}</span>
-                  <div className={styles.ozonBadge}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/icons/ozon-logo.svg" alt="Ozon" />
-                  </div>
-                </div>
-                <div className={styles.reviewRatingRow}>
-                  <Stars count={review.rating} />
-                  <span className={styles.reviewAuthor}>{review.author}</span>
-                </div>
-                <div className={styles.reviewDivider} />
-                <p className={styles.reviewLabel}>Отзыв</p>
-                <p className={styles.reviewText}>{review.text}</p>
-                <div className={styles.reviewDivider} />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={review.photo} alt="" className={styles.reviewPhoto} />
-              </div>
-            ))}
-          </div>
-
-          <button className={styles.btnShowMore}>Показать ещё</button>
-        </section>
-
-        {/* ═══ Related products ═══ */}
-        <section className={styles.relatedSection}>
-          <div className={styles.sectionHeading}>
-            <h2 className={styles.sectionTitle}>Другие товары</h2>
-            <div className={styles.sectionLine} />
-          </div>
-
-          <div className={styles.relatedGrid}>
-            {RELATED_PRODUCTS.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </section>
+        <ProductTabs product={PRODUCT} relatedProducts={RELATED_PRODUCTS} />
       </div>
     </div>
   )
