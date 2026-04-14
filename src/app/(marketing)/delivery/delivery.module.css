@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: column;
   gap: 40rem;
-  padding: 80rem 80rem 80rem;
+  padding: 104rem 80rem 80rem 80rem;
 }
 
 /* ── Section heading with dividers ── */
@@ -88,6 +88,7 @@
 .cardBanner {
   position: relative;
   width: 100%;
+  height: 214rem;
   border-radius: 6rem;
   overflow: hidden;
   padding: 16rem;
@@ -168,6 +169,7 @@
   flex-direction: column;
   justify-content: center;
   background-color: #e0dfda;
+  margin-top: auto;
 }
 
 .cdekBannerBg {
@@ -267,8 +269,12 @@
   }
 
   .content {
-    padding: 40rem 20rem 40rem;
-    gap: 30rem;
+    padding: 60rem 20rem 80rem;
+    gap: 0rem;
+  }
+
+  .deliveryCard {
+    gap: 20rem;
   }
 
   .heading {
@@ -279,6 +285,7 @@
   .cardsRow {
     flex-direction: column;
     gap: 20rem;
+    margin-bottom: 40rem;
   }
 
   .cardTitle {
@@ -292,7 +299,16 @@
     gap: 20rem;
   }
 
+  .paymentBg {
+    object-position: left;
+  }
+
   .paymentCard {
     height: 170rem;
+    flex: unset;
+  }
+
+  .sectionTitle {
+    margin-bottom: 20rem;
   }
 }
