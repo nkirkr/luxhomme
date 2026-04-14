@@ -1,0 +1,232 @@
+.widgetBtn {
+  position: fixed;
+  bottom: 76rem;
+  right: 80rem;
+  z-index: 150;
+  width: 72rem;
+  height: 72rem;
+  border-radius: 100rem;
+  background: var(--color-clean);
+  border: 1px solid rgba(225, 223, 218, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 20rem;
+  transition: transform 0.2s ease;
+}
+
+.widgetBtn:hover {
+  transform: scale(1.05);
+}
+
+.widgetBtnIcon {
+  width: 32rem;
+  height: 32rem;
+}
+
+/* ── Form panel ── */
+.panel {
+  position: fixed;
+  bottom: 168rem;
+  right: 80rem;
+  z-index: 151;
+  width: 360rem;
+  padding: 20rem;
+  border-radius: 12rem;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(18.5px);
+  -webkit-backdrop-filter: blur(18.5px);
+  display: flex;
+  flex-direction: column;
+  gap: 14rem;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panelTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-bold);
+  font-size: 14rem;
+  line-height: 1.2;
+  color: var(--color-white);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.closeBtn {
+  width: 30rem;
+  height: 30rem;
+  border-radius: 100rem;
+  background: var(--color-clean);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.closeSvg {
+  width: 14rem;
+  height: 14rem;
+  stroke: var(--color-white);
+}
+
+/* ── Inputs ── */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  /* gap: 12rem; */
+  width: 100%;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  padding-top: 16rem;
+  width: 100%;
+}
+
+.inputLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  margin: 0;
+}
+
+.inputLine {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.inputNative {
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  width: 100%;
+  padding: 0;
+}
+
+.inputNative::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── Checkbox ── */
+.checkboxRow {
+  display: flex;
+  gap: 12rem;
+  align-items: flex-start;
+}
+
+.checkbox {
+  width: 16rem;
+  height: 16rem;
+  flex-shrink: 0;
+  border: 1px solid var(--color-white);
+  border-radius: 4rem;
+  background: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.checkbox:checked {
+  background: var(--color-clean);
+  border-color: var(--color-clean);
+}
+
+.checkboxText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: 8rem;
+  line-height: 1.2;
+  color: var(--color-white);
+  margin: 0;
+}
+
+/* ── Submit ── */
+.submitBtn {
+  width: 100%;
+  height: 50rem;
+  padding: 4rem 50rem;
+  border-radius: 10rem;
+  background: var(--color-cook);
+  border: 1px solid var(--color-cook);
+  cursor: pointer;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  text-align: center;
+  transition: opacity 0.2s;
+}
+
+.submitBtn:hover {
+  opacity: 0.85;
+}
+
+/* ── Footer link ── */
+.footerRow {
+  display: flex;
+  gap: 12rem;
+  align-items: center;
+}
+
+.reportLink {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  padding-bottom: 2rem;
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.questionIcon {
+  width: 20rem;
+  height: 20rem;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .widgetBtn {
+    right: 20rem;
+    bottom: 20rem;
+    width: 56rem;
+    height: 56rem;
+    padding: 14rem;
+  }
+
+  .widgetBtnIcon {
+    width: 28rem;
+    height: 28rem;
+  }
+
+  .panel {
+    right: 20rem;
+    bottom: 90rem;
+    width: calc(100vw - 40rem);
+  }
+}
