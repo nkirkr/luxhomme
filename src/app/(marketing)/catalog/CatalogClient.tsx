@@ -166,7 +166,7 @@ export default function CatalogClient() {
         {/* Search */}
         <div className={styles.search}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/search.svg" alt="" className={styles.searchIcon} />
+          <img src="/icons/catalog-search-icon.svg" alt="" className={styles.searchIcon} />
           <input
             className={styles.searchInput}
             type="text"
@@ -178,6 +178,13 @@ export default function CatalogClient() {
             }}
           />
         </div>
+
+        {/* Mobile dropdown */}
+        <button className={styles.mobileSelect}>
+          <p>Все товары</p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/icons/header-arrow-down-black.svg" alt="" />
+        </button>
       </div>
 
       {/* Product grid */}

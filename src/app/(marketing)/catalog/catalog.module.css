@@ -18,7 +18,7 @@
 
 /* Title block */
 .titleBlock {
-  padding: 44rem 80rem 0;
+  padding: 104rem 80rem 0;
   display: flex;
   flex-direction: column;
   gap: 20rem;
@@ -41,6 +41,7 @@
 
 /* Breadcrumb */
 .breadcrumb {
+  margin-top: 10rem;
   display: flex;
   align-items: center;
   gap: 16rem;
@@ -160,6 +161,10 @@
   color: var(--color-text);
 }
 
+.mobileSelect {
+  display: none;
+}
+
 .searchInput::placeholder {
   color: var(--color-grey);
 }
@@ -230,8 +235,7 @@
   }
 
   .titleBlock {
-    padding: 30rem 20rem 0;
-    gap: 16rem;
+    padding: 64rem 20rem 0;
   }
 
   .pageTitle {
@@ -251,6 +255,27 @@
     padding-bottom: 4rem;
     /* hide scrollbar */
     scrollbar-width: none;
+  }
+
+  .mobileSelect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6rem;
+    width: 100%;
+    height: 52rem;
+    border-radius: 13rem;
+    background: var(--color-white);
+    font-family: var(--font-helvetica);
+    font-weight: var(--weight-light);
+    font-size: 14rem;
+    color: var(--color-black);
+    cursor: pointer;
+  }
+
+  .mobileSelect img {
+    width: 16rem;
+    height: 16rem;
   }
 
   .filters::-webkit-scrollbar {
@@ -285,9 +310,16 @@
     padding: 0 20rem;
     gap: 10rem;
     margin-top: 20rem;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
   .gridRow {
     gap: 10rem;
+    display: contents;
+  }
+
+  .filters {
+    display: none;
   }
 }
