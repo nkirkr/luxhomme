@@ -1,0 +1,59 @@
+.banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #bea68e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80rem;
+  padding: 16rem 200rem;
+}
+
+.text {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 18rem;
+  line-height: 1;
+  color: var(--color-text);
+  white-space: pre-line;
+}
+
+.btn {
+  flex-shrink: 0;
+  height: 28rem;
+  padding: 8rem 40rem;
+  border-radius: 10rem;
+  background: var(--color-black);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+  .banner {
+    flex-direction: column;
+    gap: 16rem;
+    padding: 16rem 20rem;
+  }
+
+  .text {
+    font-size: 14rem;
+    text-align: center;
+  }
+}

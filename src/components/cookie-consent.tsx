@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useSyncExternalStore, useCallback } from 'react'
-import { Button } from '@/components/ui/button'
+import styles from './cookie-consent.module.css'
 
 const COOKIE_KEY = 'cookie-consent'
 
@@ -24,27 +24,18 @@ export function CookieConsent() {
     setDismissed(true)
   }, [])
 
-  const decline = useCallback(() => {
-    localStorage.setItem(COOKIE_KEY, 'declined')
-    setDismissed(true)
-  }, [])
-
   if (dismissed || consent !== 'none') return null
 
   return (
-    <div className="bg-background fixed right-0 bottom-0 left-0 z-50 border-t p-4 shadow-lg md:right-auto md:bottom-4 md:left-4 md:max-w-md md:rounded-lg md:border">
-      <p className="text-muted-foreground mb-3 text-sm">
-        We use cookies to improve your experience. By continuing to use this site, you agree to our
-        use of cookies.
+    <div className={styles.banner}>
+      <p className={styles.text}>
+        {
+          'Используя сайт, вы соглашаетесь с Политикой\nконфиденциальности и обработкой персональных данных'
+        }
       </p>
-      <div className="flex gap-2">
-        <Button size="sm" onClick={accept}>
-          Accept
-        </Button>
-        <Button size="sm" variant="outline" onClick={decline}>
-          Decline
-        </Button>
-      </div>
+      <button className={styles.btn} onClick={accept}>
+        Принять
+      </button>
     </div>
   )
 }

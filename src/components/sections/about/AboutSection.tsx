@@ -60,7 +60,7 @@ export default function AboutSection() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/icons/logo-group-black.svg" alt="Luxhommè" className={styles.logoGroup} />
           <p className={styles.descText}>
-            Luxhommè — бытовая техника для тех, кто ценит жизнь и комфорт.
+            Luxhommè — бытовая техника для тех, кто ценит жизнь и комфорт.
           </p>
         </div>
 
