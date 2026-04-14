@@ -37,7 +37,7 @@ export default function AboutPage() {
         {/* ═══ Bordered text ═══ */}
         <div className={styles.textBox}>
           <p className={styles.textBoxText}>
-            В центре внимания — уют и тишина в доме. Заботливая техника Luxhommè помогает с уборкой
+            В центре внимания — уют и тишина в доме. Заботливая техника Luxhommè помогает с уборкой
             и готовкой, поддерживает ваше тело в тонусе.
           </p>
         </div>
