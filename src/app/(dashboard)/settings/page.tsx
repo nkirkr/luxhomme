@@ -153,37 +153,39 @@ export default function ReviewsPage() {
 
   return (
     <DashboardShell>
-      <h2 className={styles.reviewsTitle}>Отзывы</h2>
+      <div className={styles.reviewsSection}>
+        <h2 className={styles.reviewsTitle}>Отзывы</h2>
 
-      <div className={styles.reviewsList}>
-        {REVIEWS.map((review) => (
-          <div key={review.id} className={styles.reviewItem}>
-            <div className={styles.reviewItemTop}>
-              <Stars count={review.rating} />
-              <button className={styles.reviewEditLink} onClick={() => setEditingReview(review)}>
-                Редактировать отзыв
-              </button>
-              <span className={styles.reviewDate}>{review.date}</span>
-              <div className={styles.reviewOzon}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/icons/ozon-logo.svg" alt="Ozon" />
+        <div className={styles.reviewsList}>
+          {REVIEWS.map((review) => (
+            <div key={review.id} className={styles.reviewItem}>
+              <div className={styles.reviewItemTop}>
+                <Stars count={review.rating} />
+                <button className={styles.reviewEditLink} onClick={() => setEditingReview(review)}>
+                  Редактировать отзыв
+                </button>
+                <span className={styles.reviewDate}>{review.date}</span>
+                <div className={styles.reviewOzon}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icons/ozon-logo.svg" alt="Ozon" />
+                </div>
               </div>
+
+              {review.text && <p className={styles.reviewBody}>{review.text}</p>}
+              {review.photo && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={review.photo} alt="" className={styles.reviewPhoto} />
+              )}
             </div>
+          ))}
+        </div>
 
-            {review.text && <p className={styles.reviewBody}>{review.text}</p>}
-            {review.photo && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={review.photo} alt="" className={styles.reviewPhoto} />
-            )}
-          </div>
-        ))}
+        <AnimatePresence>
+          {editingReview && (
+            <EditModal review={editingReview} onClose={() => setEditingReview(null)} />
+          )}
+        </AnimatePresence>
       </div>
-
-      <AnimatePresence>
-        {editingReview && (
-          <EditModal review={editingReview} onClose={() => setEditingReview(null)} />
-        )}
-      </AnimatePresence>
     </DashboardShell>
   )
 }

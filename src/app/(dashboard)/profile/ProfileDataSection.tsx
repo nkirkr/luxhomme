@@ -32,7 +32,7 @@ export function ProfileDataSection({ initialData }: ProfileDataSectionProps) {
   }
 
   return (
-    <>
+    <div className={styles.dataSection}>
       <div className={styles.dataHeader}>
         <h2 className={styles.dataTitle}>Данные</h2>
         <button type="button" className={styles.btnEdit} onClick={handleToggle}>
@@ -104,6 +104,6 @@ export function ProfileDataSection({ initialData }: ProfileDataSectionProps) {
           )}
         </div>
       </div>
-    </>
+    </div>
   )
 }

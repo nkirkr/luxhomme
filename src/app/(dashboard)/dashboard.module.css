@@ -366,6 +366,8 @@
 .ordersTable {
   width: 100%;
   border-collapse: collapse;
+  max-width: 865rem;
+  margin-left: auto;
 }
 
 .ordersTable th {
@@ -527,6 +529,11 @@
   gap: 30rem 40rem;
 }
 
+.dataSection {
+  max-width: 820rem;
+  margin: 0 auto;
+}
+
 .dataField {
   border-bottom: 1px solid var(--color-stroke);
   padding-bottom: 12rem;
@@ -589,6 +596,11 @@
   line-height: 1;
   color: var(--color-black);
   margin: 0 0 20rem;
+}
+
+.reviewsSection {
+  max-width: 1004rem;
+  margin: 0 auto;
 }
 
 .reviewsList {
@@ -928,7 +940,10 @@
   .sidebar {
     width: 100%;
     position: relative;
-    z-index: 2;
+  }
+
+  .dataSection {
+    margin: 0;
   }
 
   .balance {
@@ -943,8 +958,6 @@
   .content {
     max-width: none;
     margin-left: 0;
-    position: relative;
-    z-index: 1;
   }
 
   .nav {
@@ -960,6 +973,7 @@
     width: 100%;
     margin-top: 20rem;
     position: relative;
+    z-index: 3;
   }
 
   .mobileSelect {
