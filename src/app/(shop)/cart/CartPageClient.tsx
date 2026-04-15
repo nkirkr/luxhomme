@@ -29,7 +29,7 @@ function CouponSection() {
         <span className={styles.couponLabel}>Добавить купоны</span>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/icons/arrow-down.svg"
+          src="/icons/header-arrow-down-black.svg"
           alt=""
           className={`${styles.couponArrow} ${open ? styles.couponArrowOpen : ''}`}
         />

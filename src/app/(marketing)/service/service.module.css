@@ -14,7 +14,7 @@
 .content {
   width: 1280rem;
   margin: 0 auto;
-  padding-top: 60rem;
+  padding-top: 104rem;
   padding-bottom: 80rem;
 }
 
@@ -293,7 +293,6 @@
 .contactCardPhone {
   composes: contactCard;
   width: 436rem;
-  height: 94rem;
   display: flex;
   align-items: center;
   gap: 40rem;
@@ -628,7 +627,7 @@
 
   .content {
     width: 100%;
-    padding: 30rem 20rem 60rem;
+    padding: 80rem 20rem 60rem;
   }
 
   .heading {
@@ -655,8 +654,8 @@
 
   .stepLead {
     flex-direction: column;
-    align-items: center;
-    gap: 12rem;
+    align-items: flex-start;
+    gap: 20rem;
   }
 
   .stepLeadCenter {

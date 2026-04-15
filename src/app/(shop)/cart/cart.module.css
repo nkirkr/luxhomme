@@ -18,7 +18,7 @@
 .content {
   width: 1280rem;
   margin: 0 auto;
-  padding: 71rem 0 80rem;
+  padding: 91rem 0 80rem;
   display: flex;
   gap: 60rem;
   align-items: flex-start;
@@ -43,6 +43,7 @@
   color: var(--color-text);
   white-space: nowrap;
   padding-bottom: 0;
+  margin-bottom: 20rem;
 }
 
 .itemsHeaderLabel {
@@ -475,7 +476,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60rem 80rem 80rem;
+  padding: 124rem 80rem 80rem;
   width: 100%;
 }
 
@@ -533,7 +534,7 @@
 @media (max-width: 768px) {
   .content {
     width: 100%;
-    padding: 20rem 20rem 60rem;
+    padding: 100rem 20rem 60rem;
     flex-direction: column;
     gap: 40rem;
   }
@@ -544,10 +545,20 @@
 
   .itemsHeader {
     font-size: 14rem;
+    display: none;
   }
 
   .itemRow {
-    padding: 20rem 0;
+    padding: unset;
+    border-top: unset;
+  }
+
+  .itemRow:last-child {
+    padding-bottom: 40rem;
+  }
+
+  .itemRow:not(:last-child) {
+    margin-bottom: 20rem;
   }
 
   .itemLeft {
@@ -575,7 +586,7 @@
   }
 
   .emptyWrap {
-    padding: 40rem 20rem 60rem;
+    padding: 100rem 20rem 60rem;
   }
 
   .emptyProducts {
@@ -587,8 +598,8 @@
   }
 
   .emptyProductsGrid {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20rem;
-    align-items: center;
   }
 }
