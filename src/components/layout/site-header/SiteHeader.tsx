@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
 import styles from './SiteHeader.module.css'
@@ -85,22 +85,42 @@ export function SiteHeader({ solid }: SiteHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
   const [catalogOpen, setCatalogOpen] = useState(false)
-  const [buyersOpen, setBuyersOpen] = useState(false)
 
-  const logoSrc = solid ? '/icons/logo-black.svg' : '/icons/logo.svg'
-  const profileSrc = solid ? '/icons/profile-black.svg' : '/icons/profile.svg'
-  const basketSrc = solid ? '/icons/basket-black.svg' : '/icons/basket.svg'
-  const arrowSrc = solid ? '/icons/header-arrow-down-black.svg' : '/icons/header-arrow-down.svg'
+  const useLightHeaderAssets = !solid || mobileMenuOpen
+  const logoSrc = useLightHeaderAssets ? '/icons/logo.svg' : '/icons/logo-black.svg'
+  const profileSrc = useLightHeaderAssets ? '/icons/profile.svg' : '/icons/profile-black.svg'
+  const basketSrc = useLightHeaderAssets ? '/icons/basket.svg' : '/icons/basket-black.svg'
+  const arrowSrc = useLightHeaderAssets
+    ? '/icons/header-arrow-down.svg'
+    : '/icons/header-arrow-down-black.svg'
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [mobileMenuOpen])
 
   return (
     <>
-      <header className={`${styles.header} ${solid ? styles.solid : ''}`}>
+      <header
+        className={`${styles.header} ${solid ? styles.solid : ''} ${mobileMenuOpen ? styles.headerMenuOpen : ''}`}
+      >
         <div className={styles.inner}>
-          {/* Hamburger — mobile only */}
+          {/* Hamburger → крестик при открытом меню (mobile) */}
           <button
-            className={styles.hamburger}
-            aria-label="Открыть меню"
-            onClick={() => setMobileMenuOpen(true)}
+            type="button"
+            className={`${styles.hamburger} ${mobileMenuOpen ? styles.hamburgerOpen : ''}`}
+            aria-label={mobileMenuOpen ? 'Закрыть меню' : 'Открыть меню'}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => {
+              setMobileMenuOpen((open) => {
+                if (open) setExpandedSection(null)
+                return !open
+              })
+            }}
           >
             <span className={styles.hamburgerLine} />
             <span className={styles.hamburgerLine} />
@@ -216,30 +236,11 @@ export function SiteHeader({ solid }: SiteHeaderProps) {
         {mobileMenuOpen && (
           <motion.div
             className={styles.mobileOverlay}
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ type: 'tween', duration: 0.35, ease: 'easeInOut' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
           >
-            <button
-              className={styles.mobileCloseBtn}
-              onClick={() => {
-                setMobileMenuOpen(false)
-                setExpandedSection(null)
-              }}
-              aria-label="Закрыть меню"
-            >
-              <svg
-                className={styles.mobileCloseSvg}
-                viewBox="0 0 24 24"
-                fill="none"
-                strokeWidth="1.5"
-              >
-                <path d="M18 6L6 18" />
-                <path d="M6 6l12 12" />
-              </svg>
-            </button>
-
             <nav className={styles.mobileNavTop}>
               {MOBILE_MENU_ITEMS.map((item) => {
                 if (item.expandable && item.sub) {
@@ -247,25 +248,29 @@ export function SiteHeader({ solid }: SiteHeaderProps) {
                   return (
                     <div key={item.label} className={styles.mobileExpandable}>
                       <button
+                        type="button"
                         className={styles.mobileExpandableHeader}
                         onClick={() => setExpandedSection(isOpen ? null : item.label)}
                       >
                         <span className={styles.mobileExpandableTitle}>{item.label}</span>
-                        <svg
-                          className={`${styles.mobileExpandableIcon} ${isOpen ? styles.mobileExpandableIconOpen : ''}`}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          strokeWidth="1.5"
-                        >
-                          {isOpen ? (
-                            <>
-                              <path d="M18 6L6 18" />
-                              <path d="M6 6l12 12" />
-                            </>
-                          ) : (
-                            <path d="M6 9l6 6 6-6" />
-                          )}
-                        </svg>
+                        {isOpen ? (
+                          <svg
+                            className={styles.mobileExpandableIcon}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            strokeWidth="1.5"
+                            aria-hidden
+                          >
+                            <path d="M18 6L6 18" />
+                            <path d="M6 6l12 12" />
+                          </svg>
+                        ) : (
+                          <span className={styles.mobileExpandableEllipsis} aria-hidden>
+                            <span className={styles.mobileExpandableDot} />
+                            <span className={styles.mobileExpandableDot} />
+                            <span className={styles.mobileExpandableDot} />
+                          </span>
+                        )}
                       </button>
                       <AnimatePresence>
                         {isOpen && (

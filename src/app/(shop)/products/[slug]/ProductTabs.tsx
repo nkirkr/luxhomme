@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import { ProductCard, type Product } from '@/components/sections/series-catalog/SeriesCatalog'
 import styles from './product.module.css'
 
@@ -65,6 +65,52 @@ interface ProductTabsProps {
 
 export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState<Tab>('Описание')
+  const [activeDescIndex, setActiveDescIndex] = useState(0)
+
+  const descSlides = product.descSlides
+  const len = descSlides.length
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [trackOffset, setTrackOffset] = useState(0)
+
+  const computeOffset = useCallback(() => {
+    const track = trackRef.current
+    if (!track || len === 0) return
+
+    const viewport = track.parentElement!
+    const vpWidth = viewport.clientWidth
+    const trackStyle = getComputedStyle(track)
+    const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || '0')
+
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize)
+    const carouselStyle = getComputedStyle(viewport)
+    const activeW = parseFloat(carouselStyle.getPropertyValue('--slide-active-w')) * rootFontSize
+    const inactiveW =
+      parseFloat(carouselStyle.getPropertyValue('--slide-inactive-size')) * rootFontSize
+
+    let slideCenter = 0
+    for (let i = 0; i < activeDescIndex; i++) {
+      slideCenter += inactiveW + gap
+    }
+    slideCenter += activeW / 2
+
+    setTrackOffset(slideCenter - vpWidth / 2)
+  }, [activeDescIndex, len])
+
+  useEffect(() => {
+    computeOffset()
+    window.addEventListener('resize', computeOffset)
+    return () => window.removeEventListener('resize', computeOffset)
+  }, [computeOffset])
+
+  const handlePrevDesc = () => {
+    if (len <= 1) return
+    setActiveDescIndex((i) => (i - 1 + len) % len)
+  }
+
+  const handleNextDesc = () => {
+    if (len <= 1) return
+    setActiveDescIndex((i) => (i + 1) % len)
+  }
 
   return (
     <>
@@ -90,13 +136,77 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
           </div>
 
           <div className={styles.descBody}>
-            <div className={styles.descSlider}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={product.descSlides[0].image} alt="" className={styles.descSlideImage} />
-            </div>
-            <div className={styles.descText}>
-              <h3 className={styles.descTextTitle}>{product.descSlides[0].title}</h3>
-              <p className={styles.descTextBody}>{product.descSlides[0].text}</p>
+            <div className={styles.descCarousel} aria-label="Описание товара: слайдер">
+              <div
+                className={styles.descTrack}
+                ref={trackRef}
+                style={{ transform: `translateX(${-trackOffset}px)` }}
+              >
+                {descSlides.map((slide, idx) => {
+                  const isActive = idx === activeDescIndex
+                  return (
+                    <div
+                      key={idx}
+                      className={`${styles.descSlide} ${isActive ? styles.descSlideActive : ''}`}
+                      onClick={() => !isActive && setActiveDescIndex(idx)}
+                    >
+                      {isActive ? (
+                        <div className={styles.descActiveFrame}>
+                          <button
+                            type="button"
+                            className={styles.descArrowLeft}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handlePrevDesc()
+                            }}
+                            disabled={len <= 1}
+                            aria-label="Предыдущий слайд"
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src="/icons/arrow-left-black.svg" alt="" />
+                          </button>
+
+                          <div className={styles.descActiveInner}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={slide.image} alt="" className={styles.descSlideImage} />
+                          </div>
+
+                          <button
+                            type="button"
+                            className={styles.descArrowRight}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleNextDesc()
+                            }}
+                            disabled={len <= 1}
+                            aria-label="Следующий слайд"
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src="/icons/arrow-right-01-sharp.svg" alt="" />
+                          </button>
+                        </div>
+                      ) : (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={slide.image} alt="" className={styles.descSlideImage} />
+                      )}
+                      <AnimatePresence>
+                        {isActive && (
+                          <motion.div
+                            className={styles.descText}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            transition={{ duration: 0.35, delay: 0.1, ease: 'easeOut' }}
+                          >
+                            <h3 className={styles.descTextTitle}>{slide.title}</h3>
+                            <p className={styles.descTextBody}>{slide.text}</p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </div>
         </section>

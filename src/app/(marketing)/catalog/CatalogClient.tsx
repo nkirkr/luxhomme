@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { AnimatePresence, motion } from 'motion/react'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
 import { ProductCard, type Product } from '@/components/sections/series-catalog/SeriesCatalog'
 import styles from './catalog.module.css'
@@ -96,10 +97,27 @@ const ALL_PRODUCTS: Product[] = [
 const PAGE_SIZE = 6
 
 /** Interactive catalog page — filters, search, load-more. */
+function mobileCategoryLabel(cat: Category) {
+  return cat === 'Все' ? 'Все товары' : cat
+}
+
 export default function CatalogClient() {
   const [activeCategory, setActiveCategory] = useState<Category>('Все')
   const [query, setQuery] = useState('')
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const mobileNavRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!mobileFiltersOpen) return
+    const onPointerDown = (e: PointerEvent) => {
+      if (!mobileNavRef.current?.contains(e.target as Node)) {
+        setMobileFiltersOpen(false)
+      }
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    return () => document.removeEventListener('pointerdown', onPointerDown)
+  }, [mobileFiltersOpen])
 
   const filtered = useMemo(() => {
     let list = ALL_PRODUCTS
@@ -179,12 +197,58 @@ export default function CatalogClient() {
           />
         </div>
 
-        {/* Mobile dropdown */}
-        <button className={styles.mobileSelect}>
-          <p>Все товары</p>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/header-arrow-down-black.svg" alt="" />
-        </button>
+        <div className={styles.mobileNav} ref={mobileNavRef}>
+          <button
+            type="button"
+            className={`${styles.mobileSelect} ${mobileFiltersOpen ? styles.mobileSelectOpen : ''}`}
+            aria-expanded={mobileFiltersOpen}
+            aria-haspopup="listbox"
+            aria-controls="catalog-mobile-filters"
+            id="catalog-mobile-filters-trigger"
+            onClick={() => setMobileFiltersOpen((o) => !o)}
+          >
+            <p>{mobileCategoryLabel(activeCategory)}</p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className={styles.mobileSelectChevron}
+              src="/icons/header-arrow-down-black.svg"
+              alt=""
+              aria-hidden
+            />
+          </button>
+
+          <AnimatePresence>
+            {mobileFiltersOpen && (
+              <motion.div
+                id="catalog-mobile-filters"
+                role="listbox"
+                aria-labelledby="catalog-mobile-filters-trigger"
+                className={styles.mobileDropdown}
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
+              >
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    role="option"
+                    aria-selected={activeCategory === cat}
+                    className={`${styles.mobileDropdownItem} ${activeCategory === cat ? styles.mobileDropdownItemActive : ''}`}
+                    onClick={() => {
+                      setActiveCategory(cat)
+                      setVisibleCount(PAGE_SIZE)
+                      setMobileFiltersOpen(false)
+                    }}
+                  >
+                    {mobileCategoryLabel(cat)}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* Product grid */}

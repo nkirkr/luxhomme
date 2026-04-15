@@ -34,35 +34,39 @@ export default function ServicePage() {
         <div className={styles.stepsList}>
           {/* Step 1 */}
           <div className={styles.step}>
-            <div className={styles.stepNum}>1</div>
-            <div className={styles.stepContent}>
-              <p className={styles.stepBold}>Не паникуйте и не ремонтируйте сами!</p>
-              <p className={styles.stepText}>Самостоятельное вскрытие лишает права на гарантию.</p>
+            <div className={clsx(styles.stepLead, styles.stepLeadCenter, styles.stepFirst)}>
+              <div className={styles.stepNum}>1</div>
+              <div className={styles.stepLeadIntro}>
+                <p className={styles.stepBold}>Не паникуйте и не ремонтируйте сами!</p>
+                <p className={styles.stepText}>
+                  Самостоятельное вскрытие лишает права на гарантию.
+                </p>
+              </div>
             </div>
           </div>
           <div className={styles.divider} />
 
           {/* Step 2 */}
           <div className={styles.step}>
-            <div className={styles.stepNum}>2</div>
-            <div className={styles.stepContent}>
+            <div className={styles.stepLead}>
+              <div className={styles.stepNum}>2</div>
               <p className={clsx(styles.stepBoldBlack, styles.boldSecondStep)}>
                 Назовите номер заказа, модель техники и опишите проблему. Наш специалист проведет
                 первичную диагностику и даст дальнейшие инструкции.
               </p>
-              <div className={styles.stepContacts}>
-                <div className={styles.stepContact}>
-                  <p className={styles.stepContactLabel}>Напишите нам в Службу заботы</p>
-                  <p className={styles.stepContactValue}>t.me/LuxhommeServiceBot</p>
-                </div>
-                <div className={styles.stepContact}>
-                  <p className={styles.stepContactLabel}>Позвоните на ГЛ по номеру</p>
-                  <p className={styles.stepContactValue}>8 800 505 71 30</p>
-                </div>
-                <div className={styles.stepContact}>
-                  <p className={styles.stepContactLabel}>Напишите на почту</p>
-                  <p className={styles.stepContactValue}>care@saudagar-group.com</p>
-                </div>
+            </div>
+            <div className={styles.stepContacts}>
+              <div className={styles.stepContact}>
+                <p className={styles.stepContactLabel}>Напишите нам в Службу заботы</p>
+                <p className={styles.stepContactValue}>t.me/LuxhommeServiceBot</p>
+              </div>
+              <div className={styles.stepContact}>
+                <p className={styles.stepContactLabel}>Позвоните на ГЛ по номеру</p>
+                <p className={styles.stepContactValue}>8 800 505 71 30</p>
+              </div>
+              <div className={styles.stepContact}>
+                <p className={styles.stepContactLabel}>Напишите на почту</p>
+                <p className={styles.stepContactValue}>care@saudagar-group.com</p>
               </div>
             </div>
           </div>
@@ -70,29 +74,29 @@ export default function ServicePage() {
 
           {/* Step 3 */}
           <div className={styles.step}>
-            <div className={styles.stepNum}>3</div>
-            <div className={styles.stepContent}>
+            <div className={styles.stepLead}>
+              <div className={styles.stepNum}>3</div>
               <p className={styles.stepBoldBlack}>Доставка товара в сервисный центр:</p>
-              <div className={styles.stepSubColumns}>
-                <div className={styles.stepSubCol}>
-                  <div>
-                    <span className={styles.stepSubBadge}>Вариант А</span>
-                    <p className={styles.stepSubBadgeSmall}>(бесплатный для клиента):</p>
-                  </div>
-                  <p className={styles.stepSubText}>
-                    Мы организуем бесплатный вывоз неисправной техники курьерской службой СДЭК в
-                    случае подтвержденного гарантийного случая.
-                  </p>
+            </div>
+            <div className={styles.stepSubColumns}>
+              <div className={styles.stepSubCol}>
+                <div className={styles.stepSubColBadgeStack}>
+                  <span className={styles.stepSubBadge}>Вариант А</span>
+                  <p className={styles.stepSubBadgeSmall}>(бесплатный для клиента):</p>
                 </div>
-                <div className={styles.stepSubCol}>
-                  <div>
-                    <span className={styles.stepSubBadge}>Вариант Б</span>
-                  </div>
-                  <p className={styles.stepSubText}>
-                    Вы можете самостоятельно доставить товар по адресу нашего сервисного центра:
-                    Республика Татарстан, Пестречинский район, село Кощаково, ул. Промышленная, д 5.
-                  </p>
+                <p className={styles.stepSubText}>
+                  Мы организуем бесплатный вывоз неисправной техники курьерской службой СДЭК в
+                  случае подтвержденного гарантийного случая.
+                </p>
+              </div>
+              <div className={styles.stepSubCol}>
+                <div className={styles.stepSubColBadgeStack}>
+                  <span className={styles.stepSubBadge}>Вариант Б</span>
                 </div>
+                <p className={styles.stepSubText}>
+                  Вы можете самостоятельно доставить товар по адресу нашего сервисного центра:
+                  Республика Татарстан, Пестречинский район, село Кощаково, ул. Промышленная, д 5.
+                </p>
               </div>
             </div>
           </div>
@@ -100,29 +104,33 @@ export default function ServicePage() {
 
           {/* Step 4 */}
           <div className={styles.step}>
-            <div className={styles.stepNum}>4</div>
-            <div className={styles.stepContent}>
-              <p className={styles.stepBoldBlack}>Диагностика</p>
-              <p className={styles.stepText}>
-                Проводится в течение <span className={styles.stepHighlight}>5 рабочих дней</span> с
-                момента поступления товара в наш сервисный центр. По ее итогам мы сообщим вам,
-                является ли случай гарантийным.
-              </p>
+            <div className={styles.stepLead}>
+              <div className={styles.stepNum}>4</div>
+              <div className={styles.stepLeadBody}>
+                <p className={styles.stepBoldBlack}>Диагностика</p>
+                <p className={styles.stepText}>
+                  Проводится в течение <span className={styles.stepHighlight}>5 рабочих дней</span>{' '}
+                  с момента поступления товара в наш сервисный центр. По ее итогам мы сообщим вам,
+                  является ли случай гарантийным.
+                </p>
+              </div>
             </div>
           </div>
           <div className={styles.divider} />
 
           {/* Step 5 */}
           <div className={styles.step}>
-            <div className={styles.stepNum}>5</div>
-            <div className={styles.stepContent}>
-              <p className={styles.stepBoldBlack}>Ремонт или замена.</p>
-              <p className={styles.stepText}>
-                Срок ремонта по гарантии составляет{' '}
-                <span className={styles.stepHighlight}>не более 45 дней</span> (согласно ЗоЗП). В
-                случае если ремонт невозможен или нецелесообразен, мы заменим товар на аналогичный
-                или вернем деньги.
-              </p>
+            <div className={styles.stepLead}>
+              <div className={styles.stepNum}>5</div>
+              <div className={styles.stepLeadBody}>
+                <p className={styles.stepBoldBlack}>Ремонт или замена.</p>
+                <p className={styles.stepText}>
+                  Срок ремонта по гарантии составляет{' '}
+                  <span className={styles.stepHighlight}>не более 45 дней</span> (согласно ЗоЗП). В
+                  случае если ремонт невозможен или нецелесообразен, мы заменим товар на аналогичный
+                  или вернем деньги.
+                </p>
+              </div>
             </div>
           </div>
           <div className={styles.divider} />
@@ -149,7 +157,7 @@ export default function ServicePage() {
         <div className={styles.divider} />
 
         {/* ═══════════ Гарантия — two columns ═══════════ */}
-        <div className={styles.twoColumns} style={{ marginTop: '40rem' }}>
+        <div className={styles.twoColumns}>
           {/* Column 1: Гарантийные обязательства */}
           <div className={styles.column}>
             <h3 className={styles.colTitle}>1. Гарантийные обязательства</h3>
@@ -221,7 +229,7 @@ export default function ServicePage() {
           <div className={styles.divider} />
         </div>
 
-        <div className={styles.instrHeader}>
+        <div className={clsx(styles.instrHeader, styles.instrHeaderReturn)}>
           <p className={styles.instrQuestion}>Как оформить возврат?</p>
           <p className={styles.instrGuide}>Пошаговая инструкция</p>
         </div>
@@ -229,8 +237,8 @@ export default function ServicePage() {
         <div className={styles.stepsList}>
           {/* Return Step 1 */}
           <div className={styles.step}>
-            <div className={styles.stepNum}>1</div>
-            <div className={styles.stepContent}>
+            <div className={styles.stepLead}>
+              <div className={styles.stepNum}>1</div>
               <p className={styles.stepText}>
                 Заполните заявку на возврат внизу этой страницы или свяжитесь с нами по телефону
                 горячей линии{' '}
@@ -249,8 +257,8 @@ export default function ServicePage() {
 
           {/* Return Step 2 */}
           <div className={styles.step}>
-            <div className={styles.stepNum}>2</div>
-            <div className={styles.stepContent}>
+            <div className={styles.stepLead}>
+              <div className={styles.stepNum}>2</div>
               <p className={styles.stepText}>
                 Наш специалист проконсультирует вас и поможет решить Ваш вопрос.
               </p>
@@ -260,8 +268,8 @@ export default function ServicePage() {
 
           {/* Return Step 3 */}
           <div className={styles.step}>
-            <div className={styles.stepNum}>3</div>
-            <div className={styles.stepContent}>
+            <div className={styles.stepLead}>
+              <div className={styles.stepNum}>3</div>
               <p className={styles.stepText}>
                 Заполните заявление, упакуйте товар со всеми комплектующими и документами (копия
                 чека, копия паспорта).
@@ -272,20 +280,20 @@ export default function ServicePage() {
 
           {/* Return Step 4 */}
           <div className={styles.step}>
-            <div className={styles.stepNum}>4</div>
-            <div className={styles.stepContent}>
+            <div className={styles.stepLead}>
+              <div className={styles.stepNum}>4</div>
               <p className={styles.stepBoldBlack}>
                 Мы вышлем вам трек-номер для отправки через СДЭК:
               </p>
-              <div className={styles.returnBadgesRow}>
-                <div className={styles.returnBadgeCol}>
-                  <span className={styles.stepSubBadge}>При браке</span>
-                  <p className={styles.stepSubText}>Мы создаем заказ с оплатой за наш счет.</p>
-                </div>
-                <div className={styles.returnBadgeCol}>
-                  <span className={styles.stepSubBadge}>Если товар качественный</span>
-                  <p className={styles.stepSubText}>Вы создаете заказ с оплатой за ваш счет</p>
-                </div>
+            </div>
+            <div className={styles.returnBadgesRow}>
+              <div className={styles.returnBadgeCol}>
+                <span className={styles.stepSubBadge}>При браке</span>
+                <p className={styles.stepSubText}>Мы создаем заказ с оплатой за наш счет.</p>
+              </div>
+              <div className={styles.returnBadgeCol}>
+                <span className={styles.stepSubBadge}>Если товар качественный</span>
+                <p className={styles.stepSubText}>Вы создаете заказ с оплатой за ваш счет</p>
               </div>
             </div>
           </div>
@@ -302,7 +310,7 @@ export default function ServicePage() {
               качества (не подошел)
             </h3>
 
-            <div className={styles.colBlock}>
+            <div className={clsx(styles.colBlock, styles.ifBlock)}>
               <p className={styles.colBlockLabel}>Если товар вам не подошел</p>
               <div className={styles.colBlockContent}>
                 <ol className={styles.olList}>
@@ -394,7 +402,7 @@ export default function ServicePage() {
                 <label className={styles.formLabel}>
                   ФИО <span>*</span>
                 </label>
-                <input type="text" className={styles.formInput} />
+                <input type="text" className={styles.formInput} placeholder="" />
               </div>
               <div className={styles.formField}>
                 <label className={styles.formLabel}>

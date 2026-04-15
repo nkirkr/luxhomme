@@ -122,31 +122,61 @@
   position: relative;
   flex-shrink: 0;
   padding: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6rem;
 }
 
 .hamburgerLine {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 23rem;
-  height: 2.5rem;
+  position: relative;
+  width: 23.33rem;
+  height: 2.67rem;
   background: var(--color-white);
   border-radius: 2rem;
-  transition: background 0.2s;
+  flex-shrink: 0;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease,
+    background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .solid .hamburgerLine {
   background: var(--color-black);
 }
 
-.hamburgerLine:nth-child(1) {
-  top: 10rem;
+/* Три линии → крестик */
+.hamburgerOpen {
+  gap: 0;
 }
-.hamburgerLine:nth-child(2) {
-  top: 19rem;
+
+.hamburgerOpen .hamburgerLine {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -11.665rem;
+  margin-top: -1.335rem;
 }
-.hamburgerLine:nth-child(3) {
-  top: 27rem;
+
+.hamburgerOpen .hamburgerLine:nth-child(1) {
+  transform: rotate(45deg);
+}
+
+.hamburgerOpen .hamburgerLine:nth-child(2) {
+  opacity: 0;
+  transform: rotate(45deg) scaleX(0);
+}
+
+.hamburgerOpen .hamburgerLine:nth-child(3) {
+  transform: rotate(-45deg);
+}
+
+.headerMenuOpen .hamburgerLine {
+  background: var(--color-white);
+}
+
+.headerMenuOpen.solid .hamburgerLine {
+  background: var(--color-white);
 }
 
 /* ================================================================
@@ -341,27 +371,10 @@
   background: var(--color-black);
   display: flex;
   flex-direction: column;
+  /* Отступ под фиксированный header + зазор до пунктов (макет Figma) */
   padding: 140rem 20rem 40rem;
   gap: 20rem;
   overflow-y: auto;
-}
-
-.mobileCloseBtn {
-  position: absolute;
-  top: 20rem;
-  right: 20rem;
-  width: 40rem;
-  height: 40rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.mobileCloseSvg {
-  width: 24rem;
-  height: 24rem;
-  stroke: var(--color-white);
 }
 
 .mobileNavTop {
@@ -414,8 +427,19 @@
   transition: transform 0.3s;
 }
 
-.mobileExpandableIconOpen {
-  transform: rotate(0deg);
+.mobileExpandableEllipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  flex-shrink: 0;
+}
+
+.mobileExpandableDot {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--color-white);
 }
 
 .mobileSubItems {
@@ -453,12 +477,38 @@
   }
 
   .hamburger {
-    display: block;
+    display: flex;
     order: -1;
   }
 
   .logo {
     width: 165rem;
     height: 20.6rem;
+  }
+
+  /*
+   * Синхрон с motion overlay (SiteHeader.tsx): duration 0.28s, ease [0.4, 0, 0.2, 1]
+   */
+  .header {
+    background-color: transparent;
+    transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .solid .cartCount {
+    transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Открытое меню: шапка поверх оверлея, всё в белый (макет Figma) */
+  .header.headerMenuOpen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 101;
+    background-color: var(--color-black);
+  }
+
+  .header.headerMenuOpen .cartCount {
+    color: var(--color-white);
   }
 }

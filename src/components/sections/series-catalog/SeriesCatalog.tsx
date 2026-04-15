@@ -11,7 +11,6 @@ type SeriesCategory = {
   key: SeriesKey
   label: string
   hint: string
-  active?: boolean
   href: string
 }
 
@@ -30,7 +29,6 @@ const SERIES: SeriesCategory[] = [
     key: 'kitchen',
     label: 'Кухня',
     hint: 'Простые\nи здоровые блюда\nдля вашей семьи',
-    active: true,
     href: '/products?series=kitchen',
   },
   { key: 'clean', label: 'Чистота', hint: 'Лёгкая уборка', href: '/products?series=clean' },
@@ -183,14 +181,14 @@ export function SeriesCatalog() {
                 >
                   <Link
                     href={s.href}
-                    className={`${styles.btnTag} ${s.active ? styles.active : styles.inactive} ${styles[`series_${s.key}`]} ${isHovered ? styles.btnTagHovered : ''}`}
+                    className={`${styles.btnTag} ${styles.inactive} ${styles[`series_${s.key}`]} ${isHovered ? styles.btnTagHovered : ''}`}
                   >
                     {s.label}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/icons/arrow-up-right-white.svg"
                       alt=""
-                      className={`${styles.btnTagIcon} ${s.active || isHovered ? styles.btnTagIconVisible : ''}`}
+                      className={`${styles.btnTagIcon} ${isHovered ? styles.btnTagIconVisible : ''}`}
                     />
                   </Link>
                   <p className={styles.btnHint}>
@@ -222,7 +220,7 @@ export function SeriesCatalog() {
                 <Link
                   key={s.key}
                   href={s.href}
-                  className={`${styles.bannerBtn} ${s.active ? styles.fill : styles.outline} ${styles[`series_${s.key}`]} ${isHovered ? styles.bannerBtnHovered : ''}`}
+                  className={`${styles.bannerBtn} ${styles.outline} ${styles[`series_${s.key}`]} ${isHovered ? styles.bannerBtnHovered : ''}`}
                   onMouseEnter={() => setHoveredKey(s.key)}
                   onMouseLeave={() => setHoveredKey(null)}
                 >

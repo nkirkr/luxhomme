@@ -15,7 +15,7 @@
   display: flex;
   width: 1280rem;
   margin: 0 auto;
-  padding-top: 60rem;
+  padding-top: 104rem;
   padding-bottom: 80rem;
 }
 
@@ -92,7 +92,7 @@
 }
 
 /* ─── Mobile dropdown (hidden on desktop) ─── */
-.mobileSelect {
+.mobileNav {
   display: none;
 }
 
@@ -100,7 +100,7 @@
 .content {
   flex: 1;
   min-width: 0;
-  max-width: 702rem;
+  /* max-width: 702rem; */
   margin-left: auto;
 }
 
@@ -532,6 +532,10 @@
   padding-bottom: 12rem;
 }
 
+.dataFieldEditing {
+  border-bottom-color: var(--color-care);
+}
+
 .dataFieldLabel {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
@@ -554,6 +558,25 @@
   grid-column: 1 / -1;
   border-bottom: 1px solid var(--color-stroke);
   padding-bottom: 12rem;
+}
+
+.dataFieldFullEditing {
+  border-bottom-color: var(--color-care);
+}
+
+.dataFieldInput {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-black);
+  box-sizing: border-box;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -886,6 +909,11 @@
   .dataFieldValue {
     font-size: 18rem;
   }
+
+  .dataFieldInput {
+    font-size: 18rem;
+  }
+
   .headerWrap {
     padding: 20rem 20rem 0;
   }
@@ -894,11 +922,13 @@
     flex-direction: column;
     width: 100%;
     gap: 40rem;
-    padding: 124rem 20rem 29rem;
+    padding: 104rem 20rem 29rem;
   }
 
   .sidebar {
     width: 100%;
+    position: relative;
+    z-index: 2;
   }
 
   .balance {
@@ -913,6 +943,8 @@
   .content {
     max-width: none;
     margin-left: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .nav {
@@ -921,6 +953,13 @@
 
   .logoutLink {
     display: none;
+  }
+
+  .mobileNav {
+    display: block;
+    width: 100%;
+    margin-top: 20rem;
+    position: relative;
   }
 
   .mobileSelect {
@@ -936,14 +975,93 @@
     font-family: var(--font-helvetica);
     font-weight: var(--weight-light);
     font-size: 14rem;
+    line-height: 1.4;
     color: var(--color-black);
     cursor: pointer;
-    margin-top: 20rem;
+    margin: 0;
+    padding: 4rem 50rem;
+    box-sizing: border-box;
+    transition:
+      background 0.25s ease,
+      border-color 0.25s ease,
+      color 0.25s ease;
   }
 
-  .mobileSelect img {
+  .mobileSelect p {
+    margin: 0;
+    color: inherit;
+  }
+
+  .mobileSelectChevron {
     width: 16rem;
     height: 16rem;
+    flex-shrink: 0;
+    transition:
+      transform 0.25s ease,
+      filter 0.25s ease;
+  }
+
+  .mobileSelectOpen {
+    background: var(--color-cook);
+    border-color: var(--color-cook);
+    color: var(--color-white);
+  }
+
+  .mobileSelectOpen .mobileSelectChevron {
+    transform: rotate(180deg);
+    filter: brightness(0) invert(1);
+  }
+
+  .mobileDropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 12rem);
+    z-index: 3;
+    border-radius: 6rem;
+    overflow: hidden;
+    background: var(--color-white);
+    border: 1px solid var(--color-dies);
+    box-shadow: 0 4rem 24rem color-mix(in srgb, var(--color-black) 6%, transparent);
+  }
+
+  .mobileDropdownLink {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10rem 20rem;
+    border: none;
+    border-bottom: 1px solid var(--color-dies);
+    background: var(--color-white);
+    font-family: var(--font-helvetica);
+    font-weight: var(--weight-light);
+    font-size: 14rem;
+    line-height: 1.4;
+    color: var(--color-black);
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .mobileDropdownLinkActive {
+    opacity: 0.4;
+  }
+
+  .mobileDropdownLogout {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10rem 20rem;
+    border: none;
+    background: var(--color-white);
+    font-family: var(--font-helvetica);
+    font-weight: var(--weight-bold);
+    font-size: 14rem;
+    line-height: 1.2;
+    color: var(--color-cook);
+    text-align: left;
+    cursor: pointer;
   }
 
   /* Loyalty */

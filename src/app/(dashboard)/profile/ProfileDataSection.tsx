@@ -1,0 +1,109 @@
+'use client'
+
+import { useState } from 'react'
+import styles from '../dashboard.module.css'
+
+export type ProfileData = {
+  name: string
+  email: string
+  phone: string
+  address: string
+}
+
+type ProfileDataSectionProps = {
+  initialData: ProfileData
+}
+
+export function ProfileDataSection({ initialData }: ProfileDataSectionProps) {
+  const [editing, setEditing] = useState(false)
+  const [data, setData] = useState<ProfileData>(initialData)
+
+  const handleSave = () => {
+    setEditing(false)
+    // TODO: persist to API when backend is ready
+  }
+
+  const handleToggle = () => {
+    if (editing) {
+      handleSave()
+    } else {
+      setEditing(true)
+    }
+  }
+
+  return (
+    <>
+      <div className={styles.dataHeader}>
+        <h2 className={styles.dataTitle}>Данные</h2>
+        <button type="button" className={styles.btnEdit} onClick={handleToggle}>
+          {editing ? 'Сохранить' : 'Редактировать'}
+          {!editing && (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icons/arrow-up-right.svg" alt="" />
+            </>
+          )}
+        </button>
+      </div>
+
+      <div className={styles.dataFields}>
+        <div className={`${styles.dataField} ${editing ? styles.dataFieldEditing : ''}`}>
+          <p className={styles.dataFieldLabel}>Фамилия Имя</p>
+          {editing ? (
+            <input
+              type="text"
+              className={styles.dataFieldInput}
+              value={data.name}
+              onChange={(e) => setData((d) => ({ ...d, name: e.target.value }))}
+              autoComplete="name"
+            />
+          ) : (
+            <p className={styles.dataFieldValue}>{data.name}</p>
+          )}
+        </div>
+        <div className={`${styles.dataField} ${editing ? styles.dataFieldEditing : ''}`}>
+          <p className={styles.dataFieldLabel}>Почта</p>
+          {editing ? (
+            <input
+              type="email"
+              className={styles.dataFieldInput}
+              value={data.email}
+              onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+              autoComplete="email"
+            />
+          ) : (
+            <p className={styles.dataFieldValue}>{data.email}</p>
+          )}
+        </div>
+        <div className={`${styles.dataField} ${editing ? styles.dataFieldEditing : ''}`}>
+          <p className={styles.dataFieldLabel}>Телефон</p>
+          {editing ? (
+            <input
+              type="tel"
+              className={styles.dataFieldInput}
+              value={data.phone}
+              onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+              autoComplete="tel"
+            />
+          ) : (
+            <p className={styles.dataFieldValue}>{data.phone}</p>
+          )}
+        </div>
+        <div className={`${styles.dataFieldFull} ${editing ? styles.dataFieldFullEditing : ''}`}>
+          <p className={styles.dataFieldLabel}>Ваш адрес</p>
+          {editing ? (
+            <input
+              type="text"
+              className={styles.dataFieldInput}
+              value={data.address}
+              onChange={(e) => setData((d) => ({ ...d, address: e.target.value }))}
+              autoComplete="street-address"
+            />
+          ) : (
+            <p className={styles.dataFieldValue}>{data.address}</p>
+          )}
+        </div>
+      </div>
+    </>
+  )
+}

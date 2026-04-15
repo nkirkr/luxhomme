@@ -4,7 +4,10 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
 import { useCart } from '@/lib/cart/CartContext'
-import { PRODUCTS as MOCK_PRODUCTS } from '@/components/sections/series-catalog/SeriesCatalog'
+import {
+  ProductCard,
+  PRODUCTS as MOCK_PRODUCTS,
+} from '@/components/sections/series-catalog/SeriesCatalog'
 import styles from './cart.module.css'
 
 // ── Coupon accordion ──────────────────────────────────────────────
@@ -13,13 +16,10 @@ function CouponSection() {
   const [open, setOpen] = useState(false)
   const [code, setCode] = useState('')
   const [error, setError] = useState('')
-  const [applied, setApplied] = useState(false)
-
   function apply() {
     if (!code.trim()) return
     // Mock: any code fails
     setError(`Купон «${code}» не может быть применён, поскольку его не существует.`)
-    setApplied(false)
   }
 
   return (
@@ -178,19 +178,7 @@ function EmptyCart() {
         <p className={styles.emptyProductsTitle}>Новое в магазине</p>
         <div className={styles.emptyProductsGrid}>
           {MOCK_PRODUCTS.slice(0, 3).map((p) => (
-            <div key={p.id} className={styles.emptyCard}>
-              <div className={styles.emptyCardImg}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.image} alt={p.name} className={styles.emptyCardImgEl} />
-              </div>
-              <div className={styles.emptyCardInfo}>
-                <span className={styles.emptyCardCategory}>{p.category}</span>
-                <p className={styles.emptyCardName}>{p.name.replace('\n', ' ')}</p>
-              </div>
-              <Link href={p.href} className={styles.emptyCardBtn}>
-                В корзину
-              </Link>
-            </div>
+            <ProductCard key={p.id} product={p} />
           ))}
         </div>
       </div>

@@ -1,0 +1,578 @@
+/* ================================================================
+   Checkout page
+   Desktop ref: 1440 → 1rem = 1px (fluid)
+   Mobile ref:  440  → 1rem = 1px (fluid)
+   ================================================================ */
+
+.page {
+  min-height: 100vh;
+  background: var(--color-site-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.headerWrap {
+  width: 100%;
+}
+
+/* ── Main content ── */
+.content {
+  width: 1280rem;
+  margin: 0 auto;
+  padding: 31rem 0 80rem;
+  display: flex;
+  gap: 40rem;
+  align-items: flex-start;
+}
+
+/* ── Left column ── */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  width: 740rem;
+  flex-shrink: 0;
+}
+
+/* ── Form sections ── */
+.formRow {
+  display: flex;
+  gap: 40rem;
+  align-items: flex-start;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  width: 300rem;
+  flex-shrink: 0;
+}
+
+.formSectionFlex {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.sectionTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-ls);
+  line-height: 1;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* ── Input field ── */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 64rem;
+  border-bottom: 1px solid var(--color-stroke);
+  padding-bottom: 12rem;
+}
+
+.inputLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-m);
+  line-height: 1.4;
+  color: var(--color-grey);
+  margin: 0 0 4rem;
+}
+
+.inputField {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-m);
+  line-height: 1.4;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 100%;
+}
+
+.inputField::placeholder {
+  color: var(--color-text);
+}
+
+.inputHint {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-s);
+  line-height: 1.2;
+  color: var(--color-grey);
+  margin: 4rem 0 0;
+}
+
+.inputWithHint {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Order summary card ── */
+.orderCard {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.orderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-m);
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.orderHeaderTotal {
+}
+
+.orderItems {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.orderItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.orderItemLeft {
+  display: flex;
+  gap: 20rem;
+  align-items: center;
+}
+
+.orderItemImg {
+  width: 100rem;
+  height: 100rem;
+  border-radius: 15rem;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.orderItemImgEl {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.orderItemImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-hero);
+  border-radius: 15rem;
+  pointer-events: none;
+}
+
+.orderItemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.orderItemPriceRow {
+  display: none;
+}
+
+.orderItemPriceCurrent {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-m);
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.orderItemName {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-m);
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.orderItemPrice {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-m);
+  line-height: 1.4;
+  color: var(--color-text);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.orderDivider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-stroke);
+}
+
+.orderTotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-m);
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.orderTotalLabel {
+}
+
+/* ── Right column ── */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  width: 500rem;
+  flex-shrink: 0;
+}
+
+/* ── Delivery card ── */
+.deliveryCard {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.deliveryOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.radioOption {
+  display: flex;
+  gap: 12rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radioCircle {
+  width: 16rem;
+  height: 16rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.2s;
+}
+
+.radioCircleActive {
+  border-color: var(--color-clean);
+}
+
+.radioDot {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  background: var(--color-clean);
+  display: none;
+}
+
+.radioCircleActive .radioDot {
+  display: block;
+}
+
+.radioContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.radioLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-ls);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.radioSub {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-s);
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.cardDivider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Pickup point info ── */
+.pickupInfo {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 12rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.pickupTitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-menu);
+  line-height: 1.04;
+  color: var(--color-black);
+  margin: 0;
+}
+
+.pickupAddress {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-menu);
+  line-height: normal;
+  color: var(--color-grey);
+  margin: 0;
+}
+
+.pickupDistance {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-menu);
+  line-height: normal;
+  color: var(--color-grey);
+  margin: 0;
+}
+
+.pickupBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40rem;
+  width: 100%;
+  background: var(--color-clean);
+  border: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-m);
+  line-height: 1.4;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.pickupBtn:hover {
+  opacity: 0.85;
+}
+
+/* ── Info notice ── */
+.infoNotice {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10rem;
+  display: flex;
+  gap: 10rem;
+  align-items: center;
+}
+
+.infoIcon {
+  width: 16rem;
+  height: 16rem;
+  flex-shrink: 0;
+}
+
+.infoText {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-s);
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+/* ── Payment card ── */
+.paymentCard {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.paymentOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.paymentLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-ls);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+/* ── Checkbox ── */
+.checkboxOption {
+  display: flex;
+  gap: 12rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkboxBox {
+  width: 16rem;
+  height: 16rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.checkboxBoxChecked {
+  background: var(--color-black);
+  border-color: var(--color-black);
+}
+
+.checkboxBoxChecked svg {
+  display: block;
+}
+
+.checkboxLabel {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-m);
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.checkboxLabel a {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+/* ── Pay button ── */
+.payBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60rem;
+  width: 100%;
+  background: var(--color-cook);
+  border: 1px solid var(--color-cook);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-m);
+  line-height: 1.4;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.payBtn:hover {
+  opacity: 0.85;
+}
+
+/* ================================================================
+   Mobile  (≤ 768px)
+   ================================================================ */
+
+@media (max-width: 768px) {
+  .content {
+    width: 100%;
+    padding: 20rem 20rem 40rem;
+    flex-direction: column;
+    gap: 40rem;
+  }
+
+  .leftCol {
+    width: 100%;
+    gap: 40rem;
+  }
+
+  .formRow {
+    flex-direction: column;
+    gap: 40rem;
+  }
+
+  .formSection {
+    width: 100%;
+  }
+
+  .formSectionFlex {
+    width: 100%;
+  }
+
+  .orderCard {
+    margin-top: -20rem;
+  }
+
+  .orderItemImg {
+    width: 50rem;
+    height: 50rem;
+    border-radius: 5rem;
+  }
+
+  .orderItemImgOverlay {
+    border-radius: 5rem;
+  }
+
+  .orderItemName {
+    white-space: normal;
+  }
+
+  .orderItemPrice {
+    display: none;
+  }
+
+  .orderHeaderTotal {
+    display: none;
+  }
+
+  .orderItemPriceRow {
+    display: flex;
+    gap: 10rem;
+    align-items: center;
+  }
+
+  .orderItem {
+    gap: 20rem;
+  }
+
+  .orderTotalLabel {
+    /* Mobile Figma shows "ИТОГ" not "ИТОГО" — handled via CSS content would be complex,
+       keeping "ИТОГО" as it's semantically correct */
+  }
+
+  .rightCol {
+    width: 100%;
+    margin-top: -20rem;
+  }
+}

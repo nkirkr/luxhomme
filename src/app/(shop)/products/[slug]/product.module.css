@@ -427,23 +427,104 @@
   gap: 60rem;
 }
 
-.descSlider {
-  flex: 1;
+/* ── Carousel ── */
+.descCarousel {
+  --slide-active-w: 497rem;
+  --slide-image-size: 360rem;
+  --slide-inactive-size: 144rem;
+  --slide-gap: 110rem;
+
+  width: 100%;
+  overflow: hidden;
+}
+
+.descTrack {
+  display: flex;
+  gap: var(--slide-gap);
+  align-items: center;
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Each slide ── */
+.descSlide {
+  width: var(--slide-inactive-size);
+  height: var(--slide-inactive-size);
+  flex-shrink: 0;
+  cursor: pointer;
+  opacity: 0.5;
+  overflow: hidden;
+  border-radius: 8rem;
+  transition:
+    width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.descSlideActive {
+  width: var(--slide-active-w);
+  height: auto;
+  opacity: 1;
+  cursor: default;
+  overflow: visible;
+  border-radius: 0;
+}
+
+/* ── Active slide frame: arrow – image – arrow ── */
+.descActiveFrame {
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.descActiveInner {
+  width: var(--slide-image-size);
+  flex-shrink: 0;
 }
 
 .descSlideImage {
-  width: 360rem;
-  height: 360rem;
-  border-radius: 6rem;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8rem;
   object-fit: cover;
+  display: block;
 }
 
+/* ── Arrows (inside active slide) ── */
+.descArrowLeft,
+.descArrowRight {
+  width: 18rem;
+  height: 18rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-black);
+  flex-shrink: 0;
+}
+
+.descArrowLeft img,
+.descArrowRight img {
+  width: 13rem;
+  height: 13rem;
+  display: block;
+}
+
+.descArrowLeft:disabled,
+.descArrowRight:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ── Slide text (only shown for active) ── */
 .descText {
   max-width: 500rem;
+  padding-left: 68rem;
+  margin-top: 60rem;
 }
 
 .descTextTitle {
@@ -935,13 +1016,17 @@
     gap: 20rem;
   }
 
-  .descSlideImage {
-    width: 272rem;
-    height: 272rem;
+  .descCarousel {
+    --slide-active-w: 100%;
+    --slide-image-size: 272rem;
+    --slide-inactive-size: 100rem;
+    --slide-gap: 20rem;
   }
 
   .descText {
     max-width: 100%;
+    padding-left: 0;
+    margin-top: 20rem;
   }
 
   /* Specs */

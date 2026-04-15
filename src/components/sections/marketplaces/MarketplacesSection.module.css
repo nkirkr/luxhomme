@@ -43,17 +43,35 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 9rem 12rem;
   background: var(--color-white);
-  border-radius: 40rem;
   text-decoration: none;
   flex-shrink: 0;
   transition: opacity 0.2s;
+  box-sizing: border-box;
+  border-radius: 40rem;
 }
 
-.logoBtn:nth-of-type(1) img {
-  width: 66rem;
-  height: 18rem;
+/* Макет Figma: h 36px, px 12 py 8, radius pill 40px; логотипы внутри max 18px по высоте */
+.logoBtnPill {
+  height: 36rem;
+  min-height: 36rem;
+  padding: 8rem 12rem;
+  border-radius: 40rem;
+}
+
+/* OZON — фиксированная ширина контейнера 90px */
+.logoBtnOzon {
+  width: 90rem;
+  min-width: 90rem;
+}
+
+/* Telegram — круг 36×36px как в макете */
+.logoBtnCircle {
+  width: 36rem;
+  height: 36rem;
+  min-width: 36rem;
+  padding: 0;
+  border-radius: 50%;
 }
 
 .logoBtn:hover {
@@ -62,9 +80,11 @@
 
 .logoImg {
   display: block;
-  height: 18rem;
+  max-height: 18rem;
   width: auto;
-  object-fit: cover;
+  max-width: 100%;
+  object-fit: contain;
+  filter: grayscale(100%);
 }
 
 .logoImgTg {
@@ -72,4 +92,5 @@
   height: 18rem;
   object-fit: contain;
   display: block;
+  filter: grayscale(100%);
 }

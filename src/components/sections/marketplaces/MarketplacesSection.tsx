@@ -81,7 +81,7 @@ export default function MarketplacesSection() {
               href={m.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.logoBtn}
+              className={`${styles.logoBtn} ${m.wide ? styles.logoBtnPill : styles.logoBtnCircle} ${m.id === 'ozon' ? styles.logoBtnOzon : ''}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={m.src} alt={m.alt} className={m.wide ? styles.logoImg : styles.logoImgTg} />

@@ -55,6 +55,7 @@
   text-decoration: none;
   flex-shrink: 0;
   transition: opacity 0.2s;
+  border-radius: 40rem;
 }
 
 .logoBtn:hover {

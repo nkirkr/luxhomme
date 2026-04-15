@@ -118,12 +118,6 @@
     padding 0.3s ease;
 }
 
-.btnTag.active {
-  background-color: var(--color-cook);
-  border-color: var(--color-cook);
-  color: var(--color-white);
-}
-
 .btnTag.inactive {
   background: none;
   border-color: var(--color-stroke);
@@ -228,12 +222,6 @@
   background: none;
 }
 
-.bannerBtn.fill {
-  background-color: var(--color-cook);
-  border-color: var(--color-cook);
-  color: var(--color-white);
-}
-
 .bannerBtn.outline {
   background: none;
   border-color: var(--color-white);
@@ -254,8 +242,9 @@
   border-color: var(--color-care);
 }
 
-.bannerBtn.fill.series_kitchen.bannerBtnHovered {
-  opacity: 0.85;
+.bannerBtn.outline.series_kitchen.bannerBtnHovered {
+  background-color: var(--color-cook);
+  border-color: var(--color-cook);
 }
 
 /* ── Catalog grid ── */
