@@ -63,7 +63,7 @@ export function HeroSection() {
   const slide = SLIDES[activeIndex]
 
   return (
-    <section className={styles.hero} aria-label="Главный баннер">
+    <section className={styles.hero} aria-label="Главный баннер" data-hero>
       {/* Swiper for background images */}
       <div className={styles.swiperWrap}>
         <Swiper

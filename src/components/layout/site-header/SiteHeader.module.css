@@ -3,15 +3,21 @@
    ================================================================ */
 
 .header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 40;
+  background-color: var(--color-bg);
+  transition: background-color 0.35s ease;
 }
 
-.solid {
-  position: fixed;
+.homeHeader {
+  background-color: transparent;
+}
+
+.homeHeader.solid {
+  background-color: var(--color-bg);
 }
 
 .solid .navLabel,
@@ -22,10 +28,11 @@
 .inner {
   width: 1280rem;
   margin: 0 auto;
-  padding-top: 20rem;
+  padding: 20rem 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: background-color 0.2s;
 }
 
 /* ── Logo ── */
@@ -35,12 +42,19 @@
   flex-shrink: 0;
   width: 165rem;
   height: 20.6rem;
+  transition: opacity 0.2s;
 }
 
 .logoImage {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+@media (hover: hover) {
+  .logo:hover {
+    opacity: 0.7;
+  }
 }
 
 /* ── Nav links ── */
@@ -57,6 +71,13 @@
   text-decoration: none;
   position: relative;
   cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+@media (hover: hover) {
+  .navItem:hover {
+    opacity: 0.7;
+  }
 }
 
 .navLabel {
@@ -66,6 +87,7 @@
   line-height: 1;
   color: var(--color-white);
   white-space: nowrap;
+  transition: color 0.35s ease;
 }
 
 .navArrow {
@@ -75,9 +97,9 @@
   transition: transform 0.25s ease;
 }
 
-.navItem:hover .navArrow {
+/* .navItem:hover .navArrow {
   transform: rotate(180deg);
-}
+} */
 
 /* ── Icons (profile + basket) ── */
 .icons {
@@ -95,6 +117,13 @@
   padding: 0;
   cursor: pointer;
   text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+@media (hover: hover) {
+  .iconBtn:hover {
+    opacity: 0.7;
+  }
 }
 
 .iconImage {
@@ -109,6 +138,7 @@
   font-size: 16rem;
   line-height: 1;
   color: var(--color-white);
+  transition: color 0.35s ease;
 }
 
 /* ── Hamburger button (mobile only) ── */
@@ -173,6 +203,10 @@
 
 .headerMenuOpen .hamburgerLine {
   background: var(--color-white);
+}
+
+.headerMenuOpen .inner {
+  background-color: var(--color-black);
 }
 
 .headerMenuOpen.solid .hamburgerLine {
@@ -465,7 +499,7 @@
 @media (max-width: 768px) {
   .inner {
     width: 100%;
-    padding: 20rem 20rem 0;
+    padding: 20rem 20rem 20rem;
   }
 
   .headerWrap {
@@ -486,24 +520,11 @@
     height: 20.6rem;
   }
 
-  /*
-   * Синхрон с motion overlay (SiteHeader.tsx): duration 0.28s, ease [0.4, 0, 0.2, 1]
-   */
-  .header {
-    background-color: transparent;
-    transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
   .solid .cartCount {
     transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Открытое меню: шапка поверх оверлея, всё в белый (макет Figma) */
   .header.headerMenuOpen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
     z-index: 101;
     background-color: var(--color-black);
   }

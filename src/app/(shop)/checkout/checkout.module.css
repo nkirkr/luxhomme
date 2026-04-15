@@ -19,7 +19,7 @@
 .content {
   width: 1280rem;
   margin: 0 auto;
-  padding: 31rem 0 80rem;
+  padding: 91rem 0 80rem;
   display: flex;
   gap: 40rem;
   align-items: flex-start;
@@ -290,7 +290,7 @@
   width: 8rem;
   height: 8rem;
   border-radius: 50%;
-  background: var(--color-clean);
+  background: var(--color-cook);
   display: none;
 }
 
@@ -507,14 +507,14 @@
 @media (max-width: 768px) {
   .content {
     width: 100%;
-    padding: 20rem 20rem 40rem;
+    padding: 100rem 20rem 40rem;
     flex-direction: column;
     gap: 40rem;
   }
 
   .leftCol {
     width: 100%;
-    gap: 40rem;
+    gap: 60rem;
   }
 
   .formRow {

@@ -22,11 +22,8 @@ export default function HomePage() {
         searchUrl={`${siteUrl}/search?q={search_term_string}`}
       />
 
-      {/* Hero with overlaid header */}
-      <div style={{ position: 'relative' }}>
-        <SiteHeader />
-        <HeroSection />
-      </div>
+      <SiteHeader />
+      <HeroSection />
 
       {/* Page sections */}
       <div className={styles.content}>

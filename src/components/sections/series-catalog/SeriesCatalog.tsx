@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type MouseEvent } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart/CartContext'
 import styles from './SeriesCatalog.module.css'
@@ -95,7 +95,9 @@ export const PRODUCTS: Product[] = [
 export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart()
 
-  function handleAddToCart() {
+  function handleAddToCart(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+    e.stopPropagation()
     addItem({
       id: product.id,
       name: product.name.replace('\n', ' '),
@@ -143,7 +145,7 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       {/* Add to cart */}
-      <button onClick={handleAddToCart} className={styles.cardCartBtn}>
+      <button type="button" onClick={handleAddToCart} className={styles.cardCartBtn}>
         В корзину
       </button>
     </Link>

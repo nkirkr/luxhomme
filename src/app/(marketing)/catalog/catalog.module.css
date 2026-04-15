@@ -179,9 +179,9 @@
 }
 
 .gridRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 40rem;
-  align-items: stretch;
 }
 
 /* ── Load more button ── */

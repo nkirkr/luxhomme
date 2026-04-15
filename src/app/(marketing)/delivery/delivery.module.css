@@ -66,6 +66,7 @@
   line-height: 1;
   color: var(--color-text);
   margin: 0;
+  margin-bottom: 20rem;
 }
 
 .cardDesc {
@@ -292,6 +293,7 @@
     font-family: var(--font-helvetica);
     font-weight: var(--weight-regular);
     font-size: 24rem;
+    margin-bottom: 12rem;
   }
 
   .paymentRow {

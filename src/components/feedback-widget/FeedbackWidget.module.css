@@ -25,18 +25,25 @@
   height: 32rem;
 }
 
-/* ── Form panel ── */
-.panel {
+/* ── Animated wrapper — takes position + transform from Framer Motion ── */
+.panelWrap {
   position: fixed;
   bottom: 168rem;
   right: 80rem;
   z-index: 151;
   width: 360rem;
+}
+
+/* ── Glass panel — no transform on this node so backdrop-filter works ── */
+.panel {
+  width: 100%;
   padding: 20rem;
   border-radius: 12rem;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(18.5px);
-  -webkit-backdrop-filter: blur(18.5px);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8rem 32rem rgba(0, 0, 0, 0.25);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  backdrop-filter: blur(24px) saturate(1.2);
   display: flex;
   flex-direction: column;
   gap: 14rem;
@@ -224,7 +231,7 @@
     height: 28rem;
   }
 
-  .panel {
+  .panelWrap {
     right: 20rem;
     bottom: 90rem;
     width: calc(100vw - 40rem);
