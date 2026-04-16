@@ -87,7 +87,7 @@
   border-radius: 100rem;
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
-  font-size: 24rem;
+  font-size: 20rem;
   line-height: 1;
   color: var(--color-black);
   text-decoration: none;
@@ -137,9 +137,5 @@
 
   .headingScript {
     font-size: 70rem;
-  }
-
-  .joinBtn {
-    font-size: 20rem;
   }
 }

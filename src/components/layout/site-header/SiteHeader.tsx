@@ -79,29 +79,69 @@ const MOBILE_MENU_ITEMS = [
 
 interface SiteHeaderProps {
   solid?: boolean
+  /**
+   * Вместе с `solid`: на ширине ≤768px шапка прозрачна с «светлыми» иконками,
+   * пока элемент (querySelector) пересекается с вьюпортом; после скролла — как `solid`.
+   */
+  mobileSolidAfterSelector?: string
 }
 
-export function SiteHeader({ solid }: SiteHeaderProps) {
+export function SiteHeader({ solid, mobileSolidAfterSelector }: SiteHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
   const [catalogOpen, setCatalogOpen] = useState(false)
   const [pastHero, setPastHero] = useState(false)
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches,
+  )
 
   useEffect(() => {
-    if (solid) return
-    const hero = document.querySelector('[data-hero]') as HTMLElement | null
-    if (!hero) {
-      setPastHero(true)
-      return
-    }
-    const io = new IntersectionObserver(([entry]) => setPastHero(!entry.isIntersecting), {
-      threshold: 0,
-    })
-    io.observe(hero)
-    return () => io.disconnect()
-  }, [solid])
+    const mq = window.matchMedia('(max-width: 768px)')
+    const onChange = () => setIsMobile(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
-  const showSolidStyle = solid || pastHero
+  useEffect(() => {
+    if (solid && mobileSolidAfterSelector) {
+      if (!isMobile) {
+        setPastHero(true)
+        return
+      }
+      const el = document.querySelector(mobileSolidAfterSelector)
+      if (!el) {
+        setPastHero(true)
+        return
+      }
+      const io = new IntersectionObserver(([entry]) => setPastHero(!entry.isIntersecting), {
+        threshold: 0,
+      })
+      io.observe(el)
+      return () => io.disconnect()
+    }
+
+    if (!solid) {
+      const hero = document.querySelector('[data-hero]') as HTMLElement | null
+      if (!hero) {
+        setPastHero(true)
+        return
+      }
+      const io = new IntersectionObserver(([entry]) => setPastHero(!entry.isIntersecting), {
+        threshold: 0,
+      })
+      io.observe(hero)
+      return () => io.disconnect()
+    }
+
+    setPastHero(true)
+  }, [solid, mobileSolidAfterSelector, isMobile])
+
+  const showSolidStyle =
+    solid && mobileSolidAfterSelector ? !isMobile || pastHero : solid || pastHero
+
+  const overlayTransparent = Boolean(solid && mobileSolidAfterSelector && isMobile && !pastHero)
+  const useHomeHeaderClass = !solid || overlayTransparent
+
   const useLightHeaderAssets = !showSolidStyle || mobileMenuOpen
   const logoSrc = useLightHeaderAssets ? '/icons/logo.svg' : '/icons/logo-black.svg'
   const profileSrc = useLightHeaderAssets ? '/icons/profile.svg' : '/icons/profile-black.svg'
@@ -122,7 +162,7 @@ export function SiteHeader({ solid }: SiteHeaderProps) {
   return (
     <>
       <header
-        className={`${styles.header} ${!solid ? styles.homeHeader : ''} ${showSolidStyle ? styles.solid : ''} ${mobileMenuOpen ? styles.headerMenuOpen : ''}`}
+        className={`${styles.header} ${useHomeHeaderClass ? styles.homeHeader : ''} ${showSolidStyle ? styles.solid : ''} ${mobileMenuOpen ? styles.headerMenuOpen : ''}`}
       >
         <div className={styles.inner}>
           {/* Hamburger → крестик при открытом меню (mobile) */}

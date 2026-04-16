@@ -90,7 +90,7 @@ export function ProfileDataSection({ initialData }: ProfileDataSectionProps) {
           )}
         </div>
         <div className={`${styles.dataFieldFull} ${editing ? styles.dataFieldFullEditing : ''}`}>
-          <p className={styles.dataFieldLabel}>Ваш адрес</p>
+          <p className={styles.dataFieldLabel}>Адрес доставки</p>
           {editing ? (
             <input
               type="text"

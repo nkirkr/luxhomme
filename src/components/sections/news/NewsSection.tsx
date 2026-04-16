@@ -35,7 +35,6 @@ function NewsCard({ image, tag, title, text, className, smallFooter }: NewsCardP
 export default function NewsSection() {
   return (
     <section className={styles.section}>
-      <div className={styles.topDivider} />
       <div className={styles.grid}>
         {/* ── Left column ── */}
         <div className={styles.colLeft}>

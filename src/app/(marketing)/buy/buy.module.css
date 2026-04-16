@@ -1,6 +1,6 @@
 .page {
   background-color: var(--color-bg);
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 .headerWrap {
@@ -8,7 +8,7 @@
 }
 
 .content {
-  padding: 80rem 80rem 80rem;
+  padding: 104rem 80rem 80rem;
   display: flex;
   flex-direction: column;
   gap: 40rem;
@@ -82,7 +82,7 @@
   }
 
   .content {
-    padding: 40rem 20rem 40rem;
+    padding: 80rem 20rem 40rem;
   }
 
   .heading {

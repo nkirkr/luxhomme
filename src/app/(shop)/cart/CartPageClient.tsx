@@ -229,7 +229,22 @@ export function CartPageClient() {
                   onChange={(e) => setUseBonuses(e.target.checked)}
                   className={styles.bonusCheckInput}
                 />
-                <span className={styles.bonusCheckBox} />
+                <span
+                  className={`${styles.bonusCheckBox} ${useBonuses ? styles.bonusCheckBoxChecked : ''}`}
+                  aria-hidden
+                >
+                  {useBonuses ? (
+                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                      <path
+                        d="M1 4l3 3 5-6"
+                        stroke="white"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ) : null}
+                </span>
                 <span className={styles.bonusCheckLabel}>Использовать 500 бонусов</span>
               </label>
             </div>

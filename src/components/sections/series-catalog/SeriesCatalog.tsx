@@ -28,7 +28,7 @@ const SERIES: SeriesCategory[] = [
   {
     key: 'kitchen',
     label: 'Кухня',
-    hint: 'Простые\nи здоровые блюда\nдля вашей семьи',
+    hint: 'Вкусные блюда',
     href: '/products?series=kitchen',
   },
   { key: 'clean', label: 'Чистота', hint: 'Лёгкая уборка', href: '/products?series=clean' },

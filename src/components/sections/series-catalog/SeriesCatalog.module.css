@@ -167,7 +167,7 @@
 .btnHint {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-regular);
-  font-size: 12rem;
+  font-size: 14rem;
   line-height: 1.2;
   color: var(--color-stroke);
   white-space: nowrap;
@@ -364,7 +364,7 @@
 .cardTitle {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
-  font-size: 18rem;
+  font-size: 16rem;
   line-height: 1;
   color: var(--color-black);
   margin: 0;
@@ -494,7 +494,7 @@
 
   /* Cards: 2 columns, 10rem gap */
   .catalog {
-    gap: 10rem;
+    gap: 10rem 4rem;
     flex-wrap: wrap;
     flex-direction: row;
   }
@@ -507,7 +507,7 @@
 
   .card {
     flex: none;
-    width: 195rem;
+    width: 198rem;
     height: auto;
     gap: 16rem;
     padding: 12rem 8rem;

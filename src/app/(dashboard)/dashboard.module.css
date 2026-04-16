@@ -4,6 +4,7 @@
 
 .page {
   background: var(--color-site-bg);
+  overflow-x: hidden;
   /* min-height: 100vh; */
 }
 
@@ -120,6 +121,7 @@
   align-items: flex-end;
   width: 140rem;
   margin-bottom: 27rem;
+  margin-left: 69.5rem;
 }
 
 .loyaltyLabel {
@@ -193,6 +195,11 @@
   margin: 0;
 }
 
+.loyaltyPage {
+  max-width: 702rem;
+  margin-left: auto;
+}
+
 .levelNameNext {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-regular);
@@ -214,17 +221,20 @@
 
 /* Progress bar */
 .progressBar {
-  display: flex;
+  --progress-fill-width: 483rem;
   align-items: center;
   gap: 12rem;
   margin-bottom: 20rem;
+  display: flex;
   position: relative;
+  transform: translateX(115rem);
+  width: 723rem;
 }
 
 .progressTrackBg {
   position: absolute;
   left: 0;
-  right: 52rem;
+  right: 0;
   height: 2rem;
   background: #d9d9d9;
   top: 50%;
@@ -232,7 +242,7 @@
 }
 
 .progressTrack {
-  width: 483rem;
+  width: var(--progress-fill-width);
   height: 2rem;
   background: var(--color-text);
   position: relative;
@@ -250,22 +260,16 @@
   background: var(--color-black);
 }
 
-.progressDotEnd {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translate(50%, -50%);
-  width: 12rem;
-  height: 12rem;
-  border-radius: 50%;
-  background: #d9d9d9;
-}
-
 .progressSpacer {
   flex: 1;
 }
 
+/* Как у бывшей progressDotEnd: центр на правом краю чёрного сегмента (не в колонке справа) */
 .progressArrow {
+  position: absolute;
+  left: var(--progress-fill-width);
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 52rem;
   height: 52rem;
   border-radius: 50%;
@@ -276,6 +280,8 @@
   flex-shrink: 0;
   cursor: pointer;
   border: none;
+  padding: 0;
+  z-index: 2;
 }
 
 .progressArrow img {
@@ -363,11 +369,40 @@
    Tab: Orders
    ═══════════════════════════════════════════════════════════ */
 
+.ordersTableBlock {
+  width: 100%;
+  max-width: 1004rem;
+  margin-left: auto;
+}
+
+.ordersTableScroll {
+  width: 100%;
+}
+
+/* Кастомный индикатор горизонтального скролла (моб.) — см. Figma 318:8908 */
+.ordersTableScrollBar {
+  display: none;
+}
+
+.ordersTableScrollTrack {
+  position: relative;
+  width: 100%;
+  height: 8rem;
+  border-radius: 100rem;
+  background: var(--color-dies);
+}
+
+.ordersTableScrollThumb {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 100rem;
+  background: var(--color-cook);
+}
+
 .ordersTable {
   width: 100%;
   border-collapse: collapse;
-  max-width: 865rem;
-  margin-left: auto;
 }
 
 .ordersTable th {
@@ -530,8 +565,8 @@
 }
 
 .dataSection {
-  max-width: 820rem;
-  margin: 0 auto;
+  max-width: 1004rem;
+  margin-left: auto;
 }
 
 .dataField {
@@ -540,7 +575,7 @@
 }
 
 .dataFieldEditing {
-  border-bottom-color: var(--color-care);
+  border-bottom-color: #4d7c00;
 }
 
 .dataFieldLabel {
@@ -600,7 +635,7 @@
 
 .reviewsSection {
   max-width: 1004rem;
-  margin: 0 auto;
+  margin-left: auto;
 }
 
 .reviewsList {
@@ -974,72 +1009,17 @@
     margin-top: 20rem;
     position: relative;
     z-index: 3;
-  }
-
-  .mobileSelect {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6rem;
-    width: 100%;
-    height: 52rem;
-    border: 1px solid var(--color-stroke);
-    border-radius: 13rem;
-    background: var(--color-white);
-    font-family: var(--font-helvetica);
-    font-weight: var(--weight-light);
-    font-size: 14rem;
-    line-height: 1.4;
-    color: var(--color-black);
-    cursor: pointer;
-    margin: 0;
-    padding: 4rem 50rem;
-    box-sizing: border-box;
-    transition:
-      background 0.25s ease,
-      border-color 0.25s ease,
-      color 0.25s ease;
-  }
-
-  .mobileSelect p {
-    margin: 0;
-    color: inherit;
-  }
-
-  .mobileSelectChevron {
-    width: 16rem;
-    height: 16rem;
-    flex-shrink: 0;
-    transition:
-      transform 0.25s ease,
-      filter 0.25s ease;
-  }
-
-  .mobileSelectOpen {
-    background: var(--color-cook);
-    border-color: var(--color-cook);
-    color: var(--color-white);
-  }
-
-  .mobileSelectOpen .mobileSelectChevron {
-    transform: rotate(180deg);
-    filter: brightness(0) invert(1);
-  }
-
-  .mobileDropdown {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: calc(100% + 12rem);
-    z-index: 3;
     border-radius: 6rem;
     overflow: hidden;
     background: var(--color-white);
-    border: 1px solid var(--color-dies);
-    box-shadow: 0 4rem 24rem color-mix(in srgb, var(--color-black) 6%, transparent);
   }
 
-  .mobileDropdownLink {
+  .mobileNavPanel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobileNavLink {
     display: block;
     width: 100%;
     box-sizing: border-box;
@@ -1058,11 +1038,11 @@
     transition: opacity 0.2s;
   }
 
-  .mobileDropdownLinkActive {
+  .mobileNavLinkActive {
     opacity: 0.4;
   }
 
-  .mobileDropdownLogout {
+  .mobileNavLogout {
     display: block;
     width: 100%;
     box-sizing: border-box;
@@ -1085,6 +1065,7 @@
 
   .loyaltyTopBlock {
     align-items: center;
+    margin-left: 0;
   }
 
   .levelRow {
@@ -1121,10 +1102,48 @@
     justify-content: center;
   }
 
-  /* Orders */
-  .ordersTable th:nth-child(n + 4),
-  .ordersTable td:nth-child(n + 4) {
+  /* Orders: горизонтальный скролл + кастомный скроллбар под таблицей (Figma) */
+  .ordersTableBlock {
+    max-width: none;
+    margin-left: 0;
+  }
+
+  .ordersTableScroll {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .ordersTableScroll::-webkit-scrollbar {
     display: none;
+  }
+
+  .ordersTableScrollBarVisible {
+    display: block;
+    margin-top: 20rem;
+  }
+
+  .ordersTable {
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .ordersTable th,
+  .ordersTable td {
+    padding-left: 16rem;
+    padding-right: 16rem;
+    white-space: nowrap;
+  }
+
+  .ordersTable th:first-child,
+  .ordersTable td:first-child {
+    padding-left: 0;
+  }
+
+  .ordersTable th:last-child,
+  .ordersTable td:last-child {
+    padding-right: 0;
   }
 
   .ordersEmptyTitle {

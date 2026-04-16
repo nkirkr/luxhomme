@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
 import { DashboardShell } from '../DashboardShell'
@@ -95,6 +96,40 @@ function OrderModal({ order, onClose }: OrderModalProps) {
 
 export default function OrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  const tableScrollRef = useRef<HTMLDivElement>(null)
+  const [ordersScrollBar, setOrdersScrollBar] = useState<{
+    active: boolean
+    thumbWidthPct: number
+    thumbLeftPct: number
+  }>({ active: false, thumbWidthPct: 100, thumbLeftPct: 0 })
+  useBodyScrollLock(!!selectedOrder)
+
+  useLayoutEffect(() => {
+    const el = tableScrollRef.current
+    if (!el) return
+
+    const sync = () => {
+      const maxScroll = el.scrollWidth - el.clientWidth
+      if (maxScroll <= 0) {
+        setOrdersScrollBar((prev) =>
+          prev.active ? { active: false, thumbWidthPct: 100, thumbLeftPct: 0 } : prev,
+        )
+        return
+      }
+      const thumbWidthPct = (el.clientWidth / el.scrollWidth) * 100
+      const thumbLeftPct = (el.scrollLeft / maxScroll) * (100 - thumbWidthPct)
+      setOrdersScrollBar({ active: true, thumbWidthPct, thumbLeftPct })
+    }
+
+    sync()
+    el.addEventListener('scroll', sync, { passive: true })
+    const ro = new ResizeObserver(sync)
+    ro.observe(el)
+    return () => {
+      el.removeEventListener('scroll', sync)
+      ro.disconnect()
+    }
+  }, [])
 
   if (ORDERS.length === 0) {
     return (
@@ -111,32 +146,53 @@ export default function OrdersPage() {
 
   return (
     <DashboardShell>
-      <table className={styles.ordersTable}>
-        <thead>
-          <tr>
-            <th>Заказ</th>
-            <th>Дата</th>
-            <th>Статус</th>
-            <th>Итого</th>
-            <th>Действия</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ORDERS.map((order, i) => (
-            <tr key={i}>
-              <td>{order.id}</td>
-              <td>{order.date}</td>
-              <td>{order.status}</td>
-              <td>{order.total}</td>
-              <td>
-                <button className={styles.btnView} onClick={() => setSelectedOrder(order)}>
-                  Просмотр
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className={styles.ordersTableBlock}>
+        <div ref={tableScrollRef} className={styles.ordersTableScroll}>
+          <table className={styles.ordersTable}>
+            <thead>
+              <tr>
+                <th>Заказ</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Итого</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ORDERS.map((order, i) => (
+                <tr key={i}>
+                  <td>{order.id}</td>
+                  <td>{order.date}</td>
+                  <td>{order.status}</td>
+                  <td>{order.total}</td>
+                  <td>
+                    <button className={styles.btnView} onClick={() => setSelectedOrder(order)}>
+                      Просмотр
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div
+          className={clsx(
+            styles.ordersTableScrollBar,
+            ordersScrollBar.active && styles.ordersTableScrollBarVisible,
+          )}
+          aria-hidden
+        >
+          <div className={styles.ordersTableScrollTrack}>
+            <div
+              className={styles.ordersTableScrollThumb}
+              style={{
+                width: `${ordersScrollBar.thumbWidthPct}%`,
+                left: `${ordersScrollBar.thumbLeftPct}%`,
+              }}
+            />
+          </div>
+        </div>
+      </div>
 
       <AnimatePresence>
         {selectedOrder && (

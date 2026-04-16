@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import { AnimatePresence, motion } from 'motion/react'
 import { DashboardShell } from '../DashboardShell'
 import styles from '../dashboard.module.css'
@@ -150,6 +151,7 @@ function EditModal({ review, onClose }: EditModalProps) {
 
 export default function ReviewsPage() {
   const [editingReview, setEditingReview] = useState<(typeof REVIEWS)[number] | null>(null)
+  useBodyScrollLock(!!editingReview)
 
   return (
     <DashboardShell>

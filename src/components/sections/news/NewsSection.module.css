@@ -243,6 +243,9 @@
 
 /* Mobile */
 @media (max-width: 768px) {
+  .section {
+    margin-top: 60rem;
+  }
   .grid {
     flex-direction: column;
   }
@@ -252,19 +255,25 @@
   }
 
   .colLeft {
-    gap: 20rem;
+    gap: 40rem;
   }
 
   .taglineBlock {
     flex-direction: column;
     gap: 10rem;
     align-items: flex-start;
+    border-top: unset;
+    padding: 20rem 0 40rem;
   }
 
   .taglineHeading {
     width: 100%;
     height: auto;
     position: static;
+    display: flex;
+    align-items: center;
+    gap: 20rem;
+    margin-bottom: 20rem;
   }
 
   .taglineH1 {
@@ -312,6 +321,12 @@
 
   .colRight {
     gap: 10rem;
+  }
+
+  .meta {
+    gap: unset;
+    padding-top: 40rem;
+    border-top: 1rem solid var(--color-stroke);
   }
 
   .content {

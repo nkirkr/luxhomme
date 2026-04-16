@@ -19,7 +19,7 @@ export function ProductGallery({ images, name }: ProductGalleryProps) {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null)
 
   return (
-    <div className={styles.gallery}>
+    <div className={styles.gallery} data-product-gallery>
       {/* Thumbs column */}
       <Swiper
         modules={[FreeMode, Thumbs]}
