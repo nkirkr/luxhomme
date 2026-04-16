@@ -1029,8 +1029,8 @@
     border: none;
     border-bottom: 1px solid var(--color-dies);
     background: var(--color-white);
-    font-family: var(--font-helvetica);
     font-weight: var(--weight-light);
+    font-family: var(--font-helvetica);
     font-size: 14rem;
     line-height: 1.4;
     color: var(--color-black);
@@ -1041,21 +1041,19 @@
   }
 
   .mobileNavLinkActive {
-    opacity: 0.4;
+    color: var(--color-cook);
+    font-weight: var(--weight-bold);
   }
 
   .mobileNavLogout {
+    font-family: var(--font-helvetica);
     display: block;
     width: 100%;
     box-sizing: border-box;
     padding: 10rem 20rem;
     border: none;
-    background: var(--color-white);
-    font-family: var(--font-helvetica);
-    font-weight: var(--weight-bold);
     font-size: 14rem;
     line-height: 1.2;
-    color: var(--color-cook);
     text-align: left;
     cursor: pointer;
   }

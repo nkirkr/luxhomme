@@ -367,7 +367,7 @@
 
   .grid {
     padding: 0 20rem;
-    gap: 10rem;
+    gap: 10rem 4rem;
     margin-top: 20rem;
     flex-direction: row;
     flex-wrap: wrap;
