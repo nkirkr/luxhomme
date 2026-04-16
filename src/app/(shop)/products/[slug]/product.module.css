@@ -593,24 +593,91 @@
   margin-bottom: 80rem;
 }
 
-.accessoriesGrid {
+/* Swiper layout: arrow — viewport — arrow */
+.accessoriesSwiperWrap {
   display: flex;
-  justify-content: center;
-  gap: 12rem;
-  overflow-x: auto;
+  align-items: center;
+  gap: 16rem;
 }
 
+.accessoriesSwiperViewport {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.accessoriesSwiper {
+  width: 100%;
+}
+
+.accessorySlide {
+  width: 230rem !important;
+}
+
+/* Arrow buttons */
+.accessoriesNavBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.accessoriesNavBtn:hover {
+  opacity: 0.6;
+}
+
+.accessoriesNavBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.accessoriesNavIcon {
+  width: 24rem;
+  height: 24rem;
+  display: block;
+}
+
+/* Card */
 .accessoryCard {
   width: 230rem;
   height: 281rem;
   background: var(--color-dies);
   border-radius: 6rem;
   overflow: hidden;
-  flex-shrink: 0;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.accessorySlide:not(:last-of-type) {
+  margin-right: 12rem;
+}
+
+/* Badge "+1 в подарок" */
+.accessoryBadge {
+  position: absolute;
+  top: 12rem;
+  left: 12rem;
+  z-index: 1;
+  background: var(--color-clean);
+  border-radius: 100rem;
+  padding: 4rem 12rem;
+  height: 24rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  white-space: nowrap;
 }
 
 .accessoryImage {
@@ -1054,8 +1121,12 @@
     margin-bottom: 80rem;
   }
 
-  .accessoriesGrid {
-    padding: 0;
+  .accessoriesSwiperWrap {
+    gap: 8rem;
+  }
+
+  .accessorySlide {
+    width: 180rem !important;
   }
 
   .accessoryCard {

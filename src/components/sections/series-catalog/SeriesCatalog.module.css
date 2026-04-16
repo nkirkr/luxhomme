@@ -364,7 +364,7 @@
 .cardTitle {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
-  font-size: 18rem;
+  font-size: 16rem;
   line-height: 1;
   color: var(--color-black);
   margin: 0;

@@ -97,9 +97,16 @@ const PRODUCT = {
   accessories: [
     { name: 'Решётка', image: '/images/product-accessory-1.jpg' },
     { name: 'Прихватка', image: '/images/product-accessory-2.jpg' },
-    { name: 'Прихватка', image: '/images/product-accessory-2.jpg' },
+    { name: 'Кисть', image: '/images/product-accessory-2.jpg', giftBadge: '+1 в подарок' },
+    { name: 'Силиконовая форма', image: '/images/product-accessory-1.jpg' },
+    { name: 'Книга рецептов', image: '/images/product-accessory-2.jpg' },
     { name: 'Решётка', image: '/images/product-accessory-1.jpg' },
     { name: 'Прихватка', image: '/images/product-accessory-2.jpg' },
+    { name: 'Силиконовая форма', image: '/images/product-accessory-1.jpg' },
+    { name: 'Прихватка', image: '/images/product-accessory-2.jpg' },
+    { name: 'Решётка', image: '/images/product-accessory-1.jpg' },
+    { name: 'Книга рецептов', image: '/images/product-accessory-2.jpg' },
+    { name: 'Кисть', image: '/images/product-accessory-2.jpg' },
   ],
   instruction: {
     label: 'Инструкция аэрогриль RU',

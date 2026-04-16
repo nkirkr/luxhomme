@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
 import { DashboardShell } from '../DashboardShell'
@@ -95,6 +96,7 @@ function OrderModal({ order, onClose }: OrderModalProps) {
 
 export default function OrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  useBodyScrollLock(!!selectedOrder)
 
   if (ORDERS.length === 0) {
     return (

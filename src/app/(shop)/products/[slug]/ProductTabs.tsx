@@ -2,8 +2,12 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import type { Swiper as SwiperType } from 'swiper'
 import { ProductCard, type Product } from '@/components/sections/series-catalog/SeriesCatalog'
 import styles from './product.module.css'
+
+import 'swiper/css'
 
 type Tab = 'Описание' | 'Характеристики' | 'Отзывы' | 'Аксессуары' | 'Инструкция'
 
@@ -55,12 +59,75 @@ interface ProductTabsProps {
       extra: { label: string; value: string }[]
       dimensions: { label: string; value: string }[]
     }
-    accessories: { name: string; image: string }[]
+    accessories: { name: string; image: string; giftBadge?: string }[]
     instruction: { label: string; href: string }
     reviews: { date: string; author: string; rating: number; text: string; photo: string }[]
     ratingAvg: string
   }
   relatedProducts: Product[]
+}
+
+function AccessoriesSwiper({ items }: { items: ProductTabsProps['product']['accessories'] }) {
+  const swiperRef = useRef<SwiperType | null>(null)
+  const [atStart, setAtStart] = useState(true)
+  const [atEnd, setAtEnd] = useState(false)
+
+  const syncNav = (s: SwiperType) => {
+    setAtStart(s.isBeginning)
+    setAtEnd(s.isEnd)
+  }
+
+  return (
+    <div className={styles.accessoriesSwiperWrap}>
+      <button
+        type="button"
+        className={`${styles.accessoriesNavBtn} ${styles.accessoriesNavPrev}`}
+        disabled={atStart}
+        aria-label="Предыдущие аксессуары"
+        onClick={() => swiperRef.current?.slidePrev()}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/icons/arrow-left-black-1.svg" alt="" className={styles.accessoriesNavIcon} />
+      </button>
+
+      <div className={styles.accessoriesSwiperViewport}>
+        <Swiper
+          className={styles.accessoriesSwiper}
+          slidesPerView="auto"
+          onSwiper={(s) => {
+            swiperRef.current = s
+            syncNav(s)
+          }}
+          onSlideChange={syncNav}
+          onResize={(s) => syncNav(s)}
+        >
+          {items.map((acc, i) => (
+            <SwiperSlide key={i} className={styles.accessorySlide}>
+              <div className={styles.accessoryCard}>
+                {acc.giftBadge ? (
+                  <span className={styles.accessoryBadge}>{acc.giftBadge}</span>
+                ) : null}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={acc.image} alt={acc.name} className={styles.accessoryImage} />
+                <p className={styles.accessoryName}>{acc.name}</p>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
+      <button
+        type="button"
+        className={`${styles.accessoriesNavBtn} ${styles.accessoriesNavNext}`}
+        disabled={atEnd}
+        aria-label="Следующие аксессуары"
+        onClick={() => swiperRef.current?.slideNext()}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/icons/arrow-right-black.svg" alt="" className={styles.accessoriesNavIcon} />
+      </button>
+    </div>
+  )
 }
 
 export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
@@ -355,15 +422,7 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
               <div className={styles.sectionLine} />
             </div>
 
-            <div className={styles.accessoriesGrid}>
-              {product.accessories.map((acc, i) => (
-                <div key={i} className={styles.accessoryCard}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={acc.image} alt={acc.name} className={styles.accessoryImage} />
-                  <p className={styles.accessoryName}>{acc.name}</p>
-                </div>
-              ))}
-            </div>
+            <AccessoriesSwiper items={product.accessories} />
           </section>
         </>
       )}

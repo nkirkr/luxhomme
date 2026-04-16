@@ -160,7 +160,7 @@
 .checkboxText {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-regular);
-  font-size: 8rem;
+  font-size: 10rem;
   line-height: 1.2;
   color: var(--color-white);
   margin: 0;

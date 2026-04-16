@@ -9,7 +9,9 @@
   width: 100%;
   z-index: 40;
   background-color: var(--color-bg);
-  transition: background-color 0.35s ease;
+  transition:
+    background-color 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .homeHeader {
@@ -18,6 +20,12 @@
 
 .homeHeader.solid {
   background-color: var(--color-bg);
+}
+
+/* Тень только у непрозрачной шапки (не над hero на главной) */
+.header.solid,
+.header.headerMenuOpen {
+  box-shadow: 0 2rem 12rem color-mix(in srgb, var(--color-black) 6%, transparent);
 }
 
 .solid .navLabel,
