@@ -128,3 +128,9 @@
   margin-left: 8rem;
   opacity: 1;
 }
+
+@media (max-width: 768px) {
+  .section {
+    padding: 20rem 0;
+  }
+}

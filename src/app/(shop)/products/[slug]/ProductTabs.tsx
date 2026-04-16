@@ -273,6 +273,7 @@ function AccessoriesSwiper({ items }: { items: ProductTabsProps['product']['acce
 export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
   const [reviewModalOpen, setReviewModalOpen] = useState(false)
   const [reviewModalKey, setReviewModalKey] = useState(0)
+  const [specsExpanded, setSpecsExpanded] = useState(false)
   const descSlides = product.descSlides
   const len = descSlides.length
   const loop = len > 1
@@ -459,20 +460,34 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
           </div>
 
           <div className={styles.specsTable}>
-            <div className={styles.specsColumns}>
-              <div>
-                <div className={styles.specsGroup}>
-                  <h4 className={styles.specsGroupTitle}>Основная информация</h4>
-                  {product.specs.main.map((s) => (
-                    <SpecRow key={s.label} label={s.label} value={s.value} />
-                  ))}
-                </div>
-                <div className={styles.specsGroup}>
-                  <h4 className={styles.specsGroupTitle}>Питание</h4>
-                  {product.specs.power.map((s) => (
-                    <SpecRow key={s.label} label={s.label} value={s.value} />
-                  ))}
-                </div>
+            <div className={styles.specsRows}>
+              <div className={styles.specsGroup}>
+                <h4 className={styles.specsGroupTitle}>Основная информация</h4>
+                {product.specs.main.map((s) => (
+                  <SpecRow key={s.label} label={s.label} value={s.value} />
+                ))}
+              </div>
+              <div className={styles.specsGroup}>
+                <h4 className={styles.specsGroupTitle}>Питание</h4>
+                {product.specs.power.map((s) => (
+                  <SpecRow key={s.label} label={s.label} value={s.value} />
+                ))}
+              </div>
+              <button
+                type="button"
+                className={`${styles.specsMoreBtn} ${specsExpanded ? styles.specsMoreBtnHidden : ''}`}
+                onClick={() => setSpecsExpanded(true)}
+                aria-expanded={specsExpanded}
+                aria-controls="pdp-specs-rest"
+              >
+                Больше характеристик
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/icons/specs-more.svg" alt="" className={styles.specsMoreBtnIcon} />
+              </button>
+              <div
+                id="pdp-specs-rest"
+                className={`${styles.specsCollapsible} ${!specsExpanded ? styles.specsCollapsibleClosed : ''}`}
+              >
                 <div className={styles.specsGroup}>
                   <h4 className={styles.specsGroupTitle}>Технические особенности</h4>
                   {product.specs.tech.map((s) => (
@@ -491,9 +506,6 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
                     <SpecRow key={s.label} label={s.label} value={s.value} />
                   ))}
                 </div>
-              </div>
-
-              <div>
                 <div className={styles.specsGroup}>
                   <h4 className={styles.specsGroupTitle}>Общие характеристики</h4>
                   {product.specs.general.map((s) => (

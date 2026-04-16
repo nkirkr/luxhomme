@@ -77,7 +77,7 @@ const PRODUCT = {
       { label: 'Программы приготовления', value: 'выпечка, гриль, мясо, рыба, овощи' },
       { label: 'Покрытие чаши', value: 'антипригарное, тефлоновое' },
       {
-        label: 'Доп. опции прибора',
+        label: 'Доп. опции\nприбора',
         value:
           'дисплей, Регулятор мощности, подсветка, терморегулятор, защита от перегрева, автоматическое включение/отключение, легкая очистка, окно в чаше',
       },
@@ -222,7 +222,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
             <div className={styles.priceBlock}>
               <div className={styles.priceLeft}>
-                <span className={styles.bonusBadge}>{PRODUCT.bonus}</span>
+                <div className={styles.bonusWrapper}>
+                  <span className={styles.bonusBadge}>{PRODUCT.bonus}</span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icons/group-badge.svg" alt="" />
+                </div>
                 <p className={styles.priceOld}>{PRODUCT.priceOld}</p>
                 <p className={styles.priceNew}>{PRODUCT.priceNew}</p>
               </div>

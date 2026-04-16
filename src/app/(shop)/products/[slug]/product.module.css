@@ -154,10 +154,10 @@
 .specLabel {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
+  font-weight: 500;
   font-size: 14rem;
   line-height: 1.4;
   color: var(--color-black);
-  white-space: nowrap;
 }
 
 .specValue {
@@ -176,6 +176,17 @@
   align-items: flex-end;
   justify-content: space-between;
   margin-top: 30rem;
+}
+
+.bonusWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12rem;
+}
+
+.bonusWrapper img {
+  width: 48.583rem;
+  height: 22rem;
 }
 
 .priceLeft {
@@ -334,7 +345,7 @@
 .deliveryLabel {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
-  font-size: 14rem;
+  font-size: 16rem;
   line-height: 1.4;
   color: var(--color-black);
   margin: 0;
@@ -343,7 +354,7 @@
 .deliverySub {
   font-family: var(--font-helvetica);
   font-weight: 400;
-  font-size: 12rem;
+  font-size: 14rem;
   line-height: 1.2;
   color: var(--color-text);
   margin: 0;
@@ -608,10 +619,48 @@
   margin: 0 0 20rem;
 }
 
-.specsColumns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 50rem;
+/* Секции характеристик — колонка рядов (не две колонки сеткой) */
+.specsRows {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Мобильная «Больше характеристик»: на десктопе не показываем */
+.specsMoreBtn {
+  display: none;
+  align-items: center;
+  width: 100%;
+
+  justify-content: space-between;
+  gap: 6rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.specsMoreBtnIcon {
+  width: 14rem;
+  height: 14rem;
+  flex-shrink: 0;
+  display: block;
+}
+
+.specsCollapsible {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
 }
 
 /* ─── Accessories section ─── */
@@ -1219,6 +1268,10 @@
     margin-bottom: 80rem;
   }
 
+  .specRow {
+    gap: 20rem;
+  }
+
   .gallery {
     width: 100%;
     flex-direction: column-reverse;
@@ -1254,6 +1307,11 @@
 
   .deliveryTitle {
     margin-top: 4rem;
+  }
+
+  .specLabel,
+  .specValue {
+    font-size: 16rem;
   }
 
   .thumb {
@@ -1358,8 +1416,17 @@
     width: 100%;
   }
 
-  .specsColumns {
-    grid-template-columns: 1fr;
+  .specsMoreBtn {
+    display: inline-flex;
+    margin-bottom: 0;
+  }
+
+  .specsMoreBtn.specsMoreBtnHidden {
+    display: none;
+  }
+
+  .specsCollapsible.specsCollapsibleClosed {
+    display: none;
   }
 
   /* Accessories */
@@ -1422,7 +1489,7 @@
 
   .relatedGrid {
     flex-wrap: wrap;
-    gap: 10rem;
+    gap: 10rem 4rem;
   }
 
   .deliveryRow:nth-of-type(1) {
