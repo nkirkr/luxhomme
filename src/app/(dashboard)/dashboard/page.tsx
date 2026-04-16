@@ -33,12 +33,11 @@ export default function LoyaltyPage() {
           <div className={styles.progressTrackBg} />
           <div className={styles.progressTrack}>
             <div className={styles.progressDotStart} />
-            <div className={styles.progressDotEnd} />
           </div>
-          <div className={styles.progressSpacer} />
-          <button className={styles.progressArrow}>
+          <div className={styles.progressSpacer} aria-hidden />
+          <button type="button" className={styles.progressArrow} aria-label="Следующий уровень">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/progress-arrow.svg" alt="Следующий уровень" />
+            <img src="/images/progress-arrow.svg" alt="" />
           </button>
         </div>
 

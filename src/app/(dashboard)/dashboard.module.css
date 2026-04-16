@@ -4,6 +4,7 @@
 
 .page {
   background: var(--color-site-bg);
+  overflow-x: hidden;
   /* min-height: 100vh; */
 }
 
@@ -100,7 +101,7 @@
 .content {
   flex: 1;
   min-width: 0;
-  /* max-width: 702rem; */
+  max-width: 702rem;
   margin-left: auto;
 }
 
@@ -120,6 +121,7 @@
   align-items: flex-end;
   width: 140rem;
   margin-bottom: 27rem;
+  margin-left: 69.5rem;
 }
 
 .loyaltyLabel {
@@ -214,17 +216,20 @@
 
 /* Progress bar */
 .progressBar {
-  display: flex;
+  --progress-fill-width: 483rem;
   align-items: center;
   gap: 12rem;
   margin-bottom: 20rem;
+  display: flex;
   position: relative;
+  transform: translateX(115rem);
+  width: 723rem;
 }
 
 .progressTrackBg {
   position: absolute;
   left: 0;
-  right: 52rem;
+  right: 0;
   height: 2rem;
   background: #d9d9d9;
   top: 50%;
@@ -232,7 +237,7 @@
 }
 
 .progressTrack {
-  width: 483rem;
+  width: var(--progress-fill-width);
   height: 2rem;
   background: var(--color-text);
   position: relative;
@@ -250,22 +255,16 @@
   background: var(--color-black);
 }
 
-.progressDotEnd {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translate(50%, -50%);
-  width: 12rem;
-  height: 12rem;
-  border-radius: 50%;
-  background: #d9d9d9;
-}
-
 .progressSpacer {
   flex: 1;
 }
 
+/* Как у бывшей progressDotEnd: центр на правом краю чёрного сегмента (не в колонке справа) */
 .progressArrow {
+  position: absolute;
+  left: var(--progress-fill-width);
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 52rem;
   height: 52rem;
   border-radius: 50%;
@@ -276,6 +275,8 @@
   flex-shrink: 0;
   cursor: pointer;
   border: none;
+  padding: 0;
+  z-index: 2;
 }
 
 .progressArrow img {
@@ -1085,6 +1086,7 @@
 
   .loyaltyTopBlock {
     align-items: center;
+    margin-left: 0;
   }
 
   .levelRow {
