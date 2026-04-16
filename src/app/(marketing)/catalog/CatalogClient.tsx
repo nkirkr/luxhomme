@@ -15,7 +15,7 @@ const ALL_PRODUCTS: Product[] = [
   {
     id: '1',
     category: 'Уборка',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-card.png',
@@ -24,7 +24,7 @@ const ALL_PRODUCTS: Product[] = [
   {
     id: '2',
     category: 'Уборка',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-card.png',
@@ -33,7 +33,7 @@ const ALL_PRODUCTS: Product[] = [
   {
     id: '3',
     category: 'Кухня',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-card.png',
@@ -42,7 +42,7 @@ const ALL_PRODUCTS: Product[] = [
   {
     id: '4',
     category: 'Уборка',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-card.png',
@@ -51,7 +51,7 @@ const ALL_PRODUCTS: Product[] = [
   {
     id: '5',
     category: 'Спорт',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-card.png',
@@ -60,7 +60,7 @@ const ALL_PRODUCTS: Product[] = [
   {
     id: '6',
     category: 'Кухня',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-card.png',
@@ -69,7 +69,7 @@ const ALL_PRODUCTS: Product[] = [
   {
     id: '7',
     category: 'Аксессуары',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-card.png',
@@ -78,7 +78,7 @@ const ALL_PRODUCTS: Product[] = [
   {
     id: '8',
     category: 'Уборка',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-card.png',
@@ -87,7 +87,7 @@ const ALL_PRODUCTS: Product[] = [
   {
     id: '9',
     category: 'Спорт',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-card.png',
@@ -152,7 +152,6 @@ export default function CatalogClient() {
 
       {/* Title */}
       <div className={styles.titleBlock}>
-        <div className={styles.divider} />
         <h1 className={clsx(styles.pageTitle, styles.pageTitleCatalog)}>Каталог товаров</h1>
         <div className={styles.divider} />
 

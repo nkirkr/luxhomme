@@ -368,7 +368,6 @@
   line-height: 1;
   color: var(--color-black);
   margin: 0;
-  white-space: nowrap;
 }
 
 .cardPrice {

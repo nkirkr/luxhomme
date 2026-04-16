@@ -6,6 +6,7 @@
   background: var(--color-site-bg);
   /* Под фиксированный SiteHeader: как .content padding-top + небольшой зазор */
   --product-anchor-scroll-margin: calc(85rem + 16rem);
+  overflow-x: hidden;
 }
 
 .headerWrap {
@@ -163,7 +164,7 @@
   flex: 1;
   text-align: right;
   font-family: var(--font-helvetica);
-  font-weight: 700;
+  /* font-weight: 700; */
   font-size: 14rem;
   line-height: 1.2;
   color: var(--color-black);
@@ -378,7 +379,7 @@
 .sectionTitle {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
-  font-size: 60rem;
+  font-size: 50rem;
   line-height: 1.2;
   color: var(--color-black);
   margin: 0;
@@ -1301,6 +1302,7 @@
   .btnCart {
     height: 40rem;
     padding: 10rem 0;
+    font-size: 15rem;
   }
 
   /* Section titles */

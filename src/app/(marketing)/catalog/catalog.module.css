@@ -18,7 +18,7 @@
 
 /* Title block */
 .titleBlock {
-  padding: 104rem 80rem 0;
+  padding: 124rem 80rem 0;
   display: flex;
   flex-direction: column;
   gap: 20rem;
@@ -238,7 +238,7 @@
   }
 
   .titleBlock {
-    padding: 64rem 20rem 0;
+    padding: 84rem 20rem 0;
   }
 
   .pageTitle {

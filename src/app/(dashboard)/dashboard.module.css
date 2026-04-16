@@ -575,7 +575,7 @@
 }
 
 .dataFieldEditing {
-  border-bottom-color: #4d7c00;
+  border-bottom-color: var(--color-care);
 }
 
 .dataFieldLabel {
@@ -598,7 +598,7 @@
 
 .dataFieldFull {
   grid-column: 1 / -1;
-  border-bottom: 1px solid var(--color-stroke);
+  border-bottom: 1rem solid var(--color-stroke);
   padding-bottom: 12rem;
 }
 
@@ -741,6 +741,8 @@
   flex-direction: column;
   padding: 16rem;
   position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modalHeader {
@@ -969,7 +971,7 @@
     flex-direction: column;
     width: 100%;
     gap: 40rem;
-    padding: 104rem 20rem 29rem;
+    padding: 104rem 20rem 60rem;
   }
 
   .sidebar {
