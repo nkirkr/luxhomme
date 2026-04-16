@@ -258,7 +258,11 @@
 /* ================================================================
    Mobile  (≤ 768px)
    ================================================================ */
-
+/* Hide mobile label on desktop */
+.mobileLabel {
+  margin-bottom: 10rem;
+  display: none;
+}
 @media (max-width: 768px) {
   /* Stack vertically, no photo/tags columns */
   .section {
@@ -329,10 +333,4 @@
   .valueName {
     font-size: 34rem;
   }
-}
-
-/* Hide mobile label on desktop */
-.mobileLabel {
-  display: inline-block;
-  margin-bottom: 10rem;
 }

@@ -120,7 +120,7 @@
 .articleText {
   display: flex;
   flex-direction: column;
-  gap: 20rem;
+  gap: 50rem;
   color: var(--color-text);
 }
 
@@ -141,7 +141,7 @@
 .articleSubtitle {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-bold);
-  font-size: 18rem;
+  font-size: 20rem;
   line-height: 1;
   margin: 0;
   color: var(--color-text);

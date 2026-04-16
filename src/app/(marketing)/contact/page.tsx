@@ -46,7 +46,6 @@ export default function ContactPage() {
       <div className={styles.content}>
         {/* Title */}
         <div className={styles.sectionTitle}>
-          <div className={styles.divider} />
           <h1 className={styles.heading}>Контакты</h1>
           <div className={styles.divider} />
         </div>

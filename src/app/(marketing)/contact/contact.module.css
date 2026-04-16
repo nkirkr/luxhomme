@@ -9,7 +9,7 @@
 
 .content {
   padding: 0 80rem 80rem;
-  margin-top: 104rem;
+  margin-top: 124rem;
 }
 
 /* ── Title ── */
@@ -88,7 +88,7 @@
 .infoLabel {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
-  font-size: 14rem;
+  font-size: 16rem;
   line-height: 1.4;
   color: var(--color-grey);
   margin: 0;
@@ -99,7 +99,7 @@
 .infoValue {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
-  font-size: 14rem;
+  font-size: 16rem;
   line-height: 1.4;
   color: var(--color-text);
   margin: 0;
@@ -186,7 +186,7 @@
 
   .content {
     padding: 0 20rem 40rem;
-    margin-top: 80rem;
+    margin-top: 100rem;
   }
 
   .heading {

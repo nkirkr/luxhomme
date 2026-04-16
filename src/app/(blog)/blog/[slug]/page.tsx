@@ -129,7 +129,6 @@ export default async function ArticlePage({ params }: Props) {
                 </span>
               ))}
             </h1>
-            <BackButton />
           </div>
         </div>
 

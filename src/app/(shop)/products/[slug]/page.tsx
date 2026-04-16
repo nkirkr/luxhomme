@@ -142,7 +142,7 @@ const RELATED_PRODUCTS: Product[] = [
   {
     id: 'r1',
     category: 'Чистота',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-related.jpg',
@@ -151,7 +151,7 @@ const RELATED_PRODUCTS: Product[] = [
   {
     id: 'r2',
     category: 'Чистота',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-related.jpg',
@@ -160,7 +160,7 @@ const RELATED_PRODUCTS: Product[] = [
   {
     id: 'r3',
     category: 'Чистота',
-    name: 'Паровая швабра\nLuxhommè',
+    name: 'Паровая швабра Luxhommè',
     priceOld: '28 000,00 ₽',
     priceNew: '8 722,00 ₽',
     image: '/images/product-related.jpg',

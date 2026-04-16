@@ -21,6 +21,10 @@
   width: 100%;
 }
 
+.buyLogosLeft {
+  justify-content: flex-start;
+}
+
 .divider {
   width: 100%;
   height: 1px;
@@ -36,44 +40,9 @@
   margin: 0;
 }
 
-.logos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12rem;
-  align-items: center;
-}
-
-.logoBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8rem;
-  height: 36rem;
-  padding: 8rem 12rem;
-  background: var(--color-white);
-  border-radius: 40rem;
-  text-decoration: none;
-  flex-shrink: 0;
-  transition: opacity 0.2s;
-  border-radius: 40rem;
-}
-
-.logoBtn:hover {
-  opacity: 0.8;
-}
-
-.logoImg {
-  display: block;
-  height: 18rem;
-  width: auto;
-  object-fit: contain;
-}
-
-.logoImgTg {
-  width: 18rem;
-  height: 18rem;
-  object-fit: contain;
-  display: block;
+/* Поверх сетки MarketplaceLogos: на /buy ряд слева (на главной — по центру) */
+.buyLogos {
+  justify-content: flex-start;
 }
 
 @media (max-width: 768px) {
@@ -82,7 +51,7 @@
   }
 
   .content {
-    padding: 80rem 20rem 40rem;
+    padding: 100rem 20rem 40rem;
   }
 
   .heading {
