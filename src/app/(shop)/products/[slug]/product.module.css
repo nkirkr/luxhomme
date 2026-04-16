@@ -144,7 +144,7 @@
 .specRow {
   display: flex;
   align-items: baseline;
-  gap: 12rem;
+  gap: 24rem;
   padding-bottom: 4rem;
   border-bottom: 0.429px solid var(--color-stroke);
   margin-bottom: 20rem;
