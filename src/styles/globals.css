@@ -8,6 +8,12 @@ html {
   font-size: calc(1vw / 14.4);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 @media (max-width: 768px) {
   html {
     font-size: calc(1vw / 4.4);

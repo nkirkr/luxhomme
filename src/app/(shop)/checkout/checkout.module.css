@@ -29,7 +29,7 @@
 .leftCol {
   display: flex;
   flex-direction: column;
-  gap: 20rem;
+  gap: 40rem;
   width: 740rem;
   flex-shrink: 0;
 }
@@ -283,7 +283,7 @@
 }
 
 .radioCircleActive {
-  border-color: var(--color-clean);
+  border-color: var(--color-cook);
 }
 
 .radioDot {
@@ -337,7 +337,7 @@
 
 .pickupTitle {
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-bold);
+  font-weight: 500;
   font-size: var(--text-menu);
   line-height: 1.04;
   color: var(--color-black);
@@ -346,7 +346,7 @@
 
 .pickupAddress {
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-regular);
+  font-weight: 300;
   font-size: var(--text-menu);
   line-height: normal;
   color: var(--color-grey);
@@ -355,7 +355,7 @@
 
 .pickupDistance {
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-regular);
+  font-weight: 300;
   font-size: var(--text-menu);
   line-height: normal;
   color: var(--color-grey);
@@ -386,7 +386,6 @@
 
 /* ── Info notice ── */
 .infoNotice {
-  background: rgba(255, 255, 255, 0.8);
   padding: 10rem;
   display: flex;
   gap: 10rem;
@@ -402,7 +401,7 @@
 .infoText {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-regular);
-  font-size: var(--text-s);
+  font-size: 12rem;
   line-height: 1.2;
   color: var(--color-text);
   margin: 0;
@@ -475,6 +474,8 @@
 .checkboxLabel a {
   color: var(--color-text);
   text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-underline-position: under;
 }
 
 /* ── Pay button ── */
@@ -482,7 +483,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60rem;
+  height: 40rem;
   width: 100%;
   background: var(--color-cook);
   border: 1px solid var(--color-cook);

@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
 import { ProductCard, type Product } from '@/components/sections/series-catalog/SeriesCatalog'
 import styles from './catalog.module.css'
+import clsx from 'clsx'
 
 const CATEGORIES = ['Все', 'Уборка', 'Кухня', 'Спорт', 'Аксессуары'] as const
 type Category = (typeof CATEGORIES)[number]
@@ -152,7 +153,7 @@ export default function CatalogClient() {
       {/* Title */}
       <div className={styles.titleBlock}>
         <div className={styles.divider} />
-        <h1 className={styles.pageTitle}>Каталог товаров</h1>
+        <h1 className={clsx(styles.pageTitle, styles.pageTitleCatalog)}>Каталог товаров</h1>
         <div className={styles.divider} />
 
         {/* Breadcrumb */}

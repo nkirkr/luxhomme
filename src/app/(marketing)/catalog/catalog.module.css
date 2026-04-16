@@ -94,8 +94,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 52rem;
-  padding: 4rem 30rem;
+  padding: 10rem 30rem;
   border-radius: 13rem;
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
@@ -135,15 +134,15 @@
   align-items: center;
   gap: 10rem;
   width: 400rem;
-  padding: 14rem 20rem;
+  padding: 10rem 20rem;
   background-color: var(--color-card-bg);
   border-radius: 6rem;
   flex-shrink: 0;
 }
 
 .searchIcon {
-  width: 24rem;
-  height: 24rem;
+  width: 20rem;
+  height: 20rem;
   display: block;
   flex-shrink: 0;
   object-fit: contain;
@@ -156,7 +155,7 @@
   outline: none;
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
-  font-size: 18rem;
+  font-size: 14rem;
   line-height: 1;
   color: var(--color-text);
 }
@@ -224,6 +223,10 @@
   color: var(--color-grey);
   padding: 60rem 0;
   width: 100%;
+}
+
+.pageTitleCatalog {
+  font-size: 40rem;
 }
 
 /* ================================================================

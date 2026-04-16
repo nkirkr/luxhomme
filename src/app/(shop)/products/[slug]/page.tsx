@@ -196,7 +196,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   return (
     <div className={styles.page}>
       <div className={styles.headerWrap}>
-        <SiteHeader solid />
+        <SiteHeader solid mobileSolidAfterSelector="[data-product-gallery]" />
       </div>
 
       <div className={styles.content}>

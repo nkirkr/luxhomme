@@ -366,23 +366,32 @@
 }
 
 .bonusCheck {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 10rem;
+  gap: 12rem;
   cursor: pointer;
   width: 100%;
 }
 
 .bonusCheckInput {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
+/* Как .checkboxBox / .checkboxBoxChecked на checkout */
 .bonusCheckBox {
   width: 16rem;
   height: 16rem;
-  border-radius: var(--radius-card);
-  background: var(--color-white);
-  border: 1px solid var(--color-stroke);
+  border-radius: 4px;
+  border: 1px solid var(--color-grey);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -392,9 +401,13 @@
     border-color 0.2s;
 }
 
-.bonusCheckInput:checked + .bonusCheckBox {
+.bonusCheckBoxChecked {
   background: var(--color-black);
   border-color: var(--color-black);
+}
+
+.bonusCheckBoxChecked svg {
+  display: block;
 }
 
 .bonusCheckLabel {
