@@ -28,8 +28,8 @@
 /* ── Animated wrapper — takes position + transform from Framer Motion ── */
 .panelWrap {
   position: fixed;
-  bottom: 168rem;
-  right: 80rem;
+  bottom: 108rem;
+  right: 20rem;
   z-index: 151;
   width: 360rem;
 }
