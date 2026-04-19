@@ -259,7 +259,7 @@
 
 .catalogColumns {
   display: flex;
-  height: 310rem;
+  height: auto;
 }
 
 .catalogCol {

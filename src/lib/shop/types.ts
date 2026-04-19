@@ -12,6 +12,27 @@ export interface Product {
   categories: Array<{ id: string; name: string; slug: string }>
   inStock: boolean
   variants?: ProductVariant[]
+  /** WooCommerce-style attributes for detail/specs UI */
+  attributes?: Array<{ name: string; value: string }>
+  averageRating?: number
+  ratingCount?: number
+  permalink?: string
+  /**
+   * Произвольные мета-поля из WooCommerce REST (`meta_data` → объект по `key`).
+   * Часть ключей может быть служебной (`_…`); ACF часто кладёт значения сюда или в `acf`.
+   */
+  meta?: Record<string, unknown>
+  /** Поля ACF, если в ответе REST есть верхнеуровневый объект `acf` (плагин / `register_rest_field`). */
+  acf?: Record<string, unknown>
+  /**
+   * URL картинки для карточки каталога, если превью в meta задано как ID вложения
+   * и разрешено через WP REST в адаптере WooCommerce.
+   */
+  catalogCardImageUrl?: string
+  /**
+   * Файлы инструкций (`_product_instruction_files`): подпись + URL вложения после разрешения ID в Woo adapter.
+   */
+  instructionDownloads?: Array<{ label: string; href: string }>
 }
 
 export interface ProductVariant {
@@ -49,9 +70,7 @@ export interface ProductAdapter {
 
   getProductBySlug(slug: string): Promise<Product | null>
 
-  getProductCategories(): Promise<
-    Array<{ id: string; name: string; slug: string; count: number }>
-  >
+  getProductCategories(): Promise<Array<{ id: string; name: string; slug: string; count: number }>>
 
   searchProducts(query: string, limit?: number): Promise<Product[]>
 }

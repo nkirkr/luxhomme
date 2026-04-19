@@ -779,6 +779,13 @@
   margin-bottom: 80rem;
 }
 
+.instructionList {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12rem;
+}
+
 .instructionBtn {
   display: flex;
   align-items: center;

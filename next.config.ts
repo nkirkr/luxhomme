@@ -19,6 +19,20 @@ const cspHeader = [
   "form-action 'self'",
 ].join('; ')
 
+function remotePatternFromEnvUrl(
+  envUrl: string | undefined,
+  pathname: string,
+): Array<{ protocol: 'http' | 'https'; hostname: string; pathname: string }> {
+  if (!envUrl) return []
+  try {
+    const u = new URL(envUrl)
+    const protocol = u.protocol === 'http:' ? ('http' as const) : ('https' as const)
+    return [{ protocol, hostname: u.hostname, pathname }]
+  } catch {
+    return []
+  }
+}
+
 const securityHeaders = [
   { key: 'X-DNS-Prefetch-Control', value: 'on' },
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
@@ -42,15 +56,8 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     qualities: [75, 90],
     remotePatterns: [
-      ...(process.env.WORDPRESS_GRAPHQL_URL
-        ? [
-            {
-              protocol: 'https' as const,
-              hostname: new URL(process.env.WORDPRESS_GRAPHQL_URL).hostname,
-              pathname: '/wp-content/uploads/**',
-            },
-          ]
-        : []),
+      ...remotePatternFromEnvUrl(process.env.WORDPRESS_GRAPHQL_URL, '/wp-content/uploads/**'),
+      ...remotePatternFromEnvUrl(process.env.WOOCOMMERCE_URL, '/wp-content/uploads/**'),
       ...(process.env.PAYLOAD_API_URL
         ? [
             {

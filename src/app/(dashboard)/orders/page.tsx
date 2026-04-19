@@ -136,7 +136,7 @@ export default function OrdersPage() {
       <DashboardShell>
         <div className={styles.ordersEmpty}>
           <p className={styles.ordersEmptyTitle}>Заказов ещё не создано</p>
-          <Link href="/products" className={styles.ordersEmptyBtn}>
+          <Link href="/catalog" className={styles.ordersEmptyBtn}>
             Просмотр товаров
           </Link>
         </div>

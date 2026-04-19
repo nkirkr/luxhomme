@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
+import type { CatalogMenuSection } from '@/lib/shop/catalog-menu'
 import styles from './SiteHeader.module.css'
 
-const CATALOG_CATEGORIES = [
+const FALLBACK_CATALOG_MENU: CatalogMenuSection[] = [
   {
     title: 'Техника для уборки',
     items: [
@@ -13,16 +14,19 @@ const CATALOG_CATEGORIES = [
         name: 'Робот мойщик Luxhommè uClean MAX',
         price: '10 899 ₽',
         img: '/images/catalog-menu-product.jpg',
+        href: '/catalog',
       },
       {
         name: 'Робот мойщик Luxhommè uClean MAX',
         price: '10 899 ₽',
         img: '/images/catalog-menu-product.jpg',
+        href: '/catalog',
       },
       {
         name: 'Робот мойщик Luxhommè uClean MAX',
         price: '10 899 ₽',
         img: '/images/catalog-menu-product.jpg',
+        href: '/catalog',
       },
     ],
   },
@@ -33,11 +37,13 @@ const CATALOG_CATEGORIES = [
         name: 'Робот мойщик Luxhommè uClean MAX',
         price: '10 899 ₽',
         img: '/images/catalog-menu-product.jpg',
+        href: '/catalog',
       },
       {
         name: 'Робот мойщик Luxhommè uClean MAX',
         price: '10 899 ₽',
         img: '/images/catalog-menu-product.jpg',
+        href: '/catalog',
       },
     ],
   },
@@ -48,20 +54,25 @@ const CATALOG_CATEGORIES = [
         name: 'Робот мойщик Luxhommè uClean MAX',
         price: '10 899 ₽',
         img: '/images/catalog-menu-product.jpg',
+        href: '/catalog',
       },
       {
         name: 'Робот мойщик Luxhommè uClean MAX',
         price: '10 899 ₽',
         img: '/images/catalog-menu-product.jpg',
+        href: '/catalog',
       },
       {
         name: 'Робот мойщик Luxhommè uClean MAX',
         price: '10 899 ₽',
         img: '/images/catalog-menu-product.jpg',
+        href: '/catalog',
       },
     ],
   },
 ]
+
+const CATALOG_MENU_API = '/api/catalog/menu'
 
 const BUYERS_LINKS = [
   { label: 'Мы на Маркетплейсах', href: '/buy' },
@@ -90,6 +101,7 @@ export function SiteHeader({ solid, mobileSolidAfterSelector }: SiteHeaderProps)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
   const [catalogOpen, setCatalogOpen] = useState(false)
+  const [catalogMenuSections, setCatalogMenuSections] = useState<CatalogMenuSection[] | null>(null)
   const [pastHero, setPastHero] = useState(false)
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches,
@@ -158,6 +170,30 @@ export function SiteHeader({ solid, mobileSolidAfterSelector }: SiteHeaderProps)
       document.body.style.overflow = prev
     }
   }, [mobileMenuOpen])
+
+  useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      try {
+        const res = await fetch(CATALOG_MENU_API)
+        const data = (await res.json()) as { sections?: CatalogMenuSection[] }
+        if (cancelled) return
+        if (Array.isArray(data.sections) && data.sections.length > 0) {
+          setCatalogMenuSections(data.sections)
+        }
+      } catch {
+        /* остаётся null → показываем fallback */
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const catalogDropdownSections =
+    catalogMenuSections && catalogMenuSections.length > 0
+      ? catalogMenuSections
+      : FALLBACK_CATALOG_MENU
 
   return (
     <>
@@ -256,16 +292,20 @@ export function SiteHeader({ solid, mobileSolidAfterSelector }: SiteHeaderProps)
       >
         <div className={styles.catalogMenu}>
           <div className={styles.catalogColumns}>
-            {CATALOG_CATEGORIES.map((cat) => (
+            {catalogDropdownSections.map((cat) => (
               <div key={cat.title} className={styles.catalogCol}>
                 <p className={styles.catalogColTitle}>{cat.title}</p>
                 {cat.items.map((item, idx) => (
-                  <Link key={idx} href="/catalog" className={styles.catalogCard}>
+                  <Link
+                    key={`${item.href ?? 'x'}-${idx}`}
+                    href={item.href ?? '/catalog'}
+                    className={styles.catalogCard}
+                  >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={item.img} alt={item.name} className={styles.catalogCardImg} />
                     <div className={styles.catalogCardInfo}>
                       <p className={styles.catalogCardName}>{item.name}</p>
-                      <p className={styles.catalogCardPrice}>1 x {item.price}</p>
+                      <p className={styles.catalogCardPrice}>{item.price}</p>
                     </div>
                   </Link>
                 ))}

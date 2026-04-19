@@ -57,7 +57,8 @@ graph LR
   - `src/lib/shop/types.ts` — `Product`, `CartItem`, `Order`, `ProductAdapter` interfaces
   - `src/lib/shop/cart.ts` — Cart state (useSyncExternalStore + localStorage)
   - `src/lib/shop/index.ts` — Factory function `getShop()`
-  - `src/app/(shop)/products/page.tsx` — Catalog
+  - `src/app/(marketing)/catalog/page.tsx` — Каталог (данные из `getShop()`)
+  - `src/app/(shop)/products/page.tsx` — редирект на `/catalog`
   - `src/app/(shop)/products/[slug]/page.tsx` — Product detail with JSON-LD
   - `src/app/(shop)/cart/page.tsx` — Cart
   - `src/app/(shop)/checkout/page.tsx` — Checkout
