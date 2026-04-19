@@ -13,7 +13,7 @@ export function Header() {
   const links = [
     ...baseLinks,
     ...(features.blog ? [{ label: 'Blog', href: '/blog' }] : []),
-    ...(features.shop ? [{ label: 'Products', href: '/products' }] : []),
+    ...(features.shop ? [{ label: 'Products', href: '/catalog' }] : []),
   ]
 
   return (

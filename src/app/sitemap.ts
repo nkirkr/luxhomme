@@ -72,7 +72,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   if (process.env.NEXT_PUBLIC_FEATURE_SHOP === 'true') {
     staticRoutes.push({
-      url: `${BASE_URL}/products`,
+      url: `${BASE_URL}/catalog`,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.9,

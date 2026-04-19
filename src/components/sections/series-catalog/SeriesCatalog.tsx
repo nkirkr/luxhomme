@@ -29,10 +29,10 @@ const SERIES: SeriesCategory[] = [
     key: 'kitchen',
     label: 'Кухня',
     hint: 'Вкусные блюда',
-    href: '/products?series=kitchen',
+    href: '/catalog?series=kitchen',
   },
-  { key: 'clean', label: 'Чистота', hint: 'Лёгкая уборка', href: '/products?series=clean' },
-  { key: 'care', label: 'Забота', hint: 'Забота о себе', href: '/products?series=care' },
+  { key: 'clean', label: 'Чистота', hint: 'Лёгкая уборка', href: '/catalog?series=clean' },
+  { key: 'care', label: 'Забота', hint: 'Забота о себе', href: '/catalog?series=care' },
 ]
 
 export const PRODUCTS: Product[] = [

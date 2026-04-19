@@ -6,6 +6,7 @@ import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import { ProductCard, type Product } from '@/components/sections/series-catalog/SeriesCatalog'
+import type { ProductDetailForTabs } from '@/lib/shop/product-detail-ui'
 import styles from './product.module.css'
 
 import 'swiper/css'
@@ -187,23 +188,7 @@ function SpecRow({ label, value }: { label: string; value: string }) {
 }
 
 interface ProductTabsProps {
-  product: {
-    descSlides: { image: string; title: string; text: string }[]
-    specs: {
-      main: { label: string; value: string }[]
-      general: { label: string; value: string }[]
-      power: { label: string; value: string }[]
-      control: { label: string; value: string }[]
-      tech: { label: string; value: string }[]
-      materials: { label: string; value: string }[]
-      extra: { label: string; value: string }[]
-      dimensions: { label: string; value: string }[]
-    }
-    accessories: { name: string; image: string; giftBadge?: string }[]
-    instruction: { label: string; href: string }
-    reviews: { date: string; author: string; rating: number; text: string; photo: string }[]
-    ratingAvg: string
-  }
+  product: ProductDetailForTabs
   relatedProducts: Product[]
 }
 
@@ -274,6 +259,10 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
   const [reviewModalOpen, setReviewModalOpen] = useState(false)
   const [reviewModalKey, setReviewModalKey] = useState(0)
   const [specsExpanded, setSpecsExpanded] = useState(false)
+  const descTabAnchors =
+    product.accessories.length > 0
+      ? DESC_TAB_ANCHORS
+      : DESC_TAB_ANCHORS.filter((a) => a.href !== '#product-accessories')
   const descSlides = product.descSlides
   const len = descSlides.length
   const loop = len > 1
@@ -364,7 +353,7 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
 
       {/* ═══ Якорная навигация по секциям ═══ */}
       <nav className={styles.descTabs} aria-label="Разделы страницы товара">
-        {DESC_TAB_ANCHORS.map(({ label, href }) => (
+        {descTabAnchors.map(({ label, href }) => (
           <a key={label} href={href} className={styles.descTab}>
             {label}
           </a>
@@ -592,15 +581,17 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
         <button className={styles.btnShowMore}>Показать ещё</button>
       </section>
 
-      {/* ═══ Аксессуары ═══ */}
-      <section id="product-accessories" className={styles.accessoriesSection}>
-        <div className={styles.sectionHeading}>
-          <h2 className={styles.sectionTitle}>Аксессуары</h2>
-          <div className={styles.sectionLine} />
-        </div>
+      {/* ═══ Аксессуары (meta `_product_accessories` / ACF) ═══ */}
+      {product.accessories.length > 0 ? (
+        <section id="product-accessories" className={styles.accessoriesSection}>
+          <div className={styles.sectionHeading}>
+            <h2 className={styles.sectionTitle}>Аксессуары</h2>
+            <div className={styles.sectionLine} />
+          </div>
 
-        <AccessoriesSwiper items={product.accessories} />
-      </section>
+          <AccessoriesSwiper items={product.accessories} />
+        </section>
+      ) : null}
 
       {/* ═══ Инструкция  ═══ */}
       <section id="product-instruction" className={styles.instructionSection}>
@@ -609,13 +600,23 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
           <div className={styles.sectionLine} />
         </div>
 
-        <a href={product.instruction.href} className={styles.instructionBtn} download>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/pdf-icon.svg" alt="" className={styles.instructionIcon} />
-          <span className={styles.instructionLabel}>{product.instruction.label}</span>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/download-icon.svg" alt="" className={styles.instructionDownload} />
-        </a>
+        <div className={styles.instructionList}>
+          {product.instructionFiles.map((file, idx) => (
+            <a
+              key={`${file.href}-${idx}`}
+              href={file.href}
+              className={styles.instructionBtn}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icons/pdf-icon.svg" alt="" className={styles.instructionIcon} />
+              <span className={styles.instructionLabel}>{file.label}</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icons/download-icon.svg" alt="" className={styles.instructionDownload} />
+            </a>
+          ))}
+        </div>
       </section>
 
       {/* ═══ Related products — always visible ═══ */}

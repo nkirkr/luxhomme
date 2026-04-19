@@ -22,6 +22,12 @@ const serverSchema = z.object({
   PAYLOAD_API_URL: z.string().url().optional(),
   PAYLOAD_API_KEY: z.string().optional(),
 
+  SHOP_PROVIDER: z.enum(['none', 'woocommerce']).default('none'),
+  WOOCOMMERCE_URL: z.string().url().optional(),
+  WOOCOMMERCE_CONSUMER_KEY: z.string().optional(),
+  WOOCOMMERCE_CONSUMER_SECRET: z.string().optional(),
+  WOOCOMMERCE_CURRENCY: z.string().default('RUB'),
+
   PAYMENT_PROVIDER: z.enum(['none', 'stripe', 'yookassa']).default('none'),
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
