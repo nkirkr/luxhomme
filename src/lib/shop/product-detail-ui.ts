@@ -4,27 +4,44 @@ import { formatShopPrice } from './format-price'
 
 const FALLBACK_HERO = '/images/product-hero.jpg'
 const FALLBACK_CARD = '/images/product-card.png'
+const FALLBACK_SPECS_DRAWING = '/images/specs.png'
+
+export type SpecRow = { label: string; value: string }
+
+export type SpecGroup = { title: string; rows: SpecRow[] }
 
 /** Shape expected by `ProductTabs` (description, specs, reviews UI). */
 export type ProductDetailForTabs = {
   descSlides: { image: string; title: string; text: string }[]
+  /**
+   * Характеристики из `meta._second_description` (JSON по группам).
+   * Если задано — `ProductTabs` рендерит таблицу из него; иначе — из `specs.*`.
+   */
+  specsGroups?: SpecGroup[]
   specs: {
-    main: { label: string; value: string }[]
-    general: { label: string; value: string }[]
-    power: { label: string; value: string }[]
-    control: { label: string; value: string }[]
-    tech: { label: string; value: string }[]
-    materials: { label: string; value: string }[]
-    extra: { label: string; value: string }[]
-    dimensions: { label: string; value: string }[]
+    main: SpecRow[]
+    general: SpecRow[]
+    power: SpecRow[]
+    control: SpecRow[]
+    tech: SpecRow[]
+    materials: SpecRow[]
+    extra: SpecRow[]
+    dimensions: SpecRow[]
   }
   accessories: { name: string; image: string; giftBadge?: string }[]
   instructionFiles: { label: string; href: string }[]
+  /** Чертёж слева от таблицы характеристик (`specsDrawingUrl` с бэка или статичный fallback). */
+  specsDrawingSrc: string
   reviews: { date: string; author: string; rating: number; text: string; photo: string }[]
   ratingAvg: string
 }
 
 const ACCESSORY_META_KEYS = ['_product_accessories', 'product_accessories'] as const
+
+const PRODUCT_SLIDES_META_KEYS = ['_product_slides', 'product_slides'] as const
+
+/** JSON характеристик (вкладка «Характеристики» в админке) — строка или объект в meta/acf. */
+const SECOND_DESCRIPTION_META_KEYS = ['_second_description', 'second_description'] as const
 
 /** Превью для сетки каталога: Woo meta / ACF REST (часто ACF Image = id или объект с sizes). */
 const PREVIEW_IMAGE_META_KEYS = [
@@ -36,6 +53,14 @@ const PREVIEW_IMAGE_META_KEYS = [
 
 /** Фон карточки при наведении (по дизайну — полноразмерная картинка). */
 const HOVER_IMAGE_META_KEYS = ['preview_bg', '_preview_bg'] as const
+
+/** Чертёж / схема в секции характеристик на PDP (ACF / кастомное поле товара). */
+const SPECS_DRAWING_META_KEYS = [
+  'char_image',
+  '_char_image',
+  'specs_drawing',
+  '_specs_drawing',
+] as const
 
 function pickMeta(bag: Record<string, unknown> | undefined, keys: readonly string[]): unknown {
   if (!bag) return undefined
@@ -55,6 +80,53 @@ function parseJsonIfString(raw: unknown): unknown | undefined {
   } catch {
     return undefined
   }
+}
+
+function formatSpecCellValue(v: unknown): string {
+  if (v == null || v === '') return ''
+  if (typeof v === 'string') return v.trim()
+  if (typeof v === 'number' || typeof v === 'boolean') return String(v)
+  if (Array.isArray(v)) {
+    return v
+      .map((x) => formatSpecCellValue(x))
+      .filter((s) => s.length > 0)
+      .join(', ')
+  }
+  return ''
+}
+
+/** Парсит JSON из `_second_description`: группа → объект «параметр → значение» (строка или массив строк). */
+function parseSecondDescriptionSpecGroups(raw: unknown): SpecGroup[] | undefined {
+  let root: unknown = raw
+  if (typeof raw === 'string') {
+    const parsed = parseJsonIfString(raw)
+    if (parsed === undefined) return undefined
+    root = parsed
+  }
+  if (!root || typeof root !== 'object' || Array.isArray(root)) return undefined
+
+  const groups: SpecGroup[] = []
+  for (const [groupTitle, groupVal] of Object.entries(root as Record<string, unknown>)) {
+    if (!groupTitle.trim()) continue
+    if (!groupVal || typeof groupVal !== 'object' || Array.isArray(groupVal)) continue
+    const rows: SpecRow[] = []
+    for (const [label, value] of Object.entries(groupVal as Record<string, unknown>)) {
+      const val = formatSpecCellValue(value)
+      if (!val) continue
+      rows.push({ label, value: val })
+    }
+    if (rows.length > 0) groups.push({ title: groupTitle, rows })
+  }
+  return groups.length > 0 ? groups : undefined
+}
+
+function specGroupsFromProductMeta(
+  meta?: Record<string, unknown>,
+  acf?: Record<string, unknown>,
+): SpecGroup[] | undefined {
+  const raw =
+    pickMeta(meta, SECOND_DESCRIPTION_META_KEYS) ?? pickMeta(acf, [...SECOND_DESCRIPTION_META_KEYS])
+  return parseSecondDescriptionSpecGroups(raw)
 }
 
 function coerceAccessoryList(raw: unknown): unknown[] {
@@ -191,6 +263,39 @@ export function hoverAttachmentIdFromMetaAndAcf(
   for (const bag of [meta, acf]) {
     if (!bag) continue
     for (const key of HOVER_IMAGE_META_KEYS) {
+      const raw = bag[key]
+      const id = coalesceAttachmentId(raw)
+      if (id) return id
+    }
+  }
+  return undefined
+}
+
+/** URL схемы, если в meta уже лежит строка URL / объект с url (без запроса к media). */
+export function specsDrawingUrlFromMetaAndAcf(
+  meta?: Record<string, unknown>,
+  acf?: Record<string, unknown>,
+): string | undefined {
+  for (const bag of [meta, acf]) {
+    if (!bag) continue
+    for (const key of SPECS_DRAWING_META_KEYS) {
+      const raw = bag[key]
+      if (raw == null || raw === '') continue
+      const u = coerceImageUrlFromFieldValue(raw)
+      if (u) return u
+    }
+  }
+  return undefined
+}
+
+/** ID вложения для схемы характеристик, если пришло только число / строка с id. */
+export function specsDrawingAttachmentIdFromMetaAndAcf(
+  meta?: Record<string, unknown>,
+  acf?: Record<string, unknown>,
+): number | undefined {
+  for (const bag of [meta, acf]) {
+    if (!bag) continue
+    for (const key of SPECS_DRAWING_META_KEYS) {
       const raw = bag[key]
       const id = coalesceAttachmentId(raw)
       if (id) return id
@@ -339,37 +444,124 @@ export function stripHtml(html: string): string {
     .trim()
 }
 
+/** Первый `<h1>`…`<h6>` → title, все `<p>` → text (через `stripHtml`). */
+function parseSlideDescriptionToTitleBody(html: string): { title: string; text: string } {
+  const src = html.replace(/\r\n/g, '\n')
+  const hMatch = src.match(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/i)
+  const title = hMatch ? stripHtml(hMatch[1]) : ''
+  const bodies: string[] = []
+  const pRe = /<p\b[^>]*>([\s\S]*?)<\/p>/gi
+  let m: RegExpExecArray | null
+  while ((m = pRe.exec(src)) !== null) {
+    const t = stripHtml(m[1]).trim()
+    if (t) bodies.push(t)
+  }
+  const text = bodies.length > 0 ? bodies.join('\n\n') : stripHtml(src)
+  return { title, text }
+}
+
+/**
+ * Слайды «Описание» из `_product_slides` / `product_slides` в `meta` или `acf`.
+ * Ожидаются объекты с полем `description` (HTML с `<h*>` и `<p>`) и опционально `image` / `img` / `url`.
+ */
+export function descSlidesFromProductMeta(p: ShopProduct): ProductDetailForTabs['descSlides'] {
+  const raw =
+    pickMeta(p.meta, PRODUCT_SLIDES_META_KEYS) ?? pickMeta(p.acf, [...PRODUCT_SLIDES_META_KEYS])
+  const list = coerceAccessoryList(raw)
+  const out: ProductDetailForTabs['descSlides'] = []
+  let galleryIdx = 0
+  const textFallback = stripHtml(p.description) || p.name
+
+  for (const item of list) {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) continue
+    const o = item as Record<string, unknown>
+    const descRaw =
+      (typeof o.description === 'string' && o.description) ||
+      (typeof o.content === 'string' && o.content) ||
+      (typeof o.text === 'string' && o.text) ||
+      ''
+    if (!String(descRaw).trim()) continue
+
+    const { title, text } = parseSlideDescriptionToTitleBody(String(descRaw))
+    const fromFields =
+      coerceImageUrlFromFieldValue(o.image) ||
+      coerceImageUrlFromFieldValue(o.img) ||
+      coerceImageUrlFromFieldValue(o.photo) ||
+      coerceImageUrlFromFieldValue(o.image_url) ||
+      coerceImageUrlFromFieldValue(o.url)
+
+    let image: string
+    if (fromFields) {
+      image = fromFields
+    } else {
+      image = p.images[galleryIdx]?.url || FALLBACK_HERO
+      galleryIdx += 1
+    }
+
+    out.push({
+      image,
+      title: title || p.name,
+      text: text || textFallback,
+    })
+  }
+
+  return out
+}
+
 export function buildProductDetailForTabs(p: ShopProduct): ProductDetailForTabs {
   const plainDesc = stripHtml(p.description) || p.name
+  const metaSlides = descSlidesFromProductMeta(p)
   const descSlides =
-    p.images.length > 0
-      ? p.images.slice(0, 6).map((img, i) => ({
-          image: img.url,
-          title: i === 0 ? p.name : `${p.name} — ${i + 1}`,
-          text: i === 0 ? plainDesc.slice(0, 600) : plainDesc.slice(0, 400) || p.name,
-        }))
-      : [
-          {
-            image: FALLBACK_HERO,
-            title: p.name,
-            text: plainDesc.slice(0, 600),
-          },
-        ]
+    metaSlides.length > 0
+      ? metaSlides.slice(0, 12)
+      : p.images.length > 0
+        ? p.images.slice(0, 6).map((img, i) => ({
+            image: img.url,
+            title: i === 0 ? p.name : `${p.name} — ${i + 1}`,
+            text: i === 0 ? plainDesc.slice(0, 600) : plainDesc.slice(0, 400) || p.name,
+          }))
+        : [
+            {
+              image: FALLBACK_HERO,
+              title: p.name,
+              text: plainDesc.slice(0, 600),
+            },
+          ]
 
   const attrRows = p.attributes?.map((a) => ({ label: a.name, value: a.value })) ?? []
+  const specsGroups = specGroupsFromProductMeta(p.meta, p.acf)
+  const emptySpecsBlocks: ProductDetailForTabs['specs'] = {
+    main: [],
+    general: [],
+    power: [],
+    control: [],
+    tech: [],
+    materials: [],
+    extra: [],
+    dimensions: [],
+  }
+
+  const specsDrawingSrc =
+    p.specsDrawingUrl?.trim() ||
+    specsDrawingUrlFromMetaAndAcf(p.meta, p.acf) ||
+    FALLBACK_SPECS_DRAWING
 
   return {
     descSlides,
-    specs: {
-      main: attrRows.slice(0, 3),
-      general: attrRows.slice(3, 8),
-      power: [],
-      control: [],
-      tech: [],
-      materials: [],
-      extra: attrRows.slice(8),
-      dimensions: [],
-    },
+    specsDrawingSrc,
+    ...(specsGroups ? { specsGroups } : {}),
+    specs: specsGroups
+      ? emptySpecsBlocks
+      : {
+          main: attrRows.slice(0, 3),
+          general: attrRows.slice(3, 8),
+          power: [],
+          control: [],
+          tech: [],
+          materials: [],
+          extra: attrRows.slice(8),
+          dimensions: [],
+        },
     accessories: accessoriesFromProductMeta(p.meta, p.acf),
     instructionFiles:
       p.instructionDownloads && p.instructionDownloads.length > 0

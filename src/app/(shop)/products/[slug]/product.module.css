@@ -284,30 +284,31 @@
 .specRow {
   display: flex;
   align-items: baseline;
-  gap: 24rem;
-  padding-bottom: 4rem;
+  gap: 12rem;
+  padding: 0 0 6rem;
   border-bottom: 0.429px solid var(--color-stroke);
-  margin-bottom: 20rem;
-  min-height: 21rem;
+  min-height: 21.45rem;
+  width: 100%;
 }
 
 .specLabel {
   font-family: var(--font-helvetica);
-  font-weight: var(--weight-light);
-  font-weight: 500;
+  font-weight: 700;
   font-size: 14rem;
-  line-height: 1.4;
+  line-height: 1.2;
   color: var(--color-black);
+  flex-shrink: 0;
 }
 
 .specValue {
   flex: 1;
   text-align: right;
   font-family: var(--font-helvetica);
-  /* font-weight: 700; */
-  font-size: 14rem;
+  font-weight: var(--weight-regular, 400);
+  font-size: 12rem;
   line-height: 1.2;
   color: var(--color-black);
+  min-width: 0;
 }
 
 /* Price block */
@@ -607,17 +608,19 @@
 }
 
 .descCarousel {
-  --slide-slot-w: 497rem;
   --slide-image-size: 360rem;
   --slide-inactive-size: 144rem;
-  --slide-gap: 110rem;
+  /* Единая ширина слота для всех слайдов — нужна стабильная математика трека и центра */
+  --slide-slot-w: var(--slide-image-size);
+  --slide-slot-inactive: var(--slide-slot-w);
+  --slide-gap: 40rem;
   --desc-text-slot-min: calc(24rem + 20rem + 14rem * 1.4 * 5);
 
   width: 100%;
   overflow: visible;
 }
 
-/* На кадр перестановки индекса бесконечного лупа — без transition ширины/opacity (иначе «миг» 144↔360) */
+/* На кадр перестановки индекса бесконечного лупа — без transition (иначе «миг» 1×↔2.5× у активной картинки) */
 .descCarouselLoopSnap .descMediaShell,
 .descCarouselLoopSnap .descSlide {
   transition: none;
@@ -631,6 +634,7 @@
   will-change: transform;
 }
 
+/* Ширина слайда одинакова для всех — это гарантирует стабильный transform трека и центрирование активного */
 .descSlide {
   width: var(--slide-slot-w);
   flex-shrink: 0;
@@ -662,6 +666,9 @@
 .descMediaShell {
   width: var(--slide-inactive-size);
   max-width: 100%;
+  /* Высота всегда от ширины — без «нулевого» кадра при смене active / transition width */
+  aspect-ratio: 1;
+  height: auto;
   border-radius: 8rem;
   overflow: hidden;
   flex-shrink: 0;
@@ -677,9 +684,9 @@
 
 .descSlideImage {
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   border-radius: 8rem;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -692,6 +699,7 @@
   width: 100%;
   margin-top: 60rem;
   min-height: var(--desc-text-slot-min);
+  flex-shrink: 0;
   box-sizing: border-box;
 }
 
@@ -720,6 +728,7 @@
   line-height: 1.4;
   color: var(--color-black);
   margin: 0;
+  white-space: pre-line;
 }
 
 /* ─── Characteristics section ─── */
@@ -747,7 +756,13 @@
 }
 
 .specsGroup {
-  margin-bottom: 40rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 30rem;
+  width: 275rem;
+  max-width: 100%;
+  margin: 0;
 }
 
 .specsGroupTitle {
@@ -756,16 +771,24 @@
   font-size: 20rem;
   line-height: 1.2;
   color: var(--color-grey);
-  margin: 0 0 20rem;
+  margin: 0;
 }
 
-/* Секции характеристик — колонка рядов (не две колонки сеткой) */
+/* Таблица характеристик — 2 колонки по 275rem (по макету Figma node 2165:8247) */
 .specsRows {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, 275rem);
+  column-gap: 50rem;
+  row-gap: 50rem;
+  justify-content: start;
+  align-items: start;
   width: 100%;
   min-width: 0;
+}
+
+/* Collapsible («Больше характеристик») тоже следует двухколоночной сетке */
+.specsCollapsible {
+  grid-column: 1 / -1;
 }
 
 /* Мобильная «Больше характеристик»: на десктопе не показываем */
@@ -797,9 +820,12 @@
 }
 
 .specsCollapsible {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, 275rem);
+  column-gap: 50rem;
+  row-gap: 50rem;
+  justify-content: start;
+  align-items: start;
   min-width: 0;
 }
 
@@ -1558,10 +1584,20 @@
 
   .descCarousel {
     --slide-slot-w: 100%;
+    --slide-slot-inactive: 100%;
     --slide-image-size: 272rem;
     --slide-inactive-size: 100rem;
     --slide-gap: 20rem;
     --desc-text-slot-min: calc(22rem + 16rem + 14rem * 1.4 * 6);
+  }
+
+  .descSlide,
+  .descSlideActive {
+    width: 100%;
+  }
+
+  .descTrack {
+    gap: var(--slide-gap);
   }
 
   .descTextSlot {
@@ -1587,6 +1623,23 @@
 
   .specsDrawings {
     width: 100%;
+  }
+
+  .specsRows {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 32rem;
+  }
+
+  .specsCollapsible {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 32rem;
+  }
+
+  .specsGroup {
+    width: 100%;
+    gap: 20rem;
   }
 
   .specsMoreBtn {

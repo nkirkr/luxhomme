@@ -37,6 +37,10 @@ export interface Product {
    * Файлы инструкций (`_product_instruction_files`): подпись + URL вложения после разрешения ID в Woo adapter.
    */
   instructionDownloads?: Array<{ label: string; href: string }>
+  /**
+   * Схема / чертёж для блока «Характеристики» (`char_image` в meta — часто ID вложения, разрешается через wp/v2/media).
+   */
+  specsDrawingUrl?: string
 }
 
 export interface ProductVariant {

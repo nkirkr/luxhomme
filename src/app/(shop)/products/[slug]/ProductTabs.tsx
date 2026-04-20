@@ -290,12 +290,12 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
     const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || '0') || 0
 
     const first = track.children[0] as HTMLElement | undefined
-    const slotW = first?.offsetWidth ?? 0
+    if (!first) return
+    const slotW = first.offsetWidth
     if (slotW <= 0) return
 
     const idx = Math.min(activeVirtual, track.children.length - 1)
     const slideCenter = idx * (slotW + gap) + slotW / 2
-
     setTrackOffset(slideCenter - vpWidth / 2)
   }, [activeVirtual, len])
 
@@ -445,75 +445,134 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
         <div className={styles.specsBody}>
           <div className={styles.specsDrawings}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/specs.png" alt="Чертёж" className={styles.drawingImage} />
+            <img
+              src={product.specsDrawingSrc}
+              alt="Схема устройства"
+              className={styles.drawingImage}
+            />
           </div>
 
           <div className={styles.specsTable}>
             <div className={styles.specsRows}>
-              <div className={styles.specsGroup}>
-                <h4 className={styles.specsGroupTitle}>Основная информация</h4>
-                {product.specs.main.map((s) => (
-                  <SpecRow key={s.label} label={s.label} value={s.value} />
-                ))}
-              </div>
-              <div className={styles.specsGroup}>
-                <h4 className={styles.specsGroupTitle}>Питание</h4>
-                {product.specs.power.map((s) => (
-                  <SpecRow key={s.label} label={s.label} value={s.value} />
-                ))}
-              </div>
-              <button
-                type="button"
-                className={`${styles.specsMoreBtn} ${specsExpanded ? styles.specsMoreBtnHidden : ''}`}
-                onClick={() => setSpecsExpanded(true)}
-                aria-expanded={specsExpanded}
-                aria-controls="pdp-specs-rest"
-              >
-                Больше характеристик
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/icons/specs-more.svg" alt="" className={styles.specsMoreBtnIcon} />
-              </button>
-              <div
-                id="pdp-specs-rest"
-                className={`${styles.specsCollapsible} ${!specsExpanded ? styles.specsCollapsibleClosed : ''}`}
-              >
-                <div className={styles.specsGroup}>
-                  <h4 className={styles.specsGroupTitle}>Технические особенности</h4>
-                  {product.specs.tech.map((s) => (
-                    <SpecRow key={s.label} label={s.label} value={s.value} />
+              {product.specsGroups && product.specsGroups.length > 0 ? (
+                <>
+                  {product.specsGroups.slice(0, 2).map((g, gi) => (
+                    <div key={`${g.title}-${gi}`} className={styles.specsGroup}>
+                      <h4 className={styles.specsGroupTitle}>{g.title}</h4>
+                      {g.rows.map((s, ri) => (
+                        <SpecRow
+                          key={`${g.title}-${s.label}-${ri}`}
+                          label={s.label}
+                          value={s.value}
+                        />
+                      ))}
+                    </div>
                   ))}
-                </div>
-                <div className={styles.specsGroup}>
-                  <h4 className={styles.specsGroupTitle}>Дополнительная информация</h4>
-                  {product.specs.extra.map((s) => (
-                    <SpecRow key={s.label} label={s.label} value={s.value} />
-                  ))}
-                </div>
-                <div className={styles.specsGroup}>
-                  <h4 className={styles.specsGroupTitle}>Габариты</h4>
-                  {product.specs.dimensions.map((s) => (
-                    <SpecRow key={s.label} label={s.label} value={s.value} />
-                  ))}
-                </div>
-                <div className={styles.specsGroup}>
-                  <h4 className={styles.specsGroupTitle}>Общие характеристики</h4>
-                  {product.specs.general.map((s) => (
-                    <SpecRow key={s.label} label={s.label} value={s.value} />
-                  ))}
-                </div>
-                <div className={styles.specsGroup}>
-                  <h4 className={styles.specsGroupTitle}>Управление</h4>
-                  {product.specs.control.map((s) => (
-                    <SpecRow key={s.label} label={s.label} value={s.value} />
-                  ))}
-                </div>
-                <div className={styles.specsGroup}>
-                  <h4 className={styles.specsGroupTitle}>Материалы</h4>
-                  {product.specs.materials.map((s) => (
-                    <SpecRow key={s.label} label={s.label} value={s.value} />
-                  ))}
-                </div>
-              </div>
+                  {product.specsGroups.length > 2 ? (
+                    <>
+                      <button
+                        type="button"
+                        className={`${styles.specsMoreBtn} ${specsExpanded ? styles.specsMoreBtnHidden : ''}`}
+                        onClick={() => setSpecsExpanded(true)}
+                        aria-expanded={specsExpanded}
+                        aria-controls="pdp-specs-rest"
+                      >
+                        Больше характеристик
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/icons/specs-more.svg"
+                          alt=""
+                          className={styles.specsMoreBtnIcon}
+                        />
+                      </button>
+                      <div
+                        id="pdp-specs-rest"
+                        className={`${styles.specsCollapsible} ${!specsExpanded ? styles.specsCollapsibleClosed : ''}`}
+                      >
+                        {product.specsGroups.slice(2).map((g, gi) => (
+                          <div key={`${g.title}-${gi + 2}`} className={styles.specsGroup}>
+                            <h4 className={styles.specsGroupTitle}>{g.title}</h4>
+                            {g.rows.map((s, ri) => (
+                              <SpecRow
+                                key={`${g.title}-${s.label}-${ri}`}
+                                label={s.label}
+                                value={s.value}
+                              />
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : null}
+                </>
+              ) : (
+                <>
+                  <div className={styles.specsGroup}>
+                    <h4 className={styles.specsGroupTitle}>Основная информация</h4>
+                    {product.specs.main.map((s) => (
+                      <SpecRow key={s.label} label={s.label} value={s.value} />
+                    ))}
+                  </div>
+                  <div className={styles.specsGroup}>
+                    <h4 className={styles.specsGroupTitle}>Питание</h4>
+                    {product.specs.power.map((s) => (
+                      <SpecRow key={s.label} label={s.label} value={s.value} />
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    className={`${styles.specsMoreBtn} ${specsExpanded ? styles.specsMoreBtnHidden : ''}`}
+                    onClick={() => setSpecsExpanded(true)}
+                    aria-expanded={specsExpanded}
+                    aria-controls="pdp-specs-rest"
+                  >
+                    Больше характеристик
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/icons/specs-more.svg" alt="" className={styles.specsMoreBtnIcon} />
+                  </button>
+                  <div
+                    id="pdp-specs-rest"
+                    className={`${styles.specsCollapsible} ${!specsExpanded ? styles.specsCollapsibleClosed : ''}`}
+                  >
+                    <div className={styles.specsGroup}>
+                      <h4 className={styles.specsGroupTitle}>Технические особенности</h4>
+                      {product.specs.tech.map((s) => (
+                        <SpecRow key={s.label} label={s.label} value={s.value} />
+                      ))}
+                    </div>
+                    <div className={styles.specsGroup}>
+                      <h4 className={styles.specsGroupTitle}>Дополнительная информация</h4>
+                      {product.specs.extra.map((s) => (
+                        <SpecRow key={s.label} label={s.label} value={s.value} />
+                      ))}
+                    </div>
+                    <div className={styles.specsGroup}>
+                      <h4 className={styles.specsGroupTitle}>Габариты</h4>
+                      {product.specs.dimensions.map((s) => (
+                        <SpecRow key={s.label} label={s.label} value={s.value} />
+                      ))}
+                    </div>
+                    <div className={styles.specsGroup}>
+                      <h4 className={styles.specsGroupTitle}>Общие характеристики</h4>
+                      {product.specs.general.map((s) => (
+                        <SpecRow key={s.label} label={s.label} value={s.value} />
+                      ))}
+                    </div>
+                    <div className={styles.specsGroup}>
+                      <h4 className={styles.specsGroupTitle}>Управление</h4>
+                      {product.specs.control.map((s) => (
+                        <SpecRow key={s.label} label={s.label} value={s.value} />
+                      ))}
+                    </div>
+                    <div className={styles.specsGroup}>
+                      <h4 className={styles.specsGroupTitle}>Материалы</h4>
+                      {product.specs.materials.map((s) => (
+                        <SpecRow key={s.label} label={s.label} value={s.value} />
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

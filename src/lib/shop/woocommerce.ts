@@ -6,6 +6,8 @@ import {
   instructionFileRowsFromMeta,
   previewAttachmentIdFromMetaAndAcf,
   previewImageUrlFromMetaAndAcf,
+  specsDrawingAttachmentIdFromMetaAndAcf,
+  specsDrawingUrlFromMetaAndAcf,
 } from './product-detail-ui'
 
 const BASE_URL = process.env.WOOCOMMERCE_URL?.replace(/\/$/, '') ?? ''
@@ -344,6 +346,19 @@ async function attachInstructionDownloads(product: Product): Promise<Product> {
   return { ...product, instructionDownloads }
 }
 
+/** Схема характеристик: `char_image` и др. — URL или ID вложения → `source_url` из wp/v2/media. */
+async function attachSpecsDrawingImage(product: Product): Promise<Product> {
+  const direct = specsDrawingUrlFromMetaAndAcf(product.meta, product.acf)
+  if (direct) return { ...product, specsDrawingUrl: direct }
+
+  const id = specsDrawingAttachmentIdFromMetaAndAcf(product.meta, product.acf)
+  if (!id) return product
+
+  const urlById = await fetchWpMediaSourceUrls([id])
+  const url = urlById.get(id) ?? attachmentPageHref(id)
+  return { ...product, specsDrawingUrl: url }
+}
+
 function orderByFromSort(sort?: 'price-asc' | 'price-desc' | 'newest' | 'popular'): {
   orderby: string
   order: 'asc' | 'desc'
@@ -442,7 +457,8 @@ export const woocommerceAdapter: ProductAdapter = {
       wooDebug(`product slug=${slug} mapped → Product`, mapped)
     }
     const [withPreview] = await attachCatalogPreviewImages([mapped])
-    return attachInstructionDownloads(withPreview)
+    const withInstructions = await attachInstructionDownloads(withPreview)
+    return attachSpecsDrawingImage(withInstructions)
   },
 
   async getProductCategories() {
