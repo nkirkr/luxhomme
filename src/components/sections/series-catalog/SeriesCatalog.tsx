@@ -161,9 +161,18 @@ export function ProductCard({ product }: { product: Product }) {
   )
 }
 
+export type SeriesCatalogProps = {
+  /** Карточки для сетки (до 6). Без пропа — статический `PRODUCTS` (демо). */
+  catalogProducts?: Product[]
+}
+
 /** «Исследуйте наши серии» + баннер + сетка товаров */
-export function SeriesCatalog() {
-  const rows = [PRODUCTS.slice(0, 3), PRODUCTS.slice(3, 6)]
+export function SeriesCatalog({ catalogProducts }: SeriesCatalogProps = {}) {
+  const cards =
+    catalogProducts && catalogProducts.length > 0
+      ? catalogProducts.slice(0, 6)
+      : PRODUCTS.slice(0, 6)
+  const rows = [cards.slice(0, 3), cards.slice(3, 6)].filter((row) => row.length > 0)
   const [hoveredKey, setHoveredKey] = useState<SeriesKey | null>(null)
 
   return (

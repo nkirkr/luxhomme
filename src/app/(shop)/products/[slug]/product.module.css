@@ -91,6 +91,146 @@
   object-fit: cover;
 }
 
+.mainImageTrigger {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: zoom-in;
+  border-radius: inherit;
+  text-align: left;
+}
+
+.mainImageTrigger:focus-visible {
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+}
+
+/* ─── Fullscreen gallery (lightbox) ─── */
+.lightboxRoot {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 52rem 20rem 24rem;
+  box-sizing: border-box;
+  min-height: 100dvh;
+  min-height: 100vh;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 16rem;
+  right: 16rem;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rem;
+  height: 48rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6rem;
+}
+
+.lightboxClose:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lightboxCloseIcon {
+  width: 24rem;
+  height: 24rem;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+.lightboxContent {
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  width: min(100%, 1200rem);
+  max-width: 1200rem;
+  margin-inline: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightboxSwiper {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.lightboxSwiper :global(.swiper-slide) {
+  width: 100% !important;
+  height: 100%;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.lightboxSlide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.lightboxImg {
+  max-width: 100%;
+  max-height: min(70dvh, 900rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.lightboxCounter {
+  flex-shrink: 0;
+  text-align: center;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+  padding-top: 12rem;
+}
+
+/* Стрелки привязаны к .lightboxSwiper — не трогаем transform, Swiper сам центрирует по вертикали */
+.lightboxSwiper :global(.swiper-button-prev),
+.lightboxSwiper :global(.swiper-button-next) {
+  color: #fff;
+  width: 48rem;
+  height: 48rem;
+  margin-top: 0;
+}
+
+.lightboxSwiper :global(.swiper-button-prev::after),
+.lightboxSwiper :global(.swiper-button-next::after) {
+  font-size: 22rem;
+}
+
+.lightboxSwiper :global(.swiper-button-prev) {
+  left: 8rem;
+  right: auto;
+}
+
+.lightboxSwiper :global(.swiper-button-next) {
+  right: 8rem;
+  left: auto;
+}
+
 /* Right column — product info */
 .info {
   flex: 1;
@@ -1294,6 +1434,32 @@
   .mainImage {
     width: 100%;
     height: 100%;
+  }
+
+  .lightboxRoot {
+    padding: 48rem 12rem 20rem;
+  }
+
+  .lightboxContent {
+    width: min(100%, 100vw - 24rem);
+  }
+
+  .lightboxSwiper :global(.swiper-button-prev),
+  .lightboxSwiper :global(.swiper-button-next) {
+    width: 36rem;
+    height: 36rem;
+  }
+
+  .lightboxSwiper :global(.swiper-button-prev) {
+    left: 4rem;
+  }
+
+  .lightboxSwiper :global(.swiper-button-next) {
+    right: 4rem;
+  }
+
+  .lightboxImg {
+    max-height: min(58dvh, 700rem);
   }
 
   .thumbsSwiper {
