@@ -1,6 +1,8 @@
 import type { CMSImage } from '@/lib/cms/types'
 import type { Product, ProductAdapter } from './types'
 import {
+  hoverAttachmentIdFromMetaAndAcf,
+  hoverImageUrlFromMetaAndAcf,
   instructionFileRowsFromMeta,
   previewAttachmentIdFromMetaAndAcf,
   previewImageUrlFromMetaAndAcf,
@@ -289,9 +291,14 @@ async function fetchWpMediaSourceUrls(ids: number[]): Promise<Map<number, string
 async function attachCatalogPreviewImages(products: Product[]): Promise<Product[]> {
   const ids: number[] = []
   for (const p of products) {
-    if (previewImageUrlFromMetaAndAcf(p.meta, p.acf)) continue
-    const id = previewAttachmentIdFromMetaAndAcf(p.meta, p.acf)
-    if (id) ids.push(id)
+    if (!previewImageUrlFromMetaAndAcf(p.meta, p.acf)) {
+      const id = previewAttachmentIdFromMetaAndAcf(p.meta, p.acf)
+      if (id) ids.push(id)
+    }
+    if (!hoverImageUrlFromMetaAndAcf(p.meta, p.acf)) {
+      const id = hoverAttachmentIdFromMetaAndAcf(p.meta, p.acf)
+      if (id) ids.push(id)
+    }
   }
   if (!ids.length) return products
 
@@ -299,11 +306,21 @@ async function attachCatalogPreviewImages(products: Product[]): Promise<Product[
   if (urlById.size === 0) return products
 
   return products.map((p) => {
-    if (previewImageUrlFromMetaAndAcf(p.meta, p.acf)) return p
-    const id = previewAttachmentIdFromMetaAndAcf(p.meta, p.acf)
-    const url = id ? urlById.get(id) : undefined
-    if (!url) return p
-    return { ...p, catalogCardImageUrl: url }
+    let next: Product = p
+
+    if (!previewImageUrlFromMetaAndAcf(p.meta, p.acf)) {
+      const id = previewAttachmentIdFromMetaAndAcf(p.meta, p.acf)
+      const url = id ? urlById.get(id) : undefined
+      if (url) next = { ...next, catalogCardImageUrl: url }
+    }
+
+    if (!hoverImageUrlFromMetaAndAcf(p.meta, p.acf)) {
+      const id = hoverAttachmentIdFromMetaAndAcf(p.meta, p.acf)
+      const url = id ? urlById.get(id) : undefined
+      if (url) next = { ...next, catalogCardHoverImageUrl: url }
+    }
+
+    return next
   })
 }
 

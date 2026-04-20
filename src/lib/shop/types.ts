@@ -30,6 +30,10 @@ export interface Product {
    */
   catalogCardImageUrl?: string
   /**
+   * Фон карточки при наведении (`hover_image` в meta / ACF), ID разрешён в WP Media.
+   */
+  catalogCardHoverImageUrl?: string
+  /**
    * Файлы инструкций (`_product_instruction_files`): подпись + URL вложения после разрешения ID в Woo adapter.
    */
   instructionDownloads?: Array<{ label: string; href: string }>

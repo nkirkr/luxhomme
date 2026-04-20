@@ -21,6 +21,8 @@ export type Product = {
   priceOld: string
   priceNew: string
   image: string
+  /** Фон карточки при наведении (дизайн Figma node 145:3601). Если пуст — hover-режим не включается. */
+  hoverImage?: string
   href: string
 }
 
@@ -108,8 +110,15 @@ export function ProductCard({ product }: { product: Product }) {
     })
   }
 
+  const hasHover = Boolean(product.hoverImage)
+
   return (
-    <Link href={product.href} className={styles.card}>
+    <Link href={product.href} className={`${styles.card} ${hasHover ? styles.cardHoverable : ''}`}>
+      {hasHover ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={product.hoverImage} alt="" aria-hidden="true" className={styles.cardHoverBg} />
+      ) : null}
+
       {/* Badges */}
       <div className={styles.cardWidgets}>
         <div className={styles.cardBadges}>

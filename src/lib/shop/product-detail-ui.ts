@@ -34,6 +34,9 @@ const PREVIEW_IMAGE_META_KEYS = [
   '_catalog_preview_image',
 ] as const
 
+/** Фон карточки при наведении (по дизайну — полноразмерная картинка). */
+const HOVER_IMAGE_META_KEYS = ['preview_bg', '_preview_bg'] as const
+
 function pickMeta(bag: Record<string, unknown> | undefined, keys: readonly string[]): unknown {
   if (!bag) return undefined
   for (const k of keys) {
@@ -163,6 +166,39 @@ export function previewAttachmentIdFromMetaAndAcf(
   return undefined
 }
 
+/** URL hover-картинки карточки из `meta` / `acf` без обращения к REST media. */
+export function hoverImageUrlFromMetaAndAcf(
+  meta?: Record<string, unknown>,
+  acf?: Record<string, unknown>,
+): string | undefined {
+  for (const bag of [meta, acf]) {
+    if (!bag) continue
+    for (const key of HOVER_IMAGE_META_KEYS) {
+      const raw = bag[key]
+      if (raw == null || raw === '') continue
+      const u = coerceImageUrlFromFieldValue(raw)
+      if (u) return u
+    }
+  }
+  return undefined
+}
+
+/** ID вложения для hover-картинки (если в REST пришло только число). */
+export function hoverAttachmentIdFromMetaAndAcf(
+  meta?: Record<string, unknown>,
+  acf?: Record<string, unknown>,
+): number | undefined {
+  for (const bag of [meta, acf]) {
+    if (!bag) continue
+    for (const key of HOVER_IMAGE_META_KEYS) {
+      const raw = bag[key]
+      const id = coalesceAttachmentId(raw)
+      if (id) return id
+    }
+  }
+  return undefined
+}
+
 function coalesceAttachmentId(v: unknown): number | undefined {
   if (v == null || v === '') return undefined
   if (typeof v === 'number' && Number.isInteger(v) && v > 0) return v
@@ -187,6 +223,10 @@ function coalesceAttachmentId(v: unknown): number | undefined {
 
 function previewImageUrlFromProduct(p: ShopProduct): string | undefined {
   return previewImageUrlFromMetaAndAcf(p.meta, p.acf)
+}
+
+function hoverImageUrlFromProduct(p: ShopProduct): string | undefined {
+  return p.catalogCardHoverImageUrl ?? hoverImageUrlFromMetaAndAcf(p.meta, p.acf)
 }
 
 function rowFromAccessoryObject(
@@ -359,6 +399,7 @@ export function shopProductToCatalogCard(p: ShopProduct): CatalogProduct {
   const priceOld = hasCompare ? formatShopPrice(p.compareAtPrice!, p.currency) : priceNew
 
   const slug = (p.slug && String(p.slug).trim()) || p.id
+  const hoverImage = hoverImageUrlFromProduct(p)
   return {
     id: p.id,
     category,
@@ -366,6 +407,7 @@ export function shopProductToCatalogCard(p: ShopProduct): CatalogProduct {
     priceOld,
     priceNew,
     image: img,
+    hoverImage,
     href: `/products/${slug}`,
   }
 }

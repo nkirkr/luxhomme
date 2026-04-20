@@ -273,6 +273,38 @@
   border-radius: var(--radius-card);
   min-width: 0;
   height: 513rem;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.25s ease;
+}
+
+/* Full-bleed hover image (Figma node 145:3601). */
+.cardHoverBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cardHoverable:hover .cardHoverBg,
+.cardHoverable:focus-visible .cardHoverBg {
+  opacity: 1;
+}
+
+/* Поверх фонового слоя кладём контент. */
+.card > *:not(.cardHoverBg) {
+  position: relative;
+  z-index: 1;
 }
 
 .cardWidgets {
@@ -326,6 +358,12 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transition: opacity 0.25s ease;
+}
+
+.cardHoverable:hover .cardImage,
+.cardHoverable:focus-visible .cardImage {
+  opacity: 0;
 }
 
 .cardInfo {
@@ -427,6 +465,28 @@
 .cardCartBtn:hover {
   background-color: var(--color-cta-hover);
   border-color: var(--color-cta-hover);
+}
+
+/* ── Hover state (Figma node 145:3601) ── */
+.cardHoverable:hover .cardTitle,
+.cardHoverable:focus-visible .cardTitle,
+.cardHoverable:hover .priceOld,
+.cardHoverable:focus-visible .priceOld,
+.cardHoverable:hover .priceNew,
+.cardHoverable:focus-visible .priceNew {
+  color: var(--color-white);
+}
+
+.cardHoverable:hover .cardCategory,
+.cardHoverable:focus-visible .cardCategory {
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.cardHoverable:hover .cardCartBtn,
+.cardHoverable:focus-visible .cardCartBtn {
+  background-color: var(--color-clean);
+  border-color: var(--color-clean);
 }
 
 /* ================================================================
