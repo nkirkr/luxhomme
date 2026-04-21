@@ -28,6 +28,17 @@
   padding: 20rem;
 }
 
+.heroBannerLink {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.heroBannerLink:hover .heroTitle,
+.heroBannerLink:hover .heroDescription {
+  opacity: 0.92;
+}
+
 .heroBannerBg {
   position: absolute;
   inset: 0;

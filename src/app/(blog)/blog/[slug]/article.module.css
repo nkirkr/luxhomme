@@ -156,6 +156,43 @@
   color: var(--color-text);
 }
 
+/* Контент из WordPress REST (`content.rendered`) */
+.articleHtml {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.articleHtml :global(p) {
+  margin: 0 0 1em;
+}
+
+.articleHtml :global(p:last-child) {
+  margin-bottom: 0;
+}
+
+.articleHtml :global(h1),
+.articleHtml :global(h2),
+.articleHtml :global(h3),
+.articleHtml :global(h4) {
+  font-weight: var(--weight-bold);
+  margin: 1.25em 0 0.5em;
+  line-height: 1.2;
+}
+
+.articleHtml :global(ul),
+.articleHtml :global(ol) {
+  margin: 0 0 1em;
+  padding-left: 1.25em;
+}
+
+.articleHtml :global(a) {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
 /* ── Divider ── */
 .divider {
   width: 100%;

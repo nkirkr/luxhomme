@@ -1,6 +1,14 @@
 import type { Metadata } from 'next'
+import { Fragment } from 'react'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
+import {
+  acfAttachmentId,
+  fetchWpMediaSourceUrlsByIds,
+  fetchWpPageBySlug,
+} from '@/lib/wordpress-rest/pages'
 import styles from './about.module.css'
+
+const ABOUT_PAGE_SLUG = (process.env.WORDPRESS_ABOUT_PAGE_SLUG ?? 'about').trim() || 'about'
 
 export const metadata: Metadata = {
   title: 'О нас | Luxhommè',
@@ -8,7 +16,101 @@ export const metadata: Metadata = {
     'Luxhommè — бренд бытовой техники, созданный с заботой о вас. Наша философия, продукты и сообщество.',
 }
 
-export default function AboutPage() {
+function acfTrimmedString(v: unknown): string | undefined {
+  if (typeof v !== 'string') return undefined
+  const t = v.trim()
+  return t ? t : undefined
+}
+
+function paragraphsFromAcfText(raw: string | undefined, fallback: string[]): string[] {
+  if (!raw) return fallback
+  const parts = raw
+    .split(/\r?\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+  return parts.length > 0 ? parts : fallback
+}
+
+/** ACF Image: URL строкой, ID или объект — итоговый `src` для `<img>`. */
+function acfIconSrc(value: unknown, mediaById: Map<number, string>, fallback: string): string {
+  if (typeof value === 'string') {
+    const t = value.trim()
+    if (/^https?:\/\//i.test(t)) return t
+  }
+  const id = acfAttachmentId(value)
+  if (id !== undefined) {
+    const u = mediaById.get(id)
+    if (u) return u
+  }
+  return fallback
+}
+
+export default async function AboutPage() {
+  const wpPage = await fetchWpPageBySlug(ABOUT_PAGE_SLUG)
+  const acf =
+    wpPage?.acf && typeof wpPage.acf === 'object' && !Array.isArray(wpPage.acf)
+      ? (wpPage.acf as Record<string, unknown>)
+      : null
+
+  const firstColumnTitle = acfTrimmedString(acf?.first_column_title) ?? 'Наша философия'
+  const firstColumnParagraphs = paragraphsFromAcfText(acfTrimmedString(acf?.first_column_text_1), [
+    'Luxhommè про свет, дом и человека. Lux символизирует домашнее тепло. Home — уют и безопасность. А в центре всего — hommè — человек.',
+    'Мы создаем не просто технику, а решения, которые делают быт проще, теплее и человечнее.',
+  ])
+
+  const thirdColumnTitle = acfTrimmedString(acf?.third_column_title) ?? 'Сообщество'
+  const thirdColumnText =
+    acfTrimmedString(acf?.third_column_text) ??
+    'Станьте частью семьи Luxhommè. Делитесь опытом и осваивайте удобные решения для вашего дома в Luxhommè Academy.'
+
+  const secondColumnTitle = acfTrimmedString(acf?.second_column_title) ?? 'Продукты'
+  const secondColumnIntro = acfTrimmedString(acf?.second_column_text) ?? 'Мы предлагаем три серии:'
+  const cookSeriesText =
+    acfTrimmedString(acf?.cook_text) ?? 'Аэрогрили и кофемашины для быстрого и здорового питания.'
+  const cleanSeriesText =
+    acfTrimmedString(acf?.clean_text) ?? 'Паровые швабры и роботы для мытья окон для лёгкой уборки.'
+  const careSeriesText =
+    acfTrimmedString(acf?.text_care) ?? 'Виброплатформы для здоровья и комфорта.'
+  const secondColumnFooterLines = paragraphsFromAcfText(
+    acfTrimmedString(acf?.second_column_text2),
+    ['Каждая серия сочетает технологии,', 'безопасность и стиль'],
+  )
+
+  const underBannerText =
+    acfTrimmedString(acf?.under_banner_text) ??
+    'В центре внимания — уют и тишина в доме. Заботливая техника Luxhommè помогает с уборкой и готовкой, поддерживает ваше тело в тонусе.'
+
+  const bannerDescText =
+    acfTrimmedString(acf?.banner_text) ??
+    'Привет, это Luxhommè. Мы — бренд бытовой техники, созданный с заботой о вас.'
+
+  const mediaAttachmentIds = [
+    acfAttachmentId(acf?.banner_img),
+    acfAttachmentId(acf?.first_column_icon),
+    acfAttachmentId(acf?.second_column_icon),
+    acfAttachmentId(acf?.third_column_icon),
+  ].filter((id): id is number => id !== undefined)
+
+  const mediaById = await fetchWpMediaSourceUrlsByIds(mediaAttachmentIds)
+
+  const bannerBgSrc = acfIconSrc(acf?.banner_img, mediaById, '/images/about-banner.jpg')
+
+  const firstColumnIconSrc = acfIconSrc(
+    acf?.first_column_icon,
+    mediaById,
+    '/images/about-icon-philosophy.png',
+  )
+  const secondColumnIconSrc = acfIconSrc(
+    acf?.second_column_icon,
+    mediaById,
+    '/images/about-icon-products.png',
+  )
+  const thirdColumnIconSrc = acfIconSrc(
+    acf?.third_column_icon,
+    mediaById,
+    '/images/about-icon-philosophy.png',
+  )
+
   return (
     <div className={styles.page}>
       <div className={styles.headerWrap}>
@@ -20,7 +122,7 @@ export default function AboutPage() {
         <div className={styles.banner}>
           <div className={styles.bannerBg} aria-hidden="true">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/about-banner.jpg" alt="" />
+            <img src={bannerBgSrc} alt="" />
           </div>
           <div className={styles.bannerOverlay} aria-hidden="true" />
           <div className={styles.bannerContent}>
@@ -28,18 +130,13 @@ export default function AboutPage() {
               <p className={styles.bannerTitleSans}>нас</p>
               <p className={styles.bannerTitleGogol}>О</p>
             </div>
-            <p className={styles.bannerDesc}>
-              Привет, это Luxhommè. Мы — бренд бытовой техники, созданный с заботой о вас.
-            </p>
+            <p className={styles.bannerDesc}>{bannerDescText}</p>
           </div>
         </div>
 
         {/* ═══ Bordered text ═══ */}
         <div className={styles.textBox}>
-          <p className={styles.textBoxText}>
-            В центре внимания — уют и тишина в доме. Заботливая техника Luxhommè помогает с уборкой
-            и готовкой, поддерживает ваше тело в тонусе.
-          </p>
+          <p className={styles.textBoxText}>{underBannerText}</p>
         </div>
 
         <div className={styles.divider} />
@@ -51,22 +148,19 @@ export default function AboutPage() {
             <div className={styles.colHeader}>
               <div className={styles.colIcon}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/about-icon-philosophy.png" alt="" />
+                <img src={firstColumnIconSrc} alt="" />
               </div>
               <div className={styles.colTitleBox}>
-                <p className={styles.colTitleText}>Наша философия</p>
+                <p className={styles.colTitleText}>{firstColumnTitle}</p>
               </div>
             </div>
             <div className={styles.colBody}>
-              <p className={styles.colBodyText}>
-                Luxhommè про свет, дом и человека. Lux символизирует домашнее тепло. Home — уют и
-                безопасность. А в центре всего — hommè — человек.
-              </p>
-              <br />
-              <p className={styles.colBodyText}>
-                Мы создаем не просто технику, а решения, которые делают быт проще, теплее и
-                человечнее.
-              </p>
+              {firstColumnParagraphs.map((paragraph, i) => (
+                <Fragment key={i}>
+                  {i > 0 ? <br /> : null}
+                  <p className={styles.colBodyText}>{paragraph}</p>
+                </Fragment>
+              ))}
             </div>
           </div>
 
@@ -75,40 +169,39 @@ export default function AboutPage() {
             <div className={styles.colHeader}>
               <div className={styles.colIcon}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/about-icon-products.png" alt="" />
+                <img src={secondColumnIconSrc} alt="" />
               </div>
               <div className={styles.colTitleBox}>
-                <p className={styles.colTitleText}>Продукты</p>
+                <p className={styles.colTitleText}>{secondColumnTitle}</p>
               </div>
             </div>
             <div className={styles.colBody}>
-              <p className={styles.seriesTitle}>Мы предлагаем три серии:</p>
+              <p className={styles.seriesTitle}>{secondColumnIntro}</p>
               <div className={styles.seriesList}>
                 <div className={styles.seriesItem}>
                   <span className={`${styles.seriesBadge} ${styles.seriesBadgeCook}`}>Кухня</span>
-                  <p className={styles.seriesText}>
-                    Аэрогрили и кофемашины для быстрого и здорового питания.
-                  </p>
+                  <p className={styles.seriesText}>{cookSeriesText}</p>
                 </div>
                 <div className={styles.seriesItem}>
                   <span className={`${styles.seriesBadge} ${styles.seriesBadgeClean}`}>
                     Чистота
                   </span>
-                  <p className={styles.seriesText}>
-                    Паровые швабры и роботы для мытья окон для лёгкой уборки.
-                  </p>
+                  <p className={styles.seriesText}>{cleanSeriesText}</p>
                 </div>
                 <div className={styles.seriesItem}>
                   <span className={`${styles.seriesBadge} ${styles.seriesBadgeCare}`}>Забота</span>
-                  <p className={styles.seriesText}>Виброплатформы для здоровья и комфорта.</p>
+                  <p className={styles.seriesText}>{careSeriesText}</p>
                 </div>
               </div>
             </div>
             <div className={styles.colFooter}>
               <p className={styles.colFooterText}>
-                Каждая серия сочетает технологии,
-                <br />
-                безопасность и стиль
+                {secondColumnFooterLines.map((line, i) => (
+                  <Fragment key={i}>
+                    {i > 0 ? <br /> : null}
+                    {line}
+                  </Fragment>
+                ))}
               </p>
             </div>
           </div>
@@ -118,17 +211,14 @@ export default function AboutPage() {
             <div className={styles.colHeader}>
               <div className={styles.colIcon}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/about-icon-philosophy.png" alt="" />
+                <img src={thirdColumnIconSrc} alt="" />
               </div>
               <div className={styles.colTitleBox}>
-                <p className={styles.colTitleText}>Сообщество</p>
+                <p className={styles.colTitleText}>{thirdColumnTitle}</p>
               </div>
             </div>
             <div className={styles.colBody}>
-              <p className={styles.colBodyText}>
-                Станьте частью семьи Luxhommè. Делитесь опытом и осваивайте удобные решения для
-                вашего дома в Luxhommè Academy.
-              </p>
+              <p className={styles.colBodyText}>{thirdColumnText}</p>
             </div>
           </div>
         </div>
