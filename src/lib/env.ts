@@ -15,6 +15,10 @@ const serverSchema = z.object({
   BETTER_AUTH_URL: z.string().url().optional(),
 
   CMS_PROVIDER: z.enum(['none', 'wordpress', 'payload']).default('none'),
+  /** Корень WordPress для REST (`/wp-json/...`). Если пусто — используется WOOCOMMERCE_URL или origin из WORDPRESS_GRAPHQL_URL. */
+  WORDPRESS_REST_URL: z.string().url().optional(),
+  /** Slug страницы «О нас» для wp/v2/pages (по умолчанию about). */
+  WORDPRESS_ABOUT_PAGE_SLUG: z.string().optional(),
   WORDPRESS_GRAPHQL_URL: z.string().url().optional(),
   WP_APPLICATION_USER: z.string().optional(),
   WP_APPLICATION_PASSWORD: z.string().optional(),

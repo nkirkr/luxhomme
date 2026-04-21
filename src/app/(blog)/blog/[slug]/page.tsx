@@ -1,6 +1,16 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
+import {
+  fetchWpPostBySlug,
+  fetchWpPostsPublished,
+  formatWpPostDate,
+  stripWpRendered,
+  wordpressRestBaseUrl,
+  type WpRestPostDetail,
+  type WpRestPostSummary,
+} from '@/lib/wordpress-rest/posts'
+import { titleWithLuxhommeBreak } from '../blog-titles'
 import styles from './article.module.css'
 
 interface ArticleData {
@@ -10,6 +20,8 @@ interface ArticleData {
   lead: string
   sections: { subtitle: string; paragraphs: string[] }[]
   image: string
+  /** HTML из WordPress `content.rendered` */
+  bodyHtml?: string
 }
 
 const ARTICLES: Record<string, ArticleData> = {
@@ -52,17 +64,8 @@ const ARTICLES: Record<string, ArticleData> = {
   },
 }
 
-const RELATED_POSTS = [
-  {
-    slug: 'new-products',
-    title: 'Новые продукты Luxhommè',
-    image: '/images/blog-related-card.jpg',
-  },
-  {
-    slug: 'philosophy-of-comfort',
-    title: 'Философия Уюта',
-    image: '/images/blog-related-card.jpg',
-  },
+/** Доп. пункты, если из WP пришло меньше трёх карточек (картинка — только заглушка). */
+const RELATED_PAD: { slug: string; title: string; image: string }[] = [
   {
     slug: 'rituals-for-everyone',
     title: 'Ритуалы для каждого',
@@ -70,7 +73,86 @@ const RELATED_POSTS = [
   },
 ]
 
+const RELATED_IMAGE_FALLBACK = '/images/blog-related-card.jpg'
+
 const DEFAULT_ARTICLE: ArticleData = ARTICLES['new-products']
+
+type RelatedCard = { slug: string; title: string; image: string }
+
+function staticRelatedFromArticles(excludeSlug: string): RelatedCard[] {
+  return Object.values(ARTICLES)
+    .filter((a) => a.slug !== excludeSlug)
+    .map((a) => ({
+      slug: a.slug,
+      title: a.title.replace(/\n/g, ' '),
+      image: a.image,
+    }))
+}
+
+function mergeRelatedUnique(
+  primary: RelatedCard[],
+  pad: RelatedCard[],
+  excludeSlug: string,
+): RelatedCard[] {
+  const out: RelatedCard[] = []
+  const seen = new Set<string>()
+  for (const p of primary) {
+    if (p.slug === excludeSlug || seen.has(p.slug)) continue
+    out.push(p)
+    seen.add(p.slug)
+    if (out.length >= 3) return out
+  }
+  for (const p of pad) {
+    if (p.slug === excludeSlug || seen.has(p.slug)) continue
+    out.push(p)
+    seen.add(p.slug)
+    if (out.length >= 3) return out
+  }
+  return out
+}
+
+async function loadRelatedCards(excludeSlug: string): Promise<RelatedCard[]> {
+  const staticFirst = staticRelatedFromArticles(excludeSlug)
+
+  if (!wordpressRestBaseUrl()) {
+    return mergeRelatedUnique(staticFirst, RELATED_PAD, excludeSlug)
+  }
+
+  try {
+    const posts = await fetchWpPostsPublished({ limit: 50 })
+    const fromWp: RelatedCard[] = posts
+      .filter((p) => p.slug !== excludeSlug)
+      .slice(0, 6)
+      .map((p: WpRestPostSummary) => ({
+        slug: p.slug,
+        title: p.title,
+        image: p.featuredImageUrl || RELATED_IMAGE_FALLBACK,
+      }))
+    return mergeRelatedUnique(fromWp, [...staticFirst, ...RELATED_PAD], excludeSlug).slice(0, 3)
+  } catch {
+    return mergeRelatedUnique(staticFirst, RELATED_PAD, excludeSlug)
+  }
+}
+
+function truncate(s: string, max: number): string {
+  const t = s.trim()
+  if (t.length <= max) return t
+  return `${t.slice(0, max - 1).trim()}…`
+}
+
+function wpPostToArticle(wp: WpRestPostDetail): ArticleData {
+  const plain = stripWpRendered(wp.contentHtml)
+  const lead = wp.excerpt.trim() ? wp.excerpt : truncate(plain, 420)
+  return {
+    slug: wp.slug,
+    date: formatWpPostDate(wp.date),
+    title: titleWithLuxhommeBreak(wp.title),
+    lead,
+    sections: [],
+    image: wp.featuredImageUrl || '/images/blog-banner.jpg',
+    bodyHtml: wp.contentHtml,
+  }
+}
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -78,10 +160,22 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const article = ARTICLES[slug] || DEFAULT_ARTICLE
+  const staticArticle = ARTICLES[slug]
+  if (staticArticle) {
+    return {
+      title: `${staticArticle.title.replace('\n', ' ')} | Luxhommè`,
+      description: staticArticle.lead,
+    }
+  }
+  const wp = await fetchWpPostBySlug(slug)
+  if (wp) {
+    const t = titleWithLuxhommeBreak(wp.title).replace(/\n/g, ' ')
+    const desc = wp.excerpt.trim() || truncate(stripWpRendered(wp.contentHtml), 160)
+    return { title: `${t} | Luxhommè`, description: desc }
+  }
   return {
-    title: `${article.title.replace('\n', ' ')} | Luxhommè`,
-    description: article.lead,
+    title: `${DEFAULT_ARTICLE.title.replace('\n', ' ')} | Luxhommè`,
+    description: DEFAULT_ARTICLE.lead,
   }
 }
 
@@ -102,7 +196,9 @@ function BackButton() {
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params
-  const article = ARTICLES[slug] || DEFAULT_ARTICLE
+  const wp = await fetchWpPostBySlug(slug)
+  const article = ARTICLES[slug] ?? (wp ? wpPostToArticle(wp) : DEFAULT_ARTICLE)
+  const relatedCards = await loadRelatedCards(slug)
 
   return (
     <div className={styles.page}>
@@ -111,7 +207,6 @@ export default async function ArticlePage({ params }: Props) {
       </div>
 
       <div className={styles.content}>
-        {/* Hero banner */}
         <div className={styles.heroBanner}>
           <div className={styles.heroBannerBg} aria-hidden="true">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -132,38 +227,43 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         </div>
 
-        {/* Article body */}
         <div className={styles.article}>
           <div className={styles.articleText}>
-            <p className={styles.articleLead}>{article.lead}</p>
+            {!article.bodyHtml ? <p className={styles.articleLead}>{article.lead}</p> : null}
 
-            {article.sections.map((section, i) => (
-              <div key={i} className={styles.articleBlock}>
-                <h2 className={styles.articleSubtitle}>{section.subtitle}</h2>
-                {section.paragraphs.map((p, j) => (
-                  <p key={j} className={styles.articleParagraph}>
-                    {p}
-                  </p>
-                ))}
-              </div>
-            ))}
+            {article.bodyHtml ? (
+              <div
+                className={styles.articleHtml}
+                // контент с доверенного WordPress
+                dangerouslySetInnerHTML={{ __html: article.bodyHtml }}
+              />
+            ) : (
+              article.sections.map((section, i) => (
+                <div key={i} className={styles.articleBlock}>
+                  <h2 className={styles.articleSubtitle}>{section.subtitle}</h2>
+                  {section.paragraphs.map((p, j) => (
+                    <p key={j} className={styles.articleParagraph}>
+                      {p}
+                    </p>
+                  ))}
+                </div>
+              ))
+            )}
           </div>
 
           <BackButton />
         </div>
 
-        {/* Divider */}
         <div className={styles.divider} />
 
-        {/* Related posts */}
         <div className={styles.relatedSection}>
           <div className={styles.relatedBlock}>
             <h3 className={styles.relatedTitle}>Свежие записи:</h3>
             <div className={styles.relatedCards}>
-              {RELATED_POSTS.map((post) => (
+              {relatedCards.map((post) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`} className={styles.relatedCard}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={post.image} alt={post.title} />
+                  <img src={post.image} alt="" />
                   <p className={styles.relatedCardTitle}>{post.title}</p>
                 </Link>
               ))}
