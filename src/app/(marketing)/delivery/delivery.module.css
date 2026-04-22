@@ -85,6 +85,16 @@
   min-width: 0;
 }
 
+/* Один блок текста (ACF delivery_type_1_text целиком), переносы \n из админки */
+.cardDescSingle {
+  display: block;
+}
+
+.cardDescSingle p {
+  flex: none;
+  white-space: pre-line;
+}
+
 /* Card banner — with bg image */
 .cardBanner {
   position: relative;

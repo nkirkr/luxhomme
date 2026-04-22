@@ -2,9 +2,15 @@ import type { Metadata } from 'next'
 import { Fragment } from 'react'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
 import {
+  acfImageSrc,
+  acfTrimmedString,
+  paragraphsFromAcfText,
+} from '@/lib/wordpress-rest/acf-helpers'
+import {
   acfAttachmentId,
   fetchWpMediaSourceUrlsByIds,
   fetchWpPageBySlug,
+  wpAcfRecord,
 } from '@/lib/wordpress-rest/pages'
 import styles from './about.module.css'
 
@@ -16,41 +22,9 @@ export const metadata: Metadata = {
     'Luxhommè — бренд бытовой техники, созданный с заботой о вас. Наша философия, продукты и сообщество.',
 }
 
-function acfTrimmedString(v: unknown): string | undefined {
-  if (typeof v !== 'string') return undefined
-  const t = v.trim()
-  return t ? t : undefined
-}
-
-function paragraphsFromAcfText(raw: string | undefined, fallback: string[]): string[] {
-  if (!raw) return fallback
-  const parts = raw
-    .split(/\r?\n+/)
-    .map((s) => s.trim())
-    .filter(Boolean)
-  return parts.length > 0 ? parts : fallback
-}
-
-/** ACF Image: URL строкой, ID или объект — итоговый `src` для `<img>`. */
-function acfIconSrc(value: unknown, mediaById: Map<number, string>, fallback: string): string {
-  if (typeof value === 'string') {
-    const t = value.trim()
-    if (/^https?:\/\//i.test(t)) return t
-  }
-  const id = acfAttachmentId(value)
-  if (id !== undefined) {
-    const u = mediaById.get(id)
-    if (u) return u
-  }
-  return fallback
-}
-
 export default async function AboutPage() {
   const wpPage = await fetchWpPageBySlug(ABOUT_PAGE_SLUG)
-  const acf =
-    wpPage?.acf && typeof wpPage.acf === 'object' && !Array.isArray(wpPage.acf)
-      ? (wpPage.acf as Record<string, unknown>)
-      : null
+  const acf = wpPage ? wpAcfRecord(wpPage.acf) : null
 
   const firstColumnTitle = acfTrimmedString(acf?.first_column_title) ?? 'Наша философия'
   const firstColumnParagraphs = paragraphsFromAcfText(acfTrimmedString(acf?.first_column_text_1), [
@@ -93,19 +67,19 @@ export default async function AboutPage() {
 
   const mediaById = await fetchWpMediaSourceUrlsByIds(mediaAttachmentIds)
 
-  const bannerBgSrc = acfIconSrc(acf?.banner_img, mediaById, '/images/about-banner.jpg')
+  const bannerBgSrc = acfImageSrc(acf?.banner_img, mediaById, '/images/about-banner.jpg')
 
-  const firstColumnIconSrc = acfIconSrc(
+  const firstColumnIconSrc = acfImageSrc(
     acf?.first_column_icon,
     mediaById,
     '/images/about-icon-philosophy.png',
   )
-  const secondColumnIconSrc = acfIconSrc(
+  const secondColumnIconSrc = acfImageSrc(
     acf?.second_column_icon,
     mediaById,
     '/images/about-icon-products.png',
   )
-  const thirdColumnIconSrc = acfIconSrc(
+  const thirdColumnIconSrc = acfImageSrc(
     acf?.third_column_icon,
     mediaById,
     '/images/about-icon-philosophy.png',

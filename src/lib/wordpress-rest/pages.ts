@@ -5,6 +5,17 @@ const DEFAULT_REVALIDATE = 300
 
 export type WpRestPageRecord = Record<string, unknown>
 
+/**
+ * ACF в REST обычно — объект с ключами полей. Для страниц без подходящей группы
+ * или без «Show in REST API» иногда приходит пустой массив `[]` — трактуем как «нет данных».
+ */
+export function wpAcfRecord(acf: unknown): Record<string, unknown> | null {
+  if (acf === null || acf === undefined) return null
+  if (typeof acf !== 'object') return null
+  if (Array.isArray(acf)) return null
+  return acf as Record<string, unknown>
+}
+
 /** ACF Image / File как ID, строка с ID или объект с `id` / `ID`. */
 export function acfAttachmentId(value: unknown): number | undefined {
   if (typeof value === 'number' && Number.isInteger(value) && value > 0) return value
@@ -62,6 +73,7 @@ async function fetchWpPageBySlugUncached(slug: string): Promise<WpRestPageRecord
   url.searchParams.set('slug', slug.trim())
   url.searchParams.set('_embed', '1')
   url.searchParams.set('per_page', '1')
+  url.searchParams.set('acf_format', 'standard')
 
   const res = await fetch(url.toString(), {
     headers: { Accept: 'application/json' },
