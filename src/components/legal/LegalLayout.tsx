@@ -20,6 +20,7 @@ export interface LegalSection {
 
 export interface LegalLayoutProps {
   title: string
+  subtitle?: string
   sections: LegalSection[]
 }
 
@@ -56,7 +57,7 @@ function renderBlock(block: LegalBlock, key: number): ReactNode {
   return <Fragment key={key}>{block}</Fragment>
 }
 
-export function LegalLayout({ title, sections }: LegalLayoutProps) {
+export function LegalLayout({ title, subtitle, sections }: LegalLayoutProps) {
   return (
     <div className={styles.page}>
       <div className={styles.headerWrap}>
@@ -66,7 +67,10 @@ export function LegalLayout({ title, sections }: LegalLayoutProps) {
       <div className={styles.content}>
         <div className={styles.titleBlock}>
           <div className={styles.titleDividerTop} />
-          <h1 className={styles.title}>{title}</h1>
+          <div className={styles.titleInner}>
+            <h1 className={styles.title}>{title}</h1>
+            {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
+          </div>
           <div className={styles.titleDividerBottom} />
         </div>
 

@@ -32,6 +32,13 @@
   background-color: var(--color-stroke);
 }
 
+.titleInner {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 20rem 0;
+}
+
 .title {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
@@ -39,7 +46,15 @@
   line-height: var(--lh-heading);
   color: var(--color-text);
   margin: 0;
-  padding: 20rem 0;
+}
+
+.subtitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-m);
+  line-height: var(--lh-heading);
+  color: var(--color-text);
+  margin: 0;
 }
 
 /* ── Список разделов ── */
@@ -131,10 +146,18 @@
     gap: 20rem;
   }
 
+  .titleInner {
+    gap: 8rem;
+    padding: 20rem 0;
+  }
+
   .title {
     font-size: 34rem;
     line-height: var(--lh-tight);
-    padding: 20rem 0;
+  }
+
+  .subtitle {
+    font-size: 12rem;
   }
 
   .section {

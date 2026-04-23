@@ -436,7 +436,7 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
       {/* ═══ Характеристики ═══ */}
       <section className={styles.specsSection} id="specs">
         <div className={styles.sectionHeading}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div className={styles.charTitleWrap}>
             <h2 className={styles.sectionTitle}>Характеристики</h2>
           </div>
           <div className={styles.sectionLine} />

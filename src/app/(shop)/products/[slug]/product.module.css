@@ -298,6 +298,7 @@
   line-height: 1.2;
   color: var(--color-black);
   flex-shrink: 0;
+  max-width: 50%;
 }
 
 .specValue {
@@ -744,11 +745,15 @@
 .specsDrawings {
   width: 596rem;
   flex-shrink: 0;
+  height: 400rem;
 }
 
 .drawingImage {
   width: 100%;
   margin-bottom: 20rem;
+  height: 100%;
+  object-fit: contain;
+  object-position: left;
 }
 
 .specsTable {
@@ -1412,6 +1417,10 @@
   color: var(--color-text);
 }
 
+.charTitleWrap {
+  text-align: end;
+}
+
 /* ═══════════════════════════════════════════════════════════
    Mobile
    ═══════════════════════════════════════════════════════════ */
@@ -1503,6 +1512,9 @@
     width: 80rem;
     height: 80rem;
   }
+  .charTitleWrap {
+    text-align: start;
+  }
 
   .deliveryTitle {
     margin-top: 4rem;
@@ -1565,6 +1577,7 @@
   /* Section titles */
   .sectionTitle {
     font-size: 34rem;
+    justify-content: flex-start !important;
   }
 
   /* Description */
@@ -1591,6 +1604,9 @@
     --desc-text-slot-min: calc(22rem + 16rem + 14rem * 1.4 * 6);
   }
 
+  .descSlide {
+    padding: 8rem 20rem 0;
+  }
   .descSlide,
   .descSlideActive {
     width: 100%;
@@ -1623,6 +1639,7 @@
 
   .specsDrawings {
     width: 100%;
+    height: auto;
   }
 
   .specsRows {
