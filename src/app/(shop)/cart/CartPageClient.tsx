@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
 import { useCart } from '@/lib/cart/CartContext'
+import type { Product as SeriesCatalogProduct } from '@/components/sections/series-catalog/SeriesCatalog'
 import {
   ProductCard,
   PRODUCTS as MOCK_PRODUCTS,
@@ -158,7 +159,9 @@ function CartItemRow({ item }: { item: ReturnType<typeof useCart>['items'][0] })
 
 // ── Empty cart ────────────────────────────────────────────────────
 
-function EmptyCart() {
+function EmptyCart({ recentProducts }: { recentProducts: SeriesCatalogProduct[] }) {
+  const cards = recentProducts.length > 0 ? recentProducts.slice(0, 3) : MOCK_PRODUCTS.slice(0, 3)
+
   return (
     <div className={styles.emptyWrap}>
       <div className={styles.emptyIcon}>
@@ -177,7 +180,7 @@ function EmptyCart() {
       <div className={styles.emptyProducts}>
         <p className={styles.emptyProductsTitle}>Новое в магазине</p>
         <div className={styles.emptyProductsGrid}>
-          {MOCK_PRODUCTS.slice(0, 3).map((p) => (
+          {cards.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
@@ -188,7 +191,11 @@ function EmptyCart() {
 
 // ── Main page ─────────────────────────────────────────────────────
 
-export function CartPageClient() {
+export function CartPageClient({
+  recentProducts = [],
+}: {
+  recentProducts?: SeriesCatalogProduct[]
+}) {
   const { items, totalFormatted } = useCart()
   const [useBonuses, setUseBonuses] = useState(false)
 
@@ -199,7 +206,7 @@ export function CartPageClient() {
       </div>
 
       {items.length === 0 ? (
-        <EmptyCart />
+        <EmptyCart recentProducts={recentProducts} />
       ) : (
         <div className={styles.content}>
           {/* Left: items */}

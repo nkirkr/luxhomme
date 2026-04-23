@@ -297,7 +297,7 @@
   width: 60rem;
   height: 60rem;
   border-radius: 6rem;
-  object-fit: cover;
+  object-fit: contain;
   flex-shrink: 0;
 }
 

@@ -1,0 +1,180 @@
+/* Разделяемый лейаут для правовых страниц (Оферта, Политика конфиденциальности)
+   Десктоп: 1440px → контент 1280rem с отступом 80rem.
+   Мобилка: 440px → контент 400rem с отступом 20rem. */
+
+.page {
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+.headerWrap {
+  padding: 20rem 80rem 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+  padding: 104rem 80rem 80rem 80rem;
+}
+
+/* ── Title block (верх/низ с линиями) ── */
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.titleDividerTop,
+.titleDividerBottom {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-stroke);
+}
+
+.titleInner {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 20rem 0;
+}
+
+.title {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-h1);
+  line-height: var(--lh-heading);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.subtitle {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-m);
+  line-height: var(--lh-heading);
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* ── Список разделов ── */
+.sections {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.section {
+  display: grid;
+  grid-template-columns: 1fr 700rem;
+  align-items: start;
+  padding: 15rem 0;
+  column-gap: 40rem;
+}
+
+.section:first-child {
+  padding-top: 0;
+}
+
+.section:last-child {
+  padding-bottom: 0;
+}
+
+.section + .section {
+  border-top: 1px solid var(--color-stroke);
+}
+
+.sectionHeading {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-ls);
+  line-height: var(--lh-heading);
+  color: var(--color-black);
+  text-transform: uppercase;
+  margin: 0;
+  max-width: 428rem;
+}
+
+.sectionBody {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: var(--text-m);
+  line-height: var(--lh-body);
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.sectionBody p {
+  margin: 0;
+}
+
+.sectionBody ul {
+  margin: 0;
+  padding-left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.sectionBody li {
+  line-height: var(--lh-body);
+}
+
+.sectionBody strong,
+.sectionBody b {
+  font-weight: var(--weight-bold);
+  line-height: var(--lh-heading);
+}
+
+.sectionBody a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* ================================================================
+   Mobile (≤ 768px)
+   ================================================================ */
+@media (max-width: 768px) {
+  .headerWrap {
+    padding: 20rem 20rem 0;
+  }
+
+  .content {
+    padding: 60rem 20rem 80rem;
+    gap: 20rem;
+  }
+
+  .titleInner {
+    gap: 8rem;
+    padding: 20rem 0;
+  }
+
+  .title {
+    font-size: 34rem;
+    line-height: var(--lh-tight);
+  }
+
+  .subtitle {
+    font-size: 12rem;
+  }
+
+  .section {
+    grid-template-columns: 1fr;
+    row-gap: 20rem;
+    padding: 20rem 0;
+  }
+
+  .section:first-child {
+    padding-top: 0;
+  }
+
+  .section:last-child {
+    padding-bottom: 0;
+  }
+
+  .sectionHeading {
+    max-width: none;
+  }
+}
