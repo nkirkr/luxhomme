@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
-import { LoginFormStub } from './LoginFormStub'
+import { PhoneLoginForm } from './PhoneLoginForm'
 import styles from './login.module.css'
 
 export const metadata: Metadata = {
@@ -23,7 +24,15 @@ export default function LoginPage() {
 
       <div className={styles.formCard}>
         <h1 className={styles.formTitle}>Авторизация</h1>
-        <LoginFormStub />
+        <Suspense
+          fallback={
+            <div className={styles.formFields} aria-busy="true">
+              <div className={styles.fieldLabel}>Загрузка…</div>
+            </div>
+          }
+        >
+          <PhoneLoginForm />
+        </Suspense>
       </div>
     </div>
   )

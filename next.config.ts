@@ -48,6 +48,9 @@ const nextConfig: NextConfig = {
 
   output: 'standalone',
 
+  /** Нативный модуль SQLite — не бандлить на сервере. */
+  serverExternalPackages: ['better-sqlite3'],
+
   async headers() {
     return [{ source: '/(.*)', headers: securityHeaders }]
   },
