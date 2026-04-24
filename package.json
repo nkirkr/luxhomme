@@ -2,7 +2,6 @@
   "name": "bazasite",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "NODE_EXTRA_CA_CERTS=certs/alphassl-ca-2025.pem next dev",
     "build": "next build",
