@@ -1,0 +1,21 @@
+{
+  "version": "just-do-it",
+  "installedAt": "2026-04-24T08:16:30.550Z",
+  "agents": [
+    "jdi_analyst.md",
+    "jdi_architect.md",
+    "jdi_developer.md",
+    "jdi_engineer.md",
+    "jdi_judge.md",
+    "jdi_writer.md"
+  ],
+  "skills": [
+    "jdi_agent-pipeline-orchestration",
+    "jdi_architecture-principles",
+    "jdi_doc-style",
+    "jdi_engineering-from-architecture",
+    "jdi_frontend-code-style",
+    "jdi_mentor"
+  ],
+  "extensions": {}
+}

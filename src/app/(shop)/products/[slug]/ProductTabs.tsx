@@ -1,12 +1,16 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import { ProductCard, type Product } from '@/components/sections/series-catalog/SeriesCatalog'
 import type { ProductDetailForTabs } from '@/lib/shop/product-detail-ui'
+import type { ReviewFilter } from '@/lib/shop/reviews-api'
+import { useReviews } from '@/hooks/use-reviews'
+import { useReviewSubmit } from '@/hooks/use-review-submit'
+import { useSession } from '@/lib/auth-client'
 import styles from './product.module.css'
 
 import 'swiper/css'
@@ -21,13 +25,14 @@ const DESC_TAB_ANCHORS: { label: Tab; href: string }[] = [
   { label: 'Инструкция', href: '#product-instruction' },
 ]
 
-const REVIEW_FILTERS = [
-  'Все',
-  'С фото',
-  'С видео',
-  'Сначала положительные',
-  'Сначала отрицательные',
+const REVIEW_FILTER_OPTIONS: { label: string; value: ReviewFilter }[] = [
+  { label: 'Все', value: 'all' },
+  { label: 'С фото', value: 'with_photo' },
+  { label: 'Сначала положительные', value: 'positive' },
+  { label: 'Сначала отрицательные', value: 'negative' },
 ]
+
+const MAX_PHOTOS = 5
 
 function Stars({ count }: { count: number }) {
   return (
@@ -69,18 +74,77 @@ function WriteReviewStars({ value, onChange }: { value: number; onChange: (n: nu
   )
 }
 
-function WriteReviewModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+interface WriteReviewModalProps {
+  open: boolean
+  onClose: () => void
+  productId: string
+  onSuccess?: () => void
+}
+
+function WriteReviewModal({ open, onClose, productId, onSuccess }: WriteReviewModalProps) {
   const fileRef = useRef<HTMLInputElement>(null)
   const [rating, setRating] = useState(4)
   const [comment, setComment] = useState('')
-  const [fileLabel, setFileLabel] = useState<string | null>(null)
+  const [name, setName] = useState('')
+  const [files, setFiles] = useState<File[]>([])
+  const [previews, setPreviews] = useState<string[]>([])
+
+  const { data: session } = useSession()
+  const { status, error, submit, reset } = useReviewSubmit()
 
   useBodyScrollLock(open)
 
-  const canSubmit = rating >= 1 && comment.trim().length > 0
+  const isAuthed = !!session?.user
+  const canSubmit =
+    isAuthed && rating >= 1 && comment.trim().length >= 10 && name.trim().length >= 2
 
-  const handleSubmit = () => {
+  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = Array.from(e.target.files ?? []).slice(0, MAX_PHOTOS - files.length)
+    const newFiles = [...files, ...selected].slice(0, MAX_PHOTOS)
+    setFiles(newFiles)
+
+    const urls = newFiles.map((f) => URL.createObjectURL(f))
+    setPreviews((prev) => {
+      prev.forEach((u) => URL.revokeObjectURL(u))
+      return urls
+    })
+  }
+
+  const removePhoto = (idx: number) => {
+    setFiles((prev) => prev.filter((_, i) => i !== idx))
+    setPreviews((prev) => {
+      URL.revokeObjectURL(prev[idx])
+      return prev.filter((_, i) => i !== idx)
+    })
+  }
+
+  const handleSubmit = async () => {
     if (!canSubmit) return
+    await submit({
+      product_id: productId,
+      rating,
+      text: comment,
+      author_name: name,
+      photos: files,
+    })
+  }
+
+  useEffect(() => {
+    if (status === 'success') {
+      onSuccess?.()
+    }
+  }, [status, onSuccess])
+
+  const handleClose = () => {
+    reset()
+    setRating(4)
+    setComment('')
+    setName('')
+    setFiles([])
+    setPreviews((prev) => {
+      prev.forEach((u) => URL.revokeObjectURL(u))
+      return []
+    })
     onClose()
   }
 
@@ -94,7 +158,7 @@ function WriteReviewModal({ open, onClose }: { open: boolean; onClose: () => voi
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           onClick={(e) => {
-            if (e.target === e.currentTarget) onClose()
+            if (e.target === e.currentTarget) handleClose()
           }}
         >
           <motion.div
@@ -114,7 +178,7 @@ function WriteReviewModal({ open, onClose }: { open: boolean; onClose: () => voi
               <button
                 type="button"
                 className={styles.reviewModalCloseBtn}
-                onClick={onClose}
+                onClick={handleClose}
                 aria-label="Закрыть"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -123,53 +187,99 @@ function WriteReviewModal({ open, onClose }: { open: boolean; onClose: () => voi
             </div>
 
             <div className={styles.reviewModalBody}>
-              <input
-                ref={fileRef}
-                type="file"
-                accept="image/*"
-                className={styles.visuallyHidden}
-                tabIndex={-1}
-                onChange={(e) => {
-                  const f = e.target.files?.[0]
-                  setFileLabel(f ? f.name : null)
-                }}
-              />
-              <button
-                type="button"
-                className={styles.reviewModalUploadBtn}
-                onClick={() => fileRef.current?.click()}
-              >
-                Загрузить файл
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className={styles.reviewModalUploadIcon} src="/icons/upload.svg" alt="" />
-              </button>
-              {fileLabel ? <p className={styles.reviewModalFileName}>{fileLabel}</p> : null}
+              {!isAuthed ? (
+                <p className={styles.reviewModalAuthNotice}>
+                  Войдите в аккаунт, чтобы оставить отзыв
+                </p>
+              ) : status === 'success' ? (
+                <div className={styles.reviewSubmitSuccess}>
+                  <p>Спасибо! Ваш отзыв отправлен на модерацию.</p>
+                  <button type="button" className={styles.reviewModalSubmit} onClick={handleClose}>
+                    Закрыть
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className={styles.reviewModalCommentBox}>
+                    <p className={styles.reviewModalCommentLabel}>Ваше имя</p>
+                    <input
+                      type="text"
+                      className={styles.reviewModalNameInput}
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Введите имя"
+                      aria-label="Ваше имя"
+                    />
+                  </div>
 
-              <div className={styles.reviewModalRatingBlock}>
-                <p className={styles.reviewModalRatingLabel}>Поставьте оценку</p>
-                <WriteReviewStars value={rating} onChange={setRating} />
-              </div>
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className={styles.visuallyHidden}
+                    tabIndex={-1}
+                    onChange={handleFiles}
+                  />
+                  <button
+                    type="button"
+                    className={styles.reviewModalUploadBtn}
+                    onClick={() => fileRef.current?.click()}
+                    disabled={files.length >= MAX_PHOTOS}
+                  >
+                    Загрузить фото ({files.length}/{MAX_PHOTOS})
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img className={styles.reviewModalUploadIcon} src="/icons/upload.svg" alt="" />
+                  </button>
 
-              <div className={styles.reviewModalCommentBox}>
-                <p className={styles.reviewModalCommentLabel}>Напишите комментарий</p>
-                <textarea
-                  className={styles.reviewModalTextarea}
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Введите текст"
-                  rows={4}
-                  aria-label="Текст отзыва"
-                />
-              </div>
+                  {previews.length > 0 ? (
+                    <div className={styles.reviewModalPhotoPreviews}>
+                      {previews.map((src, i) => (
+                        <div key={i} className={styles.reviewModalPhotoThumbWrap}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={src} alt="" className={styles.reviewModalPhotoThumb} />
+                          <button
+                            type="button"
+                            className={styles.reviewModalPhotoRemove}
+                            onClick={() => removePhoto(i)}
+                            aria-label="Удалить фото"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
 
-              <button
-                type="button"
-                className={styles.reviewModalSubmit}
-                disabled={!canSubmit}
-                onClick={handleSubmit}
-              >
-                Отправить
-              </button>
+                  <div className={styles.reviewModalRatingBlock}>
+                    <p className={styles.reviewModalRatingLabel}>Поставьте оценку</p>
+                    <WriteReviewStars value={rating} onChange={setRating} />
+                  </div>
+
+                  <div className={styles.reviewModalCommentBox}>
+                    <p className={styles.reviewModalCommentLabel}>Напишите комментарий</p>
+                    <textarea
+                      className={styles.reviewModalTextarea}
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      placeholder="Минимум 10 символов"
+                      rows={4}
+                      aria-label="Текст отзыва"
+                    />
+                  </div>
+
+                  {error ? <p className={styles.reviewModalError}>{error}</p> : null}
+
+                  <button
+                    type="button"
+                    className={styles.reviewModalSubmit}
+                    disabled={!canSubmit || status === 'submitting'}
+                    onClick={handleSubmit}
+                  >
+                    {status === 'submitting' ? 'Отправка...' : 'Отправить'}
+                  </button>
+                </>
+              )}
             </div>
           </motion.div>
         </motion.div>
@@ -259,6 +369,25 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
   const [reviewModalOpen, setReviewModalOpen] = useState(false)
   const [reviewModalKey, setReviewModalKey] = useState(0)
   const [specsExpanded, setSpecsExpanded] = useState(false)
+
+  const {
+    reviews,
+    stats,
+    isLoading: reviewsLoading,
+    filter: reviewFilter,
+    setFilter: setReviewFilter,
+    loadMore,
+    hasMore,
+  } = useReviews(product.productId)
+
+  const ratingDisplay = stats
+    ? `${stats.average_rating.toFixed(1)} / 5 (${stats.total_count})`
+    : product.ratingAvg
+
+  const handleReviewSuccess = useCallback(() => {
+    // TODO: [developer] Реализовать перезагрузку списка отзывов после успешной отправки
+    // Контекст: вызвать refetch или window.location.reload() — пока хук не имеет refetch
+  }, [])
   const descTabAnchors =
     product.accessories.length > 0
       ? DESC_TAB_ANCHORS
@@ -349,6 +478,8 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
         key={reviewModalKey}
         open={reviewModalOpen}
         onClose={() => setReviewModalOpen(false)}
+        productId={product.productId}
+        onSuccess={handleReviewSuccess}
       />
 
       {/* ═══ Якорная навигация по секциям ═══ */}
@@ -588,8 +719,8 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
         <div className={styles.reviewsHeader}>
           <div className={styles.reviewsLeft}>
             <div className={styles.ratingRow}>
-              <Stars count={5} />
-              <span className={styles.ratingText}>{product.ratingAvg}</span>
+              <Stars count={Math.round(stats?.average_rating ?? 5)} />
+              <span className={styles.ratingText}>{ratingDisplay}</span>
             </div>
             <p className={styles.ratingCaption}>Рейтинг формируется на основе актуальных отзывов</p>
             <button
@@ -605,39 +736,71 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
           </div>
 
           <div className={styles.reviewFilters}>
-            {REVIEW_FILTERS.map((f) => (
-              <button key={f} className={styles.filterBtn}>
-                {f}
+            {REVIEW_FILTER_OPTIONS.map((f) => (
+              <button
+                key={f.value}
+                className={`${styles.filterBtn} ${reviewFilter === f.value ? styles.filterBtnActive : ''}`}
+                onClick={() => setReviewFilter(f.value)}
+              >
+                {f.label}
               </button>
             ))}
           </div>
         </div>
 
-        <div className={styles.reviewCards}>
-          {product.reviews.map((review, i) => (
-            <div key={i} className={styles.reviewCard}>
-              <div className={styles.reviewCardTop}>
-                <span className={styles.reviewDate}>{review.date}</span>
-                <div className={styles.ozonBadge}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/icons/ozon-logo.svg" alt="Ozon" />
+        {reviewsLoading && reviews.length === 0 ? (
+          <div className={styles.reviewsLoading}>Загрузка отзывов...</div>
+        ) : (
+          <div className={styles.reviewCards}>
+            {reviews.map((review) => (
+              <div key={review.id} className={styles.reviewCard}>
+                <div className={styles.reviewCardTop}>
+                  <span className={styles.reviewDate}>
+                    {new Date(review.date).toLocaleDateString('ru-RU', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                  </span>
+                  {/* <div
+                    className={`${styles.sourceBadge} ${review.source === 'wb' ? styles.wbBadge : styles.siteBadge}`}
+                  >
+                    {review.source === 'wb' ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src="/icons/wb-logo.svg" alt="Wildberries" />
+                    ) : (
+                      <span>Luxhomme</span>
+                    )}
+                  </div> */}
                 </div>
+                <div className={styles.reviewRatingRow}>
+                  <Stars count={review.rating} />
+                  <span className={styles.reviewAuthor}>{review.author_name}</span>
+                </div>
+                <div className={styles.reviewDivider} />
+                <p className={styles.reviewLabel}>Отзыв</p>
+                <p className={styles.reviewText}>{review.text}</p>
+                {review.photos.length > 0 ? (
+                  <>
+                    <div className={styles.reviewDivider} />
+                    <div className={styles.reviewPhotos}>
+                      {review.photos.map((photo, pi) => (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img key={pi} src={photo} alt="" className={styles.reviewPhotoThumb} />
+                      ))}
+                    </div>
+                  </>
+                ) : null}
               </div>
-              <div className={styles.reviewRatingRow}>
-                <Stars count={review.rating} />
-                <span className={styles.reviewAuthor}>{review.author}</span>
-              </div>
-              <div className={styles.reviewDivider} />
-              <p className={styles.reviewLabel}>Отзыв</p>
-              <p className={styles.reviewText}>{review.text}</p>
-              <div className={styles.reviewDivider} />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={review.photo} alt="" className={styles.reviewPhoto} />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
-        <button className={styles.btnShowMore}>Показать ещё</button>
+        {hasMore ? (
+          <button className={styles.btnShowMore} onClick={loadMore} disabled={reviewsLoading}>
+            {reviewsLoading ? 'Загрузка...' : 'Показать ещё'}
+          </button>
+        ) : null}
       </section>
 
       {/* ═══ Аксессуары (meta `_product_accessories` / ACF) ═══ */}

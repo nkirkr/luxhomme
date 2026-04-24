@@ -12,6 +12,7 @@ export type SpecGroup = { title: string; rows: SpecRow[] }
 
 /** Shape expected by `ProductTabs` (description, specs, reviews UI). */
 export type ProductDetailForTabs = {
+  productId: string
   descSlides: { image: string; title: string; text: string }[]
   /**
    * Характеристики из `meta._second_description` (JSON по группам).
@@ -32,7 +33,7 @@ export type ProductDetailForTabs = {
   instructionFiles: { label: string; href: string }[]
   /** Чертёж слева от таблицы характеристик (`specsDrawingUrl` с бэка или статичный fallback). */
   specsDrawingSrc: string
-  reviews: { date: string; author: string; rating: number; text: string; photo: string }[]
+  /** @deprecated Fallback — основной рейтинг приходит из useReviews hook */
   ratingAvg: string
 }
 
@@ -547,6 +548,7 @@ export function buildProductDetailForTabs(p: ShopProduct): ProductDetailForTabs 
     FALLBACK_SPECS_DRAWING
 
   return {
+    productId: p.id,
     descSlides,
     specsDrawingSrc,
     ...(specsGroups ? { specsGroups } : {}),
@@ -572,7 +574,6 @@ export function buildProductDetailForTabs(p: ShopProduct): ProductDetailForTabs 
               href: p.permalink || '#',
             },
           ],
-    reviews: [],
     ratingAvg:
       p.averageRating !== undefined && p.ratingCount
         ? `${p.averageRating.toFixed(1)} / 5 (${p.ratingCount})`

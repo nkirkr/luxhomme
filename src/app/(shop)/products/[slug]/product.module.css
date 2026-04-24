@@ -1370,11 +1370,185 @@
   margin: 0 0 20rem;
 }
 
+/* Legacy single photo — kept for backward compatibility */
 .reviewPhoto {
   width: 150rem;
   height: 150rem;
   border-radius: 6rem;
   object-fit: cover;
+}
+
+/* ─── Source badges (WB / Luxhomme) ─── */
+.sourceBadge {
+  min-width: 90rem;
+  height: 36rem;
+  border-radius: 40rem;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14rem;
+}
+
+.sourceBadge img {
+  height: 18rem;
+  width: auto;
+}
+
+.sourceBadge span {
+  font-family: var(--font-helvetica);
+  font-weight: 700;
+  font-size: 12rem;
+  line-height: 1;
+}
+
+.wbBadge {
+  background: #cb11ab;
+}
+
+.wbBadge span {
+  color: var(--color-white);
+}
+
+.siteBadge {
+  background: var(--color-black);
+}
+
+.siteBadge span {
+  color: var(--color-white);
+}
+
+/* ─── Review photos grid ─── */
+.reviewPhotos {
+  display: flex;
+  gap: 8rem;
+  overflow-x: auto;
+  padding-bottom: 4rem;
+}
+
+.reviewPhotoThumb {
+  width: 120rem;
+  height: 120rem;
+  border-radius: 6rem;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ─── Active filter button ─── */
+.filterBtnActive {
+  background: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+/* ─── Reviews loading state ─── */
+.reviewsLoading {
+  text-align: center;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-grey);
+  padding: 40rem 0;
+}
+
+/* ─── Modal: name input ─── */
+.reviewModalNameInput {
+  width: 100%;
+  height: 36rem;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-stroke);
+}
+
+.reviewModalNameInput::placeholder {
+  color: var(--color-grey);
+}
+
+/* ─── Modal: photo previews ─── */
+.reviewModalPhotoPreviews {
+  display: flex;
+  gap: 8rem;
+  flex-wrap: wrap;
+}
+
+.reviewModalPhotoThumbWrap {
+  position: relative;
+  width: 64rem;
+  height: 64rem;
+}
+
+.reviewModalPhotoThumb {
+  width: 100%;
+  height: 100%;
+  border-radius: 4rem;
+  object-fit: cover;
+}
+
+.reviewModalPhotoRemove {
+  position: absolute;
+  top: -6rem;
+  right: -6rem;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 50%;
+  background: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  cursor: pointer;
+  font-size: 14rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* ─── Modal: success message ─── */
+.reviewSubmitSuccess {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  align-items: center;
+  text-align: center;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 16rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  padding: 20rem 0;
+}
+
+.reviewSubmitSuccess p {
+  margin: 0;
+}
+
+/* ─── Modal: error message ─── */
+.reviewModalError {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 13rem;
+  line-height: 1.4;
+  color: #c00;
+  margin: 0;
+}
+
+/* ─── Modal: auth notice ─── */
+.reviewModalAuthNotice {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 16rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  text-align: center;
+  padding: 30rem 0;
+  margin: 0;
 }
 
 .btnShowMore {
