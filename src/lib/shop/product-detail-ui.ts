@@ -13,6 +13,11 @@ export type SpecGroup = { title: string; rows: SpecRow[] }
 /** Shape expected by `ProductTabs` (description, specs, reviews UI). */
 export type ProductDetailForTabs = {
   productId: string
+  /**
+   * Ссылки на карточку товара на МП из meta Woo (`_wb_link`, `_ozon_link` и варианты без `_`).
+   * Для бейджа отзыва: если пусто — бейдж ведёт на главную маркетплейса.
+   */
+  marketplaceProductUrls: { wb?: string; ozon?: string }
   descSlides: { image: string; title: string; text: string }[]
   /**
    * Характеристики из `meta._second_description` (JSON по группам).
@@ -38,6 +43,9 @@ export type ProductDetailForTabs = {
 }
 
 const ACCESSORY_META_KEYS = ['_product_accessories', 'product_accessories'] as const
+
+const WB_PRODUCT_URL_META_KEYS = ['_wb_link', 'wb_link'] as const
+const OZON_PRODUCT_URL_META_KEYS = ['_ozon_link', 'ozon_link'] as const
 
 const PRODUCT_SLIDES_META_KEYS = ['_product_slides', 'product_slides'] as const
 
@@ -70,6 +78,31 @@ function pickMeta(bag: Record<string, unknown> | undefined, keys: readonly strin
     if (v != null && v !== '') return v
   }
   return undefined
+}
+
+function pickMetaString(
+  meta: Record<string, unknown> | undefined,
+  acf: Record<string, unknown> | undefined,
+  keys: readonly string[],
+): string | undefined {
+  const raw = pickMeta(meta, keys) ?? pickMeta(acf, keys)
+  if (typeof raw !== 'string') return undefined
+  const s = raw.trim()
+  if (!s) return undefined
+  if (s.startsWith('http://') || s.startsWith('https://')) return s
+  return undefined
+}
+
+export function marketplaceProductUrlsFromProduct(p: ShopProduct): {
+  wb?: string
+  ozon?: string
+} {
+  const wb = pickMetaString(p.meta, p.acf, WB_PRODUCT_URL_META_KEYS)
+  const ozon = pickMetaString(p.meta, p.acf, OZON_PRODUCT_URL_META_KEYS)
+  const out: { wb?: string; ozon?: string } = {}
+  if (wb) out.wb = wb
+  if (ozon) out.ozon = ozon
+  return out
 }
 
 function parseJsonIfString(raw: unknown): unknown | undefined {
@@ -549,6 +582,7 @@ export function buildProductDetailForTabs(p: ShopProduct): ProductDetailForTabs 
 
   return {
     productId: p.id,
+    marketplaceProductUrls: marketplaceProductUrlsFromProduct(p),
     descSlides,
     specsDrawingSrc,
     ...(specsGroups ? { specsGroups } : {}),

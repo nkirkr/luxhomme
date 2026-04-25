@@ -1,4 +1,5 @@
 import { auth } from '@/lib/auth'
+import { fetchReviewsPageFromWp } from '@/lib/shop/reviews-wp'
 import { headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -25,25 +26,20 @@ export async function GET(request: NextRequest) {
     )
   }
 
-  const wpUrl = new URL(`${WP_REST_BASE}/reviews`)
-  wpUrl.searchParams.set('product_id', productId)
+  const page = Number(searchParams.get('page') ?? '1') || 1
+  const perPage = Number(searchParams.get('per_page') ?? '10') || 10
+  const sourceRaw = searchParams.get('source')
+  const source =
+    sourceRaw === 'site' || sourceRaw === 'wb' || sourceRaw === 'ozon' ? sourceRaw : undefined
 
-  const page = searchParams.get('page')
-  if (page) wpUrl.searchParams.set('page', page)
-
-  const perPage = searchParams.get('per_page')
-  if (perPage) wpUrl.searchParams.set('per_page', perPage)
-
-  const source = searchParams.get('source')
-  if (source) wpUrl.searchParams.set('source', source)
-
-  const wpRes = await fetch(wpUrl.toString(), {
-    headers: { 'Content-Type': 'application/json' },
-    next: { revalidate: 0 },
-  })
-
-  const data = await wpRes.json()
-  return NextResponse.json(data, { status: wpRes.status })
+  const data = await fetchReviewsPageFromWp(productId, page, perPage, source)
+  if (!data) {
+    return NextResponse.json(
+      { code: 'upstream_error', message: 'Reviews service unavailable' },
+      { status: 502 },
+    )
+  }
+  return NextResponse.json(data)
 }
 
 /**

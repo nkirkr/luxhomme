@@ -1303,7 +1303,8 @@
 .reviewCardTop {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 20rem;
+  /* justify-content: space-between; */
   margin-bottom: 20rem;
 }
 
@@ -1313,21 +1314,7 @@
   font-size: 18rem;
   line-height: 1;
   color: var(--color-black);
-}
-
-.ozonBadge {
-  width: 90rem;
-  height: 36rem;
-  border-radius: 40rem;
-  background: var(--color-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ozonBadge img {
-  height: 18rem;
-  width: auto;
+  margin-left: auto;
 }
 
 .reviewRatingRow {
@@ -1350,6 +1337,7 @@
   height: 1px;
   background: var(--color-stroke);
   margin-bottom: 20rem;
+  display: none;
 }
 
 .reviewLabel {
@@ -1359,6 +1347,7 @@
   line-height: 1.2;
   color: var(--color-black);
   margin: 0 0 12rem;
+  display: none;
 }
 
 .reviewText {
@@ -1367,7 +1356,7 @@
   font-size: 14rem;
   line-height: 1.4;
   color: var(--color-text);
-  margin: 0 0 20rem;
+  margin: 34rem 0 20rem;
 }
 
 /* Legacy single photo — kept for backward compatibility */
@@ -1378,44 +1367,72 @@
   object-fit: cover;
 }
 
-/* ─── Source badges (WB / Luxhomme) ─── */
-.sourceBadge {
-  min-width: 90rem;
-  height: 36rem;
-  border-radius: 40rem;
-  background: var(--color-white);
-  display: flex;
+/* ─── Отзыв: ссылка на товар на МП (ховер как `MarketplaceLogos` / `.logoBtn`) ─── */
+.reviewMpBadge {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 14rem;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  background: var(--color-white);
+  border-radius: 40rem;
+  height: 36rem;
+  min-height: 36rem;
+  padding: 8rem 12rem;
+  color: inherit;
 }
 
-.sourceBadge img {
-  height: 18rem;
+.reviewMpBadge:focus-visible {
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+}
+
+.reviewMpBadgeOzon {
+  min-width: 90rem;
+}
+
+.reviewMpBadgeInner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.reviewMpBadgeImg {
+  display: block;
+  max-height: 18rem;
   width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  filter: grayscale(100%);
+  transition: filter 0.25s ease;
 }
 
-.sourceBadge span {
-  font-family: var(--font-helvetica);
-  font-weight: 700;
-  font-size: 12rem;
-  line-height: 1;
+.reviewMpBadge:hover .reviewMpBadgeImg {
+  filter: grayscale(0);
 }
 
-.wbBadge {
-  background: #cb11ab;
+.reviewMpBadgeArrow {
+  width: 20rem;
+  height: 20rem;
+  flex-shrink: 0;
+  max-width: 0;
+  margin-left: 0;
+  opacity: 0;
+  overflow: hidden;
+  object-fit: contain;
+  display: block;
+  transition:
+    max-width 0.3s ease,
+    margin-left 0.3s ease,
+    opacity 0.25s ease 0.05s;
 }
 
-.wbBadge span {
-  color: var(--color-white);
-}
-
-.siteBadge {
-  background: var(--color-black);
-}
-
-.siteBadge span {
-  color: var(--color-white);
+.reviewMpBadge:hover .reviewMpBadgeArrow {
+  max-width: 20rem;
+  margin-left: 8rem;
+  opacity: 1;
 }
 
 /* ─── Review photos grid ─── */
@@ -1426,12 +1443,29 @@
   padding-bottom: 4rem;
 }
 
+.reviewPhotoTrigger {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 6rem;
+  cursor: zoom-in;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.reviewPhotoTrigger:focus-visible {
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+}
+
 .reviewPhotoThumb {
+  display: block;
   width: 120rem;
   height: 120rem;
   border-radius: 6rem;
   object-fit: cover;
-  flex-shrink: 0;
 }
 
 /* ─── Active filter button ─── */
@@ -1600,6 +1634,29 @@
    ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
+  .reviewCard {
+    padding: 20rem 12rem;
+  }
+  .reviewDivider {
+    display: block;
+  }
+  .reviewLabel {
+    display: block;
+  }
+  .reviewCardTop {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .reviewDate {
+    margin-left: 0;
+    order: -4;
+  }
+  .reviewMpBadge {
+    order: -3;
+  }
+  .reviewText {
+    margin: 12rem 0 20rem;
+  }
   .accessoriesNavBtn {
     display: none;
   }

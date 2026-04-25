@@ -92,6 +92,27 @@ const MARKETPLACES: MarketplaceItem[] = [
   },
 ]
 
+/** Логотип из блока «мы на маркетплейсах» (те же пути, что у `MarketplaceLogos`). */
+export function getMarketplaceLogoById(id: string): { src: string; alt: string } | undefined {
+  const m = MARKETPLACES.find((x) => x.id === id)
+  return m ? { src: m.src, alt: m.alt } : undefined
+}
+
+export type MarketplaceBadgeAssets = {
+  src: string
+  alt: string
+  arrow: string
+  /** Если нет ссылки на карточку товара — ведём сюда (главная МП) */
+  defaultHref: string
+}
+
+/** Лого + стрелка + базовый URL — как у кнопок в секции маркетплейсов (для бейджа отзыва). */
+export function getMarketplaceBadgeById(id: 'wb' | 'ozon'): MarketplaceBadgeAssets | undefined {
+  const m = MARKETPLACES.find((x) => x.id === id)
+  if (!m) return undefined
+  return { src: m.src, alt: m.alt, arrow: m.arrow, defaultHref: m.href }
+}
+
 type MarketplaceLogosProps = {
   /** Доп. класс на контейнер `.logos` (например `buyLogos` для выравнивания на /buy) */
   className?: string

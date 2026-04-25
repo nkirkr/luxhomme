@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import type { Review, ReviewStats, ReviewFilter } from '@/lib/shop/reviews-api'
+import type { Review, ReviewFilter, ReviewStats, ReviewsPage } from '@/lib/shop/reviews-api'
 import { fetchReviews, fetchReviewStats } from '@/lib/shop/reviews-api'
 
 interface UseReviewsReturn {
@@ -32,14 +32,24 @@ function applyClientFilter(reviews: Review[], filter: ReviewFilter): Review[] {
   }
 }
 
-export function useReviews(productId: string): UseReviewsReturn {
-  const [allReviews, setAllReviews] = useState<Review[]>([])
-  const [stats, setStats] = useState<ReviewStats | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+export type ReviewsSsrInitial = {
+  reviewsPage: ReviewsPage
+  stats: ReviewStats | null
+}
+
+export function useReviews(
+  productId: string,
+  ssrInitial: ReviewsSsrInitial | null = null,
+): UseReviewsReturn {
+  const [allReviews, setAllReviews] = useState<Review[]>(
+    () => ssrInitial?.reviewsPage.reviews ?? [],
+  )
+  const [stats, setStats] = useState<ReviewStats | null>(() => ssrInitial?.stats ?? null)
+  const [isLoading, setIsLoading] = useState(() => ssrInitial === null)
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState<ReviewFilter>('all')
   const [page, setPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
+  const [totalPages, setTotalPages] = useState(() => ssrInitial?.reviewsPage.pages ?? 1)
 
   const mountedRef = useRef(true)
   useEffect(() => {
@@ -51,6 +61,7 @@ export function useReviews(productId: string): UseReviewsReturn {
 
   useEffect(() => {
     if (!productId) return
+    if (ssrInitial) return
 
     let cancelled = false
     setIsLoading(true)
@@ -75,7 +86,7 @@ export function useReviews(productId: string): UseReviewsReturn {
     return () => {
       cancelled = true
     }
-  }, [productId])
+  }, [productId, ssrInitial])
 
   const loadMore = useCallback(() => {
     if (page >= totalPages || isLoading) return

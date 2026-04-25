@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
 import { getShop } from '@/lib/shop'
 import { formatShopPrice } from '@/lib/shop/format-price'
+import { fetchInitialReviewsBundle } from '@/lib/shop/reviews-wp'
 import {
   buildProductDetailForTabs,
   galleryUrlsFromProduct,
@@ -59,6 +60,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const galleryImages = galleryUrlsFromProduct(product)
   const shortSpecs = shortSpecsFromProduct(product)
   const tabsProduct = buildProductDetailForTabs(product)
+  const reviewsSsrInitial = await fetchInitialReviewsBundle(tabsProduct.productId)
   const priceNew = formatShopPrice(product.price, product.currency)
   const hasCompare = product.compareAtPrice !== undefined && product.compareAtPrice > product.price
   const priceOld = hasCompare ? formatShopPrice(product.compareAtPrice!, product.currency) : null
@@ -131,7 +133,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           </div>
         </section>
 
-        <ProductTabs product={tabsProduct} relatedProducts={relatedProducts} />
+        <ProductTabs
+          product={tabsProduct}
+          relatedProducts={relatedProducts}
+          reviewsSsrInitial={reviewsSsrInitial}
+        />
       </div>
     </div>
   )

@@ -3,7 +3,7 @@ export interface Review {
   rating: number
   text: string
   author_name: string
-  source: 'site' | 'wb'
+  source: 'site' | 'wb' | 'ozon'
   photos: string[]
   date: string
   product_id: number
@@ -43,7 +43,7 @@ export async function fetchReviews(
   productId: string,
   page = 1,
   perPage = 10,
-  source?: 'site' | 'wb',
+  source?: 'site' | 'wb' | 'ozon',
 ): Promise<ReviewsPage> {
   const params = new URLSearchParams({
     product_id: productId,

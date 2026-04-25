@@ -5,12 +5,14 @@ import { AnimatePresence, motion } from 'motion/react'
 import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
+import { getMarketplaceBadgeById } from '@/components/sections/marketplaces/MarketplacesSection'
 import { ProductCard, type Product } from '@/components/sections/series-catalog/SeriesCatalog'
 import type { ProductDetailForTabs } from '@/lib/shop/product-detail-ui'
 import type { ReviewFilter } from '@/lib/shop/reviews-api'
-import { useReviews } from '@/hooks/use-reviews'
+import { useReviews, type ReviewsSsrInitial } from '@/hooks/use-reviews'
 import { useReviewSubmit } from '@/hooks/use-review-submit'
 import { useSession } from '@/lib/auth-client'
+import { ImageLightbox } from './ImageLightbox'
 import styles from './product.module.css'
 
 import 'swiper/css'
@@ -300,6 +302,8 @@ function SpecRow({ label, value }: { label: string; value: string }) {
 interface ProductTabsProps {
   product: ProductDetailForTabs
   relatedProducts: Product[]
+  /** Первая страница отзывов + статистика с сервера (RSC) */
+  reviewsSsrInitial?: ReviewsSsrInitial | null
 }
 
 function AccessoriesSwiper({ items }: { items: ProductTabsProps['product']['accessories'] }) {
@@ -365,9 +369,22 @@ function AccessoriesSwiper({ items }: { items: ProductTabsProps['product']['acce
   )
 }
 
-export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
+type ReviewPhotoLightboxState = {
+  images: string[]
+  initial: number
+  label: string
+}
+
+export function ProductTabs({
+  product,
+  relatedProducts,
+  reviewsSsrInitial = null,
+}: ProductTabsProps) {
   const [reviewModalOpen, setReviewModalOpen] = useState(false)
   const [reviewModalKey, setReviewModalKey] = useState(0)
+  const [reviewPhotoLightbox, setReviewPhotoLightbox] = useState<ReviewPhotoLightboxState | null>(
+    null,
+  )
   const [specsExpanded, setSpecsExpanded] = useState(false)
 
   const {
@@ -378,7 +395,7 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
     setFilter: setReviewFilter,
     loadMore,
     hasMore,
-  } = useReviews(product.productId)
+  } = useReviews(product.productId, reviewsSsrInitial)
 
   const ratingDisplay = stats
     ? `${stats.average_rating.toFixed(1)} / 5 (${stats.total_count})`
@@ -480,6 +497,19 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
         onClose={() => setReviewModalOpen(false)}
         productId={product.productId}
         onSuccess={handleReviewSuccess}
+      />
+
+      <ImageLightbox
+        key={
+          reviewPhotoLightbox
+            ? `open-${reviewPhotoLightbox.initial}-${reviewPhotoLightbox.images[0] ?? ''}`
+            : 'closed'
+        }
+        open={reviewPhotoLightbox !== null}
+        onClose={() => setReviewPhotoLightbox(null)}
+        images={reviewPhotoLightbox?.images ?? []}
+        initialIndex={reviewPhotoLightbox?.initial ?? 0}
+        name={reviewPhotoLightbox?.label ?? 'Фото к отзыву'}
       />
 
       {/* ═══ Якорная навигация по секциям ═══ */}
@@ -752,47 +782,90 @@ export function ProductTabs({ product, relatedProducts }: ProductTabsProps) {
           <div className={styles.reviewsLoading}>Загрузка отзывов...</div>
         ) : (
           <div className={styles.reviewCards}>
-            {reviews.map((review) => (
-              <div key={review.id} className={styles.reviewCard}>
-                <div className={styles.reviewCardTop}>
-                  <span className={styles.reviewDate}>
-                    {new Date(review.date).toLocaleDateString('ru-RU', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    })}
-                  </span>
-                  {/* <div
-                    className={`${styles.sourceBadge} ${review.source === 'wb' ? styles.wbBadge : styles.siteBadge}`}
-                  >
-                    {review.source === 'wb' ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src="/icons/wb-logo.svg" alt="Wildberries" />
-                    ) : (
-                      <span>Luxhomme</span>
-                    )}
-                  </div> */}
-                </div>
-                <div className={styles.reviewRatingRow}>
+            {reviews.map((review) => {
+              const mpBadge =
+                review.source === 'wb' || review.source === 'ozon'
+                  ? getMarketplaceBadgeById(review.source)
+                  : undefined
+              const mpProductUrl =
+                review.source === 'wb'
+                  ? product.marketplaceProductUrls.wb
+                  : review.source === 'ozon'
+                    ? product.marketplaceProductUrls.ozon
+                    : undefined
+              const mpHref = mpBadge ? mpProductUrl?.trim() || mpBadge.defaultHref : undefined
+
+              return (
+                <div key={review.id} className={styles.reviewCard}>
+                  <div className={styles.reviewCardTop}>
+                    <Stars count={review.rating} />
+                    <span className={styles.reviewAuthor}>{review.author_name}</span>
+                    <span className={styles.reviewDate}>
+                      {new Date(review.date).toLocaleDateString('ru-RU', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </span>
+                    {mpBadge && mpHref ? (
+                      <a
+                        href={mpHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`${styles.reviewMpBadge} ${review.source === 'ozon' ? styles.reviewMpBadgeOzon : ''}`}
+                        aria-label={`Товар на ${mpBadge.alt}`}
+                      >
+                        <span className={styles.reviewMpBadgeInner}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={mpBadge.src} alt="" className={styles.reviewMpBadgeImg} />
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={mpBadge.arrow}
+                            alt=""
+                            className={styles.reviewMpBadgeArrow}
+                            aria-hidden
+                          />
+                        </span>
+                      </a>
+                    ) : null}
+                  </div>
+                  {/* <div className={styles.reviewRatingRow}>
                   <Stars count={review.rating} />
                   <span className={styles.reviewAuthor}>{review.author_name}</span>
+                </div> */}
+                  <div className={styles.reviewDivider} />
+                  <p className={styles.reviewLabel}>Отзыв</p>
+                  <p className={styles.reviewText}>{review.text}</p>
+                  {review.photos.length > 0 ? (
+                    <>
+                      <div className={styles.reviewDivider} />
+                      <div className={styles.reviewPhotos}>
+                        {review.photos.map((photo, pi) => (
+                          <button
+                            key={pi}
+                            type="button"
+                            className={styles.reviewPhotoTrigger}
+                            onClick={() =>
+                              setReviewPhotoLightbox({
+                                images: review.photos,
+                                initial: pi,
+                                label: review.author_name
+                                  ? `Фото к отзыву от ${review.author_name}`
+                                  : 'Фото к отзыву',
+                              })
+                            }
+                            aria-label={`Открыть фото ${pi + 1} из ${review.photos.length} в полноэкранной галерее`}
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={photo} alt="" className={styles.reviewPhotoThumb} />
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  ) : null}
                 </div>
-                <div className={styles.reviewDivider} />
-                <p className={styles.reviewLabel}>Отзыв</p>
-                <p className={styles.reviewText}>{review.text}</p>
-                {review.photos.length > 0 ? (
-                  <>
-                    <div className={styles.reviewDivider} />
-                    <div className={styles.reviewPhotos}>
-                      {review.photos.map((photo, pi) => (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img key={pi} src={photo} alt="" className={styles.reviewPhotoThumb} />
-                      ))}
-                    </div>
-                  </>
-                ) : null}
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
 
