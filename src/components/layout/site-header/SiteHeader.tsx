@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
 import type { CatalogMenuSection } from '@/lib/shop/catalog-menu'
+import { useCart } from '@/lib/cart/CartContext'
+import { CartPreviewDropdown } from '@/components/cart/CartPreviewDropdown'
 import styles from './SiteHeader.module.css'
 
 const FALLBACK_CATALOG_MENU: CatalogMenuSection[] = [
@@ -98,6 +100,7 @@ interface SiteHeaderProps {
 }
 
 export function SiteHeader({ solid, mobileSolidAfterSelector }: SiteHeaderProps) {
+  const { count: cartCount } = useCart()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
   const [catalogOpen, setCatalogOpen] = useState(false)
@@ -275,11 +278,25 @@ export function SiteHeader({ solid, mobileSolidAfterSelector }: SiteHeaderProps)
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={profileSrc} alt="" className={styles.iconImage} />
             </Link>
-            <Link href="/cart" className={styles.iconBtn} aria-label="Корзина">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={basketSrc} alt="" className={styles.iconImage} />
-              <span className={styles.cartCount}>0</span>
-            </Link>
+            <div className={styles.cartFlyout}>
+              <Link
+                href="/cart"
+                className={styles.iconBtn}
+                aria-label="Корзина"
+                aria-haspopup={cartCount > 0 ? 'dialog' : undefined}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={basketSrc} alt="" className={styles.iconImage} />
+                <span className={styles.cartCount}>
+                  {cartCount > 99 ? '99+' : String(cartCount)}
+                </span>
+              </Link>
+              {cartCount > 0 ? (
+                <div className={styles.cartPreviewAnchor}>
+                  <CartPreviewDropdown />
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </header>

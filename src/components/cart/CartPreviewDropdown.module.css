@@ -1,24 +1,17 @@
-/* ================================================================
-   AddToCartModal — dropdown that appears after adding to cart
-   Positioned fixed top-right, below the header
-   ================================================================ */
+/* Превью корзины при ховере на иконку (бывший AddToCartModal) */
 
-.modal {
-  position: fixed;
-  top: 60rem;
-  right: calc((100vw - 1280rem) / 2);
-  z-index: 200;
+.panel {
+  width: 337rem;
+  max-width: min(337rem, calc(100vw - 40rem));
   background: var(--color-white);
   border-radius: var(--radius-card);
   padding: 12rem;
-  width: 337rem;
   display: flex;
   flex-direction: column;
   gap: 12rem;
   box-shadow: 0 8rem 32rem rgba(0, 0, 0, 0.12);
 }
 
-/* Product row */
 .row {
   display: flex;
   gap: 20rem;
@@ -47,14 +40,6 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 12rem;
-}
-
-.nameRow {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  width: 100%;
   gap: 8rem;
 }
 
@@ -65,27 +50,6 @@
   line-height: 1.2;
   color: var(--color-text);
   margin: 0;
-  flex: 1 0 0;
-  min-width: 0;
-}
-
-.closeBtn {
-  width: 12rem;
-  height: 12rem;
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.6;
-  transition: opacity 0.2s;
-}
-
-.closeBtn:hover {
-  opacity: 1;
 }
 
 .qty {
@@ -97,7 +61,13 @@
   margin: 0;
 }
 
-/* Divider */
+.rowDivider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-stroke);
+  flex-shrink: 0;
+}
+
 .divider {
   width: 100%;
   height: 1px;
@@ -105,7 +75,6 @@
   flex-shrink: 0;
 }
 
-/* Total */
 .totalRow {
   display: flex;
   align-items: center;
@@ -128,7 +97,6 @@
   line-height: 1.4;
 }
 
-/* Buttons */
 .buttons {
   display: flex;
   gap: 8rem;
@@ -182,17 +150,4 @@
 
 .btnFill:hover {
   opacity: 0.85;
-}
-
-/* ================================================================
-   Mobile  (≤ 768px)
-   ================================================================ */
-
-@media (max-width: 768px) {
-  .modal {
-    top: 70rem;
-    right: 20rem;
-    left: 20rem;
-    width: auto;
-  }
 }

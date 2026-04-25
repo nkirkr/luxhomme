@@ -9,7 +9,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { CookieConsent } from '@/components/cookie-consent'
 import { WebVitalsReporter } from '@/components/web-vitals-reporter'
 import { CartProvider } from '@/lib/cart/CartContext'
-import { AddToCartModal } from '@/components/cart/AddToCartModal'
+import { AddToCartToast } from '@/components/cart/AddToCartToast'
 import { FeedbackWidget } from '@/components/feedback-widget/FeedbackWidget'
 
 interface AppProvidersProps {
@@ -22,7 +22,7 @@ export function AppProviders({ children }: AppProvidersProps) {
       <TooltipProvider>
         <CartProvider>
           {children}
-          <AddToCartModal />
+          <AddToCartToast />
         </CartProvider>
         <Toaster />
         <CookieConsent />

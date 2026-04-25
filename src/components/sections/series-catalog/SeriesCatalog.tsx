@@ -95,19 +95,41 @@ export const PRODUCTS: Product[] = [
 ]
 
 export function ProductCard({ product }: { product: Product }) {
-  const { addItem } = useCart()
+  const { addItem, updateQty, items } = useCart()
+  const qty = items.find((i) => i.id === product.id)?.qty ?? 0
 
-  function handleAddToCart(e: MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    e.stopPropagation()
-    addItem({
+  function cartPayload() {
+    return {
       id: product.id,
       name: product.name.replace('\n', ' '),
       price: parseFloat(product.priceNew.replace(/[^\d,]/g, '').replace(',', '.')),
       priceFormatted: product.priceNew,
       image: product.image,
       href: product.href,
-    })
+    }
+  }
+
+  function handleAddToCart(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+    e.stopPropagation()
+    addItem(cartPayload())
+  }
+
+  function stopCardNav(e: MouseEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  function handleDecQty(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+    e.stopPropagation()
+    updateQty(product.id, qty - 1)
+  }
+
+  function handleIncQty(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+    e.stopPropagation()
+    addItem(cartPayload())
   }
 
   const hasHover = Boolean(product.hoverImage)
@@ -153,10 +175,39 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
       </div>
 
-      {/* Add to cart */}
-      <button type="button" onClick={handleAddToCart} className={styles.cardCartBtn}>
-        В корзину
-      </button>
+      {/* Add to cart / quantity (Figma node 2196:9355) */}
+      {qty > 0 ? (
+        <div
+          className={styles.cardCartQty}
+          role="group"
+          aria-label={`В корзине: ${qty}`}
+          onClick={stopCardNav}
+        >
+          <button
+            type="button"
+            className={styles.cardCartQtyBtn}
+            aria-label="Уменьшить количество"
+            onClick={handleDecQty}
+          >
+            −
+          </button>
+          <span className={styles.cardCartQtyValue} aria-live="polite">
+            {qty}
+          </span>
+          <button
+            type="button"
+            className={styles.cardCartQtyBtn}
+            aria-label="Увеличить количество"
+            onClick={handleIncQty}
+          >
+            +
+          </button>
+        </div>
+      ) : (
+        <button type="button" onClick={handleAddToCart} className={styles.cardCartBtn}>
+          В корзину
+        </button>
+      )}
     </Link>
   )
 }

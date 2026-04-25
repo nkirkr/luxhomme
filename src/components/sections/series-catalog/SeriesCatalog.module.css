@@ -467,6 +467,51 @@
   border-color: var(--color-cta-hover);
 }
 
+/* Quantity row — активное состояние кнопки корзины (Figma 2196:9355) */
+.cardCartQty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-shrink: 0;
+  padding: 12rem 20rem;
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--color-cook) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-cook) 70%, transparent);
+  box-sizing: border-box;
+}
+
+.cardCartQtyBtn {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-bold);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  min-width: 22rem;
+  text-align: center;
+  transition: opacity 0.2s;
+}
+
+@media (hover: hover) {
+  .cardCartQtyBtn:hover {
+    opacity: 0.85;
+  }
+}
+
+.cardCartQtyValue {
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-bold);
+  font-size: 14rem;
+  line-height: 1.4;
+  color: var(--color-white);
+  text-align: center;
+}
+
 /* ── Hover state (Figma node 145:3601) ── */
 .cardHoverable:hover .cardTitle,
 .cardHoverable:focus-visible .cardTitle,
@@ -484,7 +529,9 @@
 }
 
 .cardHoverable:hover .cardCartBtn,
-.cardHoverable:focus-visible .cardCartBtn {
+.cardHoverable:focus-visible .cardCartBtn,
+.cardHoverable:hover .cardCartQty,
+.cardHoverable:focus-visible .cardCartQty {
   background-color: var(--color-clean);
   border-color: var(--color-clean);
 }
