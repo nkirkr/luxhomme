@@ -1,15 +1,31 @@
-import type { Metadata } from 'next'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { fetchDashboardUser } from '@/lib/dashboard/api-client'
+import { computeLoyaltyProgress } from '@/lib/dashboard/loyalty'
+import type { LoyaltyProgress } from '@/lib/dashboard/types'
 import { DashboardShell } from '../DashboardShell'
 import styles from '../dashboard.module.css'
 import clsx from 'clsx'
 
-export const metadata: Metadata = {
-  title: 'Программа лояльности | Luxhommè',
-}
-
 export default function LoyaltyPage() {
+  const [progress, setProgress] = useState<LoyaltyProgress | null>(null)
+
+  useEffect(() => {
+    fetchDashboardUser()
+      .then((res) => {
+        const p = computeLoyaltyProgress(
+          res.user.total_spent,
+          res.user.user_rank,
+          res.user.bonus_balance,
+        )
+        setProgress(p)
+      })
+      .catch(() => {})
+  }, [])
+
   return (
-    <DashboardShell>
+    <DashboardShell loading={!progress}>
       <div className={styles.loyaltyPage}>
         <div className={styles.loyaltyHeader}>
           <div className={styles.loyaltyTopBlock}>
@@ -24,15 +40,20 @@ export default function LoyaltyPage() {
           <div className={styles.levelRow}>
             <div className={styles.levelCenter}>
               <p className={styles.levelLabel}>ваш уровень:</p>
-              <h2 className={styles.levelName}>Дорогой гость</h2>
-              <p className={styles.levelFrom}>от 0 ₽</p>
+              <h2 className={styles.levelName}>{progress?.currentRank.name || '…'}</h2>
+              <p className={styles.levelFrom}>
+                от {progress ? progress.currentRank.minAmount.toLocaleString('ru-RU') : '…'} ₽
+              </p>
             </div>
-            <p className={styles.levelNameNext}>Новый друг</p>
+            <p className={styles.levelNameNext}>{progress?.nextRank?.name || '—'}</p>
           </div>
 
           <div className={styles.progressBar}>
             <div className={styles.progressTrackBg} />
-            <div className={styles.progressTrack}>
+            <div
+              className={styles.progressTrack}
+              style={{ width: `${progress?.progressPercent ?? 0}%` }}
+            >
               <div className={styles.progressDotStart} />
             </div>
             <div className={styles.progressSpacer} aria-hidden />
@@ -45,8 +66,12 @@ export default function LoyaltyPage() {
           <div className={styles.levelImages}>
             <div className={styles.levelImageCol}>
               <div className={styles.badges}>
-                <span className={styles.badge}>500 баллов</span>
-                <span className={styles.badge}>Кэшбек 0%</span>
+                <span className={styles.badge}>
+                  {progress ? progress.bonusBalance : '…'} баллов
+                </span>
+                <span className={styles.badge}>
+                  Кэшбек {progress?.currentRank.bonusPercent || 0}%
+                </span>
                 <span className={styles.badge}>Подарок</span>
               </div>
               <p className={styles.bonusLabel}>начисляется баллами</p>
@@ -58,7 +83,9 @@ export default function LoyaltyPage() {
               />
               <div>
                 <p className={styles.progressLabel}>текущий прогресс</p>
-                <p className={styles.progressValue}>0 ₽</p>
+                <p className={styles.progressValue}>
+                  {progress ? progress.totalSpent.toLocaleString('ru-RU') : '…'} ₽
+                </p>
               </div>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}

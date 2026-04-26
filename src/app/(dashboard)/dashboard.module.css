@@ -105,6 +105,48 @@
   margin-left: auto;
 }
 
+/* ─── Content loader ─── */
+.contentLoader {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  padding: 8rem 0;
+  width: 100%;
+}
+
+.contentLoaderBar {
+  border-radius: 6rem;
+  background: linear-gradient(
+    90deg,
+    var(--color-bg, #f5f5f5) 25%,
+    color-mix(in srgb, var(--color-bg, #f5f5f5) 60%, #ccc) 50%,
+    var(--color-bg, #f5f5f5) 75%
+  );
+  background-size: 200% 100%;
+  animation: contentLoaderShimmer 1.4s ease infinite;
+}
+
+@keyframes contentLoaderShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ─── Sidebar user / balance skeleton ─── */
+.sidebarSkeletonUser {
+  margin: 0 0 20rem;
+}
+
+.sidebarSkeletonBalance {
+  margin: 0 0 40rem;
+  display: flex;
+  align-items: center;
+  min-height: 20rem;
+}
+
 /* ═══════════════════════════════════════════════════════════
    Tab: Loyalty Program
    ═══════════════════════════════════════════════════════════ */

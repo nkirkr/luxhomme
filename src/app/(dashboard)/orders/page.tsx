@@ -1,45 +1,17 @@
 'use client'
 
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
+import { fetchDashboardOrders } from '@/lib/dashboard/api-client'
+import type { DashboardOrder } from '@/lib/dashboard/types'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
 import { DashboardShell } from '../DashboardShell'
 import styles from '../dashboard.module.css'
 import clsx from 'clsx'
 
-interface Order {
-  id: string
-  date: string
-  status: string
-  total: string
-  deliveryMethod: string
-  deliveryAddress: string
-  orderDate: string
-  estimatedDelivery: string
-  phone: string
-  fullName: string
-  email: string
-  comment: string
-}
-
-const ORDERS: Order[] = Array.from({ length: 8 }, () => ({
-  id: `№5673888`,
-  date: '12.03.2026',
-  status: 'Не удался',
-  total: '7 699 ₽ за 1 товар',
-  deliveryMethod: 'Курьерская доставка',
-  deliveryAddress: 'г. Москва, ул. Примерная, д. 1, кв. 1',
-  orderDate: '12.03.2026',
-  estimatedDelivery: '15.03.2026',
-  phone: '+7 (999) 999-99-99',
-  fullName: 'Иван Иванов',
-  email: 'ivan@example.com',
-  comment: '',
-}))
-
 interface OrderModalProps {
-  order: Order
+  order: DashboardOrder
   onClose: () => void
 }
 
@@ -95,7 +67,9 @@ function OrderModal({ order, onClose }: OrderModalProps) {
 }
 
 export default function OrdersPage() {
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  const [orders, setOrders] = useState<DashboardOrder[]>([])
+  const [loading, setLoading] = useState(true)
+  const [selectedOrder, setSelectedOrder] = useState<DashboardOrder | null>(null)
   const tableScrollRef = useRef<HTMLDivElement>(null)
   const [ordersScrollBar, setOrdersScrollBar] = useState<{
     active: boolean
@@ -103,6 +77,13 @@ export default function OrdersPage() {
     thumbLeftPct: number
   }>({ active: false, thumbWidthPct: 100, thumbLeftPct: 0 })
   useBodyScrollLock(!!selectedOrder)
+
+  useEffect(() => {
+    fetchDashboardOrders()
+      .then((res) => setOrders(res.orders))
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
 
   useLayoutEffect(() => {
     const el = tableScrollRef.current
@@ -131,7 +112,7 @@ export default function OrdersPage() {
     }
   }, [])
 
-  if (ORDERS.length === 0) {
+  if (!loading && orders.length === 0) {
     return (
       <DashboardShell>
         <div className={styles.ordersEmpty}>
@@ -145,7 +126,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <DashboardShell>
+    <DashboardShell loading={loading}>
       <div className={styles.ordersTableBlock}>
         <div ref={tableScrollRef} className={styles.ordersTableScroll}>
           <table className={styles.ordersTable}>
@@ -159,9 +140,9 @@ export default function OrdersPage() {
               </tr>
             </thead>
             <tbody>
-              {ORDERS.map((order, i) => (
-                <tr key={i}>
-                  <td>{order.id}</td>
+              {orders.map((order) => (
+                <tr key={order.id}>
+                  <td>№{order.id}</td>
                   <td>{order.date}</td>
                   <td>{order.status}</td>
                   <td>{order.total}</td>

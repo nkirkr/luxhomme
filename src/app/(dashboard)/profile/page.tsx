@@ -1,22 +1,33 @@
-import type { Metadata } from 'next'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { fetchDashboardUser } from '@/lib/dashboard/api-client'
 import { DashboardShell } from '../DashboardShell'
 import { ProfileDataSection } from './ProfileDataSection'
-
-export const metadata: Metadata = {
-  title: 'Данные | Luxhommè',
-}
-
-const USER_DATA = {
-  name: 'Иван Иванов',
-  email: 'primer@gmai.com',
-  phone: '+7 (999) 999-99-99',
-  address: 'ул. Профсоюзная, Москва, Россия, 117393',
-}
+import type { ProfileData } from './ProfileDataSection'
 
 export default function ProfilePage() {
+  const [data, setData] = useState<ProfileData | null>(null)
+
+  useEffect(() => {
+    fetchDashboardUser()
+      .then((res) => {
+        const u = res.user
+        setData({
+          name: u.display_name,
+          email: u.email,
+          phone: u.phone,
+          address: [u.address.address_1, u.address.city, u.address.country, u.address.postcode]
+            .filter(Boolean)
+            .join(', '),
+        })
+      })
+      .catch(() => {})
+  }, [])
+
   return (
-    <DashboardShell>
-      <ProfileDataSection initialData={USER_DATA} />
+    <DashboardShell loading={!data}>
+      {data && <ProfileDataSection initialData={data} />}
     </DashboardShell>
   )
 }

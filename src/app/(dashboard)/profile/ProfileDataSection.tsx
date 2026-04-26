@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { updateDashboardUser } from '@/lib/dashboard/api-client'
 import styles from '../dashboard.module.css'
 
 export type ProfileData = {
@@ -17,10 +18,28 @@ type ProfileDataSectionProps = {
 export function ProfileDataSection({ initialData }: ProfileDataSectionProps) {
   const [editing, setEditing] = useState(false)
   const [data, setData] = useState<ProfileData>(initialData)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSave = () => {
-    setEditing(false)
-    // TODO: persist to API when backend is ready
+  const handleSave = async () => {
+    setSaving(true)
+    setError(null)
+    try {
+      const [firstName, ...lastParts] = data.name.split(' ')
+      await updateDashboardUser({
+        first_name: firstName,
+        last_name: lastParts.join(' '),
+        phone: data.phone,
+        address_1: data.address.split(',')[0]?.trim(),
+        city: data.address.split(',')[1]?.trim(),
+        postcode: data.address.split(',')[3]?.trim(),
+      })
+      setEditing(false)
+    } catch {
+      setError('Не удалось сохранить')
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleToggle = () => {
@@ -35,8 +54,8 @@ export function ProfileDataSection({ initialData }: ProfileDataSectionProps) {
     <div className={styles.dataSection}>
       <div className={styles.dataHeader}>
         <h2 className={styles.dataTitle}>Данные</h2>
-        <button type="button" className={styles.btnEdit} onClick={handleToggle}>
-          {editing ? 'Сохранить' : 'Редактировать'}
+        <button type="button" className={styles.btnEdit} onClick={handleToggle} disabled={saving}>
+          {editing ? (saving ? 'Сохранение…' : 'Сохранить') : 'Редактировать'}
           {!editing && (
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -104,6 +123,8 @@ export function ProfileDataSection({ initialData }: ProfileDataSectionProps) {
           )}
         </div>
       </div>
+
+      {error && <p style={{ color: 'red', marginTop: 8 }}>{error}</p>}
     </div>
   )
 }

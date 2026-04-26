@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const AUTH_ROUTES = ['/dashboard', '/profile', '/settings', '/orders', '/checkout']
+const AUTH_ROUTES = ['/loyalty', '/profile', '/reviews', '/orders', '/checkout']
 const GUEST_ROUTES = ['/login', '/register', '/forgot-password']
 
 export function middleware(request: NextRequest) {
@@ -21,7 +21,7 @@ export function middleware(request: NextRequest) {
 
   const isGuestRoute = GUEST_ROUTES.some((route) => pathname.startsWith(route))
   if (isGuestRoute && sessionCookie) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
+    return NextResponse.redirect(new URL('/loyalty', request.url))
   }
 
   return NextResponse.next()

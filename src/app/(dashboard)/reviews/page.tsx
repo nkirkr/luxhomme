@@ -1,27 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
+import { fetchDashboardReviews, updateDashboardReview } from '@/lib/dashboard/api-client'
+import type { DashboardReview } from '@/lib/dashboard/types'
 import { AnimatePresence, motion } from 'motion/react'
 import { DashboardShell } from '../DashboardShell'
 import styles from '../dashboard.module.css'
-
-const REVIEWS = [
-  {
-    id: 1,
-    rating: 4,
-    date: '29 марта 2026',
-    text: '',
-    photo: '',
-  },
-  {
-    id: 2,
-    rating: 4,
-    date: '29 марта 2026',
-    text: 'Купила аэрогриль и осталась очень довольна, очень быстро готовит пищу.',
-    photo: '/images/product-review-photo.jpg',
-  },
-]
 
 function Stars({ count }: { count: number }) {
   return (
@@ -60,14 +45,26 @@ function InteractiveStars({ rating, onChange }: { rating: number; onChange: (n: 
 }
 
 interface EditModalProps {
-  review: (typeof REVIEWS)[number]
+  review: DashboardReview
   onClose: () => void
+  onSave: (id: number, rating: number, text: string) => Promise<void>
 }
 
-function EditModal({ review, onClose }: EditModalProps) {
+function EditModal({ review, onClose, onSave }: EditModalProps) {
   const [rating, setRating] = useState(review.rating)
   const [comment, setComment] = useState(review.text)
   const [photo, setPhoto] = useState(review.photo)
+  const [saving, setSaving] = useState(false)
+
+  const handleSave = async () => {
+    setSaving(true)
+    try {
+      await onSave(review.id, rating, comment)
+      onClose()
+    } catch {
+      setSaving(false)
+    }
+  }
 
   return (
     <motion.div
@@ -141,8 +138,13 @@ function EditModal({ review, onClose }: EditModalProps) {
         </div>
 
         {/* Save */}
-        <button className={styles.modalSaveBtn} type="button" onClick={onClose}>
-          Сохранить
+        <button
+          className={styles.modalSaveBtn}
+          type="button"
+          onClick={handleSave}
+          disabled={saving}
+        >
+          {saving ? 'Сохранение…' : 'Сохранить'}
         </button>
       </motion.div>
     </motion.div>
@@ -150,16 +152,30 @@ function EditModal({ review, onClose }: EditModalProps) {
 }
 
 export default function ReviewsPage() {
-  const [editingReview, setEditingReview] = useState<(typeof REVIEWS)[number] | null>(null)
+  const [reviews, setReviews] = useState<DashboardReview[]>([])
+  const [loading, setLoading] = useState(true)
+  const [editingReview, setEditingReview] = useState<DashboardReview | null>(null)
   useBodyScrollLock(!!editingReview)
 
+  useEffect(() => {
+    fetchDashboardReviews()
+      .then((res) => setReviews(res.reviews))
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  const handleSaveReview = async (id: number, rating: number, text: string) => {
+    await updateDashboardReview(id, { rating, text })
+    setReviews((prev) => prev.map((r) => (r.id === id ? { ...r, rating, text } : r)))
+  }
+
   return (
-    <DashboardShell>
+    <DashboardShell loading={loading}>
       <div className={styles.reviewsSection}>
         <h2 className={styles.reviewsTitle}>Отзывы</h2>
 
         <div className={styles.reviewsList}>
-          {REVIEWS.map((review) => (
+          {reviews.map((review) => (
             <div key={review.id} className={styles.reviewItem}>
               <div className={styles.reviewItemTop}>
                 <Stars count={review.rating} />
@@ -167,10 +183,12 @@ export default function ReviewsPage() {
                   Редактировать отзыв
                 </button>
                 <span className={styles.reviewDate}>{review.date}</span>
-                <div className={styles.reviewOzon}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/icons/ozon-logo.svg" alt="Ozon" />
-                </div>
+                {review.source !== 'site' && (
+                  <div className={styles.reviewOzon}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={`/icons/${review.source}-logo.svg`} alt={review.source} />
+                  </div>
+                )}
               </div>
 
               {review.text && <p className={styles.reviewBody}>{review.text}</p>}
@@ -184,7 +202,11 @@ export default function ReviewsPage() {
 
         <AnimatePresence>
           {editingReview && (
-            <EditModal review={editingReview} onClose={() => setEditingReview(null)} />
+            <EditModal
+              review={editingReview}
+              onClose={() => setEditingReview(null)}
+              onSave={handleSaveReview}
+            />
           )}
         </AnimatePresence>
       </div>
