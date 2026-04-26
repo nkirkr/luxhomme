@@ -34,6 +34,11 @@
   flex-shrink: 0;
 }
 
+/* Обёртка формы не ломает flex: дети ведут себя как прямые потомки .leftCol */
+.checkoutForm {
+  display: contents;
+}
+
 /* ── Form sections ── */
 .formRow {
   display: flex;
@@ -76,6 +81,10 @@
   padding-bottom: 12rem;
 }
 
+.inputGroupHasError {
+  border-bottom-color: #c00;
+}
+
 .inputLabel {
   font-family: var(--font-helvetica);
   font-weight: var(--weight-light);
@@ -114,6 +123,65 @@
 .inputWithHint {
   display: flex;
   flex-direction: column;
+}
+
+/* ── DaData address suggest ── */
+.addressSuggestWrap {
+  position: relative;
+}
+
+.addressSuggestList {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4rem);
+  z-index: 30;
+  margin: 0;
+  padding: 8rem 0;
+  list-style: none;
+  max-height: 240rem;
+  overflow-y: auto;
+  background: var(--color-white, #fff);
+  border: 1rem solid var(--color-stroke);
+  border-radius: 8rem;
+  box-shadow: 0 8rem 24rem rgb(0 0 0 / 0.08);
+}
+
+.addressSuggestBtn {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 10rem 14rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-helvetica);
+  font-weight: var(--weight-light);
+  font-size: 13rem;
+  line-height: 1.35;
+  color: var(--color-text);
+}
+
+.addressSuggestBtn:hover,
+.addressSuggestBtn:focus-visible {
+  background: color-mix(in srgb, var(--color-text) 6%, transparent);
+  outline: none;
+}
+
+.addressSuggestItemMuted {
+  padding: 10rem 14rem;
+  font-family: var(--font-helvetica);
+  font-size: 13rem;
+  color: var(--color-grey);
+}
+
+.addressSuggestError {
+  font-family: var(--font-helvetica);
+  font-size: var(--text-s);
+  line-height: 1.3;
+  color: #c00;
+  margin: 6rem 0 0;
 }
 
 /* ── Order summary card ── */

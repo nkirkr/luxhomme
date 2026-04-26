@@ -4,10 +4,23 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { SiteHeader } from '@/components/layout/site-header/SiteHeader'
 import { useCart, type CartItem } from '@/lib/cart/CartContext'
+import {
+  validateEmail,
+  validateFullName,
+  validateRussianPhone,
+} from '@/lib/checkout/contact-validation'
+import type { CheckoutAddressMeta } from '@/lib/dadata/types'
+import { AddressSuggestInput } from './AddressSuggestInput'
 import styles from './checkout.module.css'
 
 type DeliveryMethod = 'courier' | 'pickup'
 type PaymentMethod = 'card' | 'split'
+
+type ContactFieldErrors = {
+  name?: string
+  email?: string
+  phone?: string
+}
 
 const MOCK_ITEMS: CartItem[] = [
   {
@@ -36,26 +49,38 @@ function CheckoutInput({
   value,
   onChange,
   hint,
+  error,
+  onBlur,
+  autoComplete,
+  inputType = 'text',
 }: {
   label: string
   placeholder: string
   value: string
   onChange: (v: string) => void
   hint?: string
+  error?: string
+  onBlur?: () => void
+  autoComplete?: string
+  inputType?: 'text' | 'email' | 'tel'
 }) {
+  const showHintBlock = Boolean(hint || error)
   return (
-    <div className={hint ? styles.inputWithHint : undefined}>
-      <div className={styles.inputGroup}>
+    <div className={showHintBlock ? styles.inputWithHint : undefined}>
+      <div className={`${styles.inputGroup} ${error ? styles.inputGroupHasError : ''}`}>
         <p className={styles.inputLabel}>{label}</p>
         <input
-          type="text"
+          type={inputType}
           className={styles.inputField}
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
+          autoComplete={autoComplete}
         />
       </div>
-      {hint && <p className={styles.inputHint}>{hint}</p>}
+      {hint ? <p className={styles.inputHint}>{hint}</p> : null}
+      {error ? <p className={styles.addressSuggestError}>{error}</p> : null}
     </div>
   )
 }
@@ -196,6 +221,7 @@ function PaymentCard({
   setAgreePolicy,
   agreeMarketing,
   setAgreeMarketing,
+  onPay,
 }: {
   payment: PaymentMethod
   setPayment: (v: PaymentMethod) => void
@@ -203,6 +229,7 @@ function PaymentCard({
   setAgreePolicy: (v: boolean) => void
   agreeMarketing: boolean
   setAgreeMarketing: (v: boolean) => void
+  onPay: () => void
 }) {
   return (
     <div className={styles.paymentCard}>
@@ -298,7 +325,7 @@ function PaymentCard({
 
       <div className={styles.cardDivider} />
 
-      <button type="button" className={styles.payBtn}>
+      <button type="button" className={styles.payBtn} onClick={onPay}>
         Оплатить
       </button>
     </div>
@@ -317,12 +344,45 @@ export function CheckoutClient() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [contactErrors, setContactErrors] = useState<ContactFieldErrors>({})
   const [address, setAddress] = useState('')
+  const [addressMeta, setAddressMeta] = useState<CheckoutAddressMeta | null>(null)
   const [note, setNote] = useState('')
   const [delivery, setDelivery] = useState<DeliveryMethod>('pickup')
   const [payment, setPayment] = useState<PaymentMethod>('card')
   const [agreePolicy, setAgreePolicy] = useState(false)
   const [agreeMarketing, setAgreeMarketing] = useState(false)
+
+  const patchContactError = (key: keyof ContactFieldErrors, message: string | null) => {
+    setContactErrors((prev) => {
+      const next = { ...prev }
+      if (message) next[key] = message
+      else delete next[key]
+      return next
+    })
+  }
+
+  const handlePay = () => {
+    const nameErr = validateFullName(name)
+    const emailErr = validateEmail(email)
+    const phoneErr = validateRussianPhone(phone)
+    const nextErrors: ContactFieldErrors = {}
+    if (nameErr) nextErrors.name = nameErr
+    if (emailErr) nextErrors.email = emailErr
+    if (phoneErr) nextErrors.phone = phoneErr
+    if (Object.keys(nextErrors).length > 0) {
+      setContactErrors(nextErrors)
+      return
+    }
+    setContactErrors({})
+
+    if (delivery === 'courier' && !addressMeta) {
+      window.alert(
+        'Для курьерской доставки выберите полный адрес из списка подсказок (с номером дома).',
+      )
+      return
+    }
+  }
 
   return (
     <div className={styles.page}>
@@ -333,46 +393,75 @@ export function CheckoutClient() {
       <div className={styles.content}>
         {/* ── Left column (desktop) ── */}
         <div className={styles.leftCol}>
-          <div className={styles.formRow}>
-            <div className={styles.formSection}>
-              <h2 className={styles.sectionTitle}>Оплата и доставка</h2>
-              <CheckoutInput
-                label="Имя и Фамилия *"
-                placeholder="Введите имя и фамилию"
-                value={name}
-                onChange={setName}
-              />
-              <CheckoutInput
-                label="Email *"
-                placeholder="Введите email"
-                value={email}
-                onChange={setEmail}
-              />
-              <CheckoutInput
-                label="Телефон *"
-                placeholder="Введите телефон"
-                value={phone}
-                onChange={setPhone}
-              />
-            </div>
+          <form
+            className={styles.checkoutForm}
+            autoComplete="off"
+            noValidate
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <div className={styles.formRow}>
+              <div className={styles.formSection}>
+                <h2 className={styles.sectionTitle}>Оплата и доставка</h2>
+                <CheckoutInput
+                  label="Имя и Фамилия *"
+                  placeholder="Введите имя и фамилию"
+                  value={name}
+                  onChange={(v) => {
+                    setName(v)
+                    patchContactError('name', null)
+                  }}
+                  onBlur={() => patchContactError('name', validateFullName(name))}
+                  error={contactErrors.name}
+                  autoComplete="name"
+                />
+                <CheckoutInput
+                  label="Email *"
+                  placeholder="Введите email"
+                  value={email}
+                  onChange={(v) => {
+                    setEmail(v)
+                    patchContactError('email', null)
+                  }}
+                  onBlur={() => patchContactError('email', validateEmail(email))}
+                  error={contactErrors.email}
+                  autoComplete="email"
+                  inputType="email"
+                />
+                <CheckoutInput
+                  label="Телефон *"
+                  placeholder="+7 999 123-45-67"
+                  value={phone}
+                  onChange={(v) => {
+                    setPhone(v)
+                    patchContactError('phone', null)
+                  }}
+                  onBlur={() => patchContactError('phone', validateRussianPhone(phone))}
+                  error={contactErrors.phone}
+                  autoComplete="tel"
+                  inputType="tel"
+                />
+              </div>
 
-            <div className={styles.formSectionFlex}>
-              <h2 className={styles.sectionTitle}>Адрес доставки</h2>
-              <CheckoutInput
-                label="Адрес *"
-                placeholder="Начните вводить адрес"
-                value={address}
-                onChange={setAddress}
-                hint="Введите свой адрес и выберите его в выпадающем списке"
-              />
-              <CheckoutInput
-                label="Примечание к заказу"
-                placeholder="Примечание к заказу, например, указание по доставке"
-                value={note}
-                onChange={setNote}
-              />
+              <div className={styles.formSectionFlex}>
+                <h2 className={styles.sectionTitle}>Адрес доставки</h2>
+                <AddressSuggestInput
+                  label="Адрес *"
+                  placeholder="Начните вводить адрес"
+                  value={address}
+                  onChange={setAddress}
+                  onMetaChange={setAddressMeta}
+                  hint="Введите свой адрес и выберите его в выпадающем списке"
+                />
+                <CheckoutInput
+                  label="Примечание к заказу"
+                  placeholder="Примечание к заказу, например, указание по доставке"
+                  value={note}
+                  onChange={setNote}
+                  autoComplete="off"
+                />
+              </div>
             </div>
-          </div>
+          </form>
 
           <OrderCard items={displayItems} totalFormatted={displayTotal} />
         </div>
@@ -387,6 +476,7 @@ export function CheckoutClient() {
             setAgreePolicy={setAgreePolicy}
             agreeMarketing={agreeMarketing}
             setAgreeMarketing={setAgreeMarketing}
+            onPay={handlePay}
           />
         </div>
       </div>
